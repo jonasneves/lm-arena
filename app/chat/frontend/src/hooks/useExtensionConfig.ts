@@ -18,6 +18,7 @@ export interface ServiceConfig {
   category: 'core' | 'small' | 'medium' | 'reasoning';
   modelId: string;
   rank: number;
+  tunnelId?: string;
 }
 
 export interface WorkflowConfig {

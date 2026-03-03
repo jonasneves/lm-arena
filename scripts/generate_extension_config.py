@@ -38,6 +38,7 @@ def generate_services_config() -> list[dict]:
             "category": model.category.value,
             "modelId": model.model_id,
             "rank": model.rank,
+            "tunnelId": model.tunnel_id,
         })
     return services
 
@@ -45,7 +46,6 @@ def generate_services_config() -> list[dict]:
 def generate_workflows_config() -> list[dict]:
     """Generate KEY_WORKFLOWS array for DeploymentsPanel.tsx"""
     workflows = [
-        {"name": "API Backend", "path": "api.yml", "category": "core"},
         {"name": "Build Images", "path": "build-push-images.yml", "category": "core"},
     ]
 
