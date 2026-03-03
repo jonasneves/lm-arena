@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help build lint format clean update-models tunnels-secret inference deploy build-images up down
+.PHONY: help build lint format clean update-models tunnels-secret inference deploy build-images up down _purge-inference-history
 
 -include .env
 export
@@ -46,7 +46,14 @@ clean:
 	rm -rf __pycache__ .pytest_cache
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
 
-inference:
+_purge-inference-history:
+	@gh run list --workflow inference.yml --limit 100 --json databaseId,status \
+		--jq '.[] | select(.status != "in_progress") | .databaseId' | \
+		while read -r id; do \
+			gh run delete $$id; \
+		done
+
+inference: _purge-inference-history
 	@[ -n "$(MODEL)" ] || { echo "Usage: make inference MODEL=<name> [HOURS=5]"; exit 1; }
 	gh workflow run inference.yml -f model=$(MODEL) -f duration_hours=$(or $(HOURS),5)
 
@@ -56,7 +63,7 @@ deploy:
 build-images:
 	gh workflow run build-push-images.yml -f models=$(or $(MODELS),all) -f no_cache=$(or $(NO_CACHE),false)
 
-up:
+up: _purge-inference-history
 	@for model in $$(python3 config/models.py --inference-names | jq -r '.[]'); do \
 		printf "\033[36mStarting $$model...\033[0m\n"; \
 		gh workflow run inference.yml -f model=$$model -f duration_hours=$(or $(HOURS),5); \
