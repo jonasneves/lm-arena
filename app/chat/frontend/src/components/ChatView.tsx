@@ -216,12 +216,15 @@ const ChatView = forwardRef<ChatViewHandle, ChatViewProps>(({
         userScrolledAwayRef.current = false;
 
         const now = Date.now();
-        streamingContentRef.current = new Map(modelIds.map(id => [id, '']));
-        streamingTimingRef.current = new Map(modelIds.map(id => [id, { startTime: now }]));
+        const initialContent = new Map(modelIds.map(id => [id, ''] as const));
+        const initialTiming = new Map(modelIds.map(id => [id, { startTime: now }] as const));
+
+        streamingContentRef.current = initialContent;
+        streamingTimingRef.current = initialTiming;
 
         setIsGenerating(true);
-        setStreamingResponses(new Map(streamingContentRef.current));
-        setStreamingTiming(new Map(streamingTimingRef.current));
+        setStreamingResponses(new Map(initialContent));
+        setStreamingTiming(new Map(initialTiming));
 
         const userMessage: ChatMessage = { role: 'user', content: text };
         setMessages(prev => [...prev, userMessage]);
@@ -346,7 +349,6 @@ const ChatView = forwardRef<ChatViewHandle, ChatViewProps>(({
 
     const scroll = useCallback((deltaY: number) => {
         if (scrollRef.current) {
-            // Negate deltaY for natural scrolling (matches Compare mode behavior)
             scrollRef.current.scrollTop -= deltaY;
         }
     }, []);

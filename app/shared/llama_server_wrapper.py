@@ -1,9 +1,4 @@
-"""
-Shared llama-server Subprocess Wrapper
-
-Base infrastructure for models that require native llama-server instead of
-llama-cpp-python bindings (due to architecture incompatibilities).
-"""
+"""Shared llama-server subprocess wrapper for native llama.cpp inference."""
 
 import atexit
 import logging

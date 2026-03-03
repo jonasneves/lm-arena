@@ -151,9 +151,7 @@ def create_inference_app(config: ModelConfig) -> FastAPI:
         n_threads = int(os.getenv("N_THREADS", str(config.default_n_threads)))
         n_batch = int(os.getenv("N_BATCH", str(config.n_batch)))
 
-        # KV-cache quantization (Q8_0 = 8) reduces memory ~30% with minimal quality loss
-        # Enable via KV_CACHE_QUANT=1 or KV_CACHE_QUANT=8 for Q8_0
-        # Note: KV-cache quantization requires flash_attn to be enabled
+        # KV-cache quantization (Q8_0) requires flash_attn
         kv_cache_quant = os.getenv("KV_CACHE_QUANT", "").strip().lower()
         type_k = None
         type_v = None
@@ -252,8 +250,7 @@ def create_inference_app(config: ModelConfig) -> FastAPI:
     ):
         nonlocal llm
         try:
-            request_start = time.perf_counter()
-            wait_start = time.perf_counter()
+            start_time = time.perf_counter()
             async with inference_lock:
                 lock_acquired = time.perf_counter()
                 response = await asyncio.to_thread(
@@ -297,12 +294,12 @@ def create_inference_app(config: ModelConfig) -> FastAPI:
                 }
 
                 if include_perf:
-                    queue_ms = int((lock_acquired - wait_start) * 1000)
-                    total_ms = int((tokenization_done - request_start) * 1000)
+                    queue_ms = int((lock_acquired - start_time) * 1000)
+                    total_ms = int((tokenization_done - start_time) * 1000)
                     generation_ms = int((generation_done - lock_acquired) * 1000)
                     tokenize_ms = int((tokenization_done - generation_done) * 1000)
                     ttft_ms = (
-                        int((first_token_time - request_start) * 1000)
+                        int((first_token_time - start_time) * 1000)
                         if first_token_time is not None
                         else None
                     )

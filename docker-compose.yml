@@ -17,8 +17,8 @@ services:
   qwen:
     <<: *inference-common
     build:
-      context: ./app
-      dockerfile: shared/Dockerfile.inference
+      context: .
+      dockerfile: ./app/shared/Dockerfile.inference
     environment:
       <<: *common-env
       MODEL_NAME: qwen
@@ -29,8 +29,8 @@ services:
   phi:
     <<: *inference-common
     build:
-      context: ./app
-      dockerfile: shared/Dockerfile.inference
+      context: .
+      dockerfile: ./app/shared/Dockerfile.inference
     environment:
       <<: *common-env
       MODEL_NAME: phi
@@ -41,8 +41,10 @@ services:
   lfm2:
     <<: *inference-common
     build:
-      context: ./app/lfm2-inference
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./app/shared/Dockerfile.llama-server
+      args:
+        MODEL_DIR: lfm2-inference
     ports:
       - "${LFM2_PORT:-8105}:8000"
     profiles: ["all", "lfm2"]
@@ -50,8 +52,8 @@ services:
   llama:
     <<: *inference-common
     build:
-      context: ./app
-      dockerfile: shared/Dockerfile.inference
+      context: .
+      dockerfile: ./app/shared/Dockerfile.inference
     environment:
       <<: *common-env
       MODEL_NAME: llama
@@ -62,8 +64,8 @@ services:
   mistral:
     <<: *inference-common
     build:
-      context: ./app
-      dockerfile: shared/Dockerfile.inference
+      context: .
+      dockerfile: ./app/shared/Dockerfile.inference
     environment:
       <<: *common-env
       MODEL_NAME: mistral
@@ -74,8 +76,8 @@ services:
   gemma:
     <<: *inference-common
     build:
-      context: ./app
-      dockerfile: shared/Dockerfile.inference
+      context: .
+      dockerfile: ./app/shared/Dockerfile.inference
     environment:
       <<: *common-env
       MODEL_NAME: gemma
@@ -86,8 +88,8 @@ services:
   r1qwen:
     <<: *inference-common
     build:
-      context: ./app
-      dockerfile: shared/Dockerfile.inference
+      context: .
+      dockerfile: ./app/shared/Dockerfile.inference
     environment:
       <<: *common-env
       MODEL_NAME: r1qwen
@@ -98,8 +100,10 @@ services:
   rnj:
     <<: *inference-common
     build:
-      context: ./app/rnj-inference
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./app/shared/Dockerfile.llama-server
+      args:
+        MODEL_DIR: rnj-inference
     ports:
       - "${RNJ_PORT:-8203}:8000"
     profiles: ["all", "rnj"]
@@ -107,8 +111,8 @@ services:
   smollm3:
     <<: *inference-common
     build:
-      context: ./app
-      dockerfile: shared/Dockerfile.inference
+      context: .
+      dockerfile: ./app/shared/Dockerfile.inference
     environment:
       <<: *common-env
       MODEL_NAME: smollm3
@@ -119,8 +123,8 @@ services:
   functiongemma:
     <<: *inference-common
     build:
-      context: ./app
-      dockerfile: shared/Dockerfile.inference
+      context: .
+      dockerfile: ./app/shared/Dockerfile.inference
     environment:
       <<: *common-env
       MODEL_NAME: functiongemma
@@ -131,8 +135,8 @@ services:
   nanbeige:
     <<: *inference-common
     build:
-      context: ./app
-      dockerfile: shared/Dockerfile.inference
+      context: .
+      dockerfile: ./app/shared/Dockerfile.inference
     environment:
       <<: *common-env
       MODEL_NAME: nanbeige
@@ -143,8 +147,8 @@ services:
   gptoss:
     <<: *inference-common
     build:
-      context: ./app
-      dockerfile: shared/Dockerfile.inference
+      context: .
+      dockerfile: ./app/shared/Dockerfile.inference
     environment:
       <<: *common-env
       MODEL_NAME: gptoss

@@ -55,9 +55,7 @@ async function* streamModel(
     let msg = response.statusText;
     try {
       msg = (await response.json()).error?.message || msg;
-    } catch {
-      // Use statusText as fallback
-    }
+    } catch {}
     yield { event: 'error', model_id: model, error: true, content: msg };
     return;
   }
@@ -148,17 +146,11 @@ export async function fetchChatStream(
   );
 }
 
-// Errors from onEvent propagate to the caller (e.g., rate limit detection triggering fallback)
 export async function streamSseEvents(
   eventStream: AsyncGenerator<ChatStreamEvent>,
   onEvent: (data: ChatStreamEvent) => void,
 ): Promise<void> {
-  try {
-    for await (const event of eventStream) {
-      onEvent(event);
-    }
-  } catch (e) {
-    console.error('Stream error:', e);
-    throw e;
+  for await (const event of eventStream) {
+    onEvent(event);
   }
 }
