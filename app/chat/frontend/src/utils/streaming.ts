@@ -20,6 +20,7 @@ export interface ChatStreamPayload {
   max_tokens: number;
   temperature: number;
   github_token?: string | null;
+  modelEndpoints?: Record<string, string>;
 }
 
 async function* streamModel(
@@ -27,14 +28,17 @@ async function* streamModel(
   payload: Omit<ChatStreamPayload, 'models'>,
   signal?: AbortSignal,
 ): AsyncGenerator<ChatStreamEvent> {
+  const endpoint = payload.modelEndpoints?.[model];
+  const url = endpoint ? `${endpoint}/chat/completions` : GITHUB_MODELS_URL;
+
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
   };
-  if (payload.github_token) {
+  if (payload.github_token && (!endpoint || endpoint.includes('github.ai'))) {
     headers['Authorization'] = `Bearer ${payload.github_token}`;
   }
 
-  const response = await fetch(GITHUB_MODELS_URL, {
+  const response = await fetch(url, {
     method: 'POST',
     headers,
     body: JSON.stringify({

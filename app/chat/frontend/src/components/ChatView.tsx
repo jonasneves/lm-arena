@@ -41,6 +41,7 @@ interface ChatViewProps {
     gesturesActive?: boolean;
     uiBuilderEnabled: boolean;
     setUiBuilderEnabled: React.Dispatch<React.SetStateAction<boolean>>;
+    getModelEndpoints: (models: Model[]) => Record<string, string>;
 }
 
 interface ChatMessageItemProps {
@@ -125,6 +126,7 @@ const ChatView = forwardRef<ChatViewHandle, ChatViewProps>(({
     gesturesActive = false,
     uiBuilderEnabled,
     setUiBuilderEnabled,
+    getModelEndpoints,
 }, ref) => {
     const [inputFocused, setInputFocused] = useState(false);
     const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
@@ -256,6 +258,7 @@ const ChatView = forwardRef<ChatViewHandle, ChatViewProps>(({
 
         const apiMessages = [...systemPrompts, ...baseMessages];
 
+        const modelEndpoints = getModelEndpoints(models);
         let completedCount = 0;
         const totalCount = modelIds.length;
 
@@ -287,6 +290,7 @@ const ChatView = forwardRef<ChatViewHandle, ChatViewProps>(({
                     max_tokens: 4096,
                     temperature: 0.7,
                     github_token: githubToken,
+                    modelEndpoints,
                 }, controller.signal);
 
                 let content = '';
@@ -346,7 +350,7 @@ const ChatView = forwardRef<ChatViewHandle, ChatViewProps>(({
         });
 
         await Promise.allSettled(streamPromises);
-    }, [isGenerating, selectedModels, messages, modelMap, githubToken, uiBuilderEnabled, setMessages, setIsGenerating, syncStreamingState]);
+    }, [isGenerating, selectedModels, messages, modelMap, githubToken, uiBuilderEnabled, setMessages, setIsGenerating, syncStreamingState, getModelEndpoints, models]);
 
     const stopGeneration = useCallback(() => {
         abortRefs.current.forEach(c => c.abort());

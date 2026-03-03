@@ -1221,6 +1221,7 @@ function PlaygroundInner() {
                     gesturesActive={gestureCtx.isActive}
                     uiBuilderEnabled={uiBuilderEnabled}
                     setUiBuilderEnabled={setUiBuilderEnabled}
+                    getModelEndpoints={getModelEndpoints}
                   />
                 </Suspense>
               </ErrorBoundary>
