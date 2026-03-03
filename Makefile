@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help build lint format clean update-models check-cf tunnels tunnel tunnels-dry-run tunnels-list inference deploy build-images up down
+.PHONY: help build lint format clean update-models tunnels-secret tunnels-list inference deploy build-images up down
 
 -include .env
 export
@@ -24,9 +24,7 @@ help:
 	@echo "  \033[36mdown\033[0m            Cancel all in-progress workflow runs"
 	@echo ""
 	@echo "\033[2mTunnels\033[0m"
-	@echo "  \033[36mtunnels\033[0m         Setup all tunnels  DOMAIN=neevs.io"
-	@echo "  \033[36mtunnel\033[0m          Setup one tunnel   MODEL=glm DOMAIN=neevs.io"
-	@echo "  \033[36mtunnels-dry-run\033[0m Preview setup      DOMAIN=neevs.io"
+	@echo "  \033[36mtunnels-secret\033[0m  Collect tokens and set TUNNELS_JSON secret"
 	@echo "  \033[36mtunnels-list\033[0m    List models and ports"
 	@echo ""
 
@@ -72,22 +70,8 @@ down:
 			gh run cancel $$id; \
 		done
 
-check-cf:
-	@[ -n "$(CLOUDFLARE_API_TOKEN)" ] || { echo "CLOUDFLARE_API_TOKEN not set in .env"; exit 1; }
-	@[ -n "$(CLOUDFLARE_ACCOUNT_ID)" ] || { echo "CLOUDFLARE_ACCOUNT_ID not set in .env"; exit 1; }
-
-tunnels: check-cf
-	@[ -n "$(DOMAIN)" ] || { echo "Usage: make tunnels DOMAIN=your-domain.com"; exit 1; }
-	python3 scripts/setup_tunnels.py --domain $(DOMAIN)
-
-tunnel: check-cf
-	@[ -n "$(MODEL)" ] || { echo "Usage: make tunnel MODEL=glm DOMAIN=your-domain.com"; exit 1; }
-	@[ -n "$(DOMAIN)" ] || { echo "Usage: make tunnel MODEL=glm DOMAIN=your-domain.com"; exit 1; }
-	python3 scripts/setup_tunnels.py --domain $(DOMAIN) --models $(MODEL)
-
-tunnels-dry-run:
-	@[ -n "$(DOMAIN)" ] || { echo "Usage: make tunnels-dry-run DOMAIN=your-domain.com"; exit 1; }
-	python3 scripts/setup_tunnels.py --domain $(DOMAIN) --dry-run
+tunnels-secret:
+	python3 scripts/tunnels_secret.py
 
 tunnels-list:
 	@python3 config/models.py
