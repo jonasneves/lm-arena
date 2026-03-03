@@ -1,10 +1,8 @@
 """
-Model listing and health check API routes
+Model listing API routes
 """
 
 from fastapi import APIRouter
-
-from core.state import LIVE_CONTEXT_LENGTHS, get_http_client
 
 router = APIRouter(prefix="/api/models", tags=["models"])
 
@@ -26,10 +24,7 @@ async def list_models():
             "type": "self-hosted",
             "endpoint": MODEL_ENDPOINTS.get(config["id"]),
             "default": config.get("default", False),
-            "context_length": LIVE_CONTEXT_LENGTHS.get(
-                config["id"],
-                MODEL_PROFILES.get(config["id"], {}).get("context_length", 0),
-            ),
+            "context_length": MODEL_PROFILES.get(config["id"], {}).get("context_length", 0),
             "priority": config.get("rank", 99),  # Use rank from config/models.py
         }
         for config in MODEL_CONFIG
@@ -101,31 +96,3 @@ async def list_models():
     }
 
 
-@router.get("/{model_id}/status")
-async def model_status(model_id: str, detailed: bool = False):
-    """
-    Get health status for a specific model
-    """
-    from chat_server import get_model_endpoint_or_error
-    from services.health_service import check_model_health
-    endpoint = get_model_endpoint_or_error(model_id, status_code=404)
-
-    if detailed:
-        health_data = await check_model_health(model_id, endpoint)
-        return health_data
-
-    # Quick status check
-    client = get_http_client()
-    try:
-        response = await client.get(f"{endpoint}/health", timeout=3.0)
-        return {
-            "model": model_id,
-            "status": "online" if response.status_code == 200 else "offline",
-            "endpoint": endpoint,
-        }
-    except Exception:
-        return {
-            "model": model_id,
-            "status": "offline",
-            "endpoint": endpoint,
-        }

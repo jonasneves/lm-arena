@@ -64,8 +64,8 @@ export default function ModelDock({
     return modelsToShow.filter(m => m.name.toLowerCase().includes(query));
   }, [modelsToShow, debouncedSearchQuery]);
 
-  const hasSelfHostedOnline = useMemo(
-    () => availableModels.some(m => m.type === 'self-hosted' && m.available !== false),
+  const hasSelfHostedAvailable = useMemo(
+    () => availableModels.some(m => m.type === 'self-hosted'),
     [availableModels],
   );
 
@@ -150,7 +150,7 @@ export default function ModelDock({
       {/* Quick Selection Presets (Arena modes only) */}
       {!isInChatMode && (
         <div className="px-4 py-2 border-b border-slate-700/50">
-          {hasSelfHostedOnline ? (
+          {hasSelfHostedAvailable ? (
             <div className="grid grid-cols-2 gap-2">
               <button
                 onClick={() => handleAddGroup('self-hosted')}
@@ -167,7 +167,7 @@ export default function ModelDock({
             </div>
           ) : (
             <div className="px-2 py-1.5 text-[10px] text-slate-500 text-center">
-              No self-hosted models online
+              No self-hosted models available
             </div>
           )}
         </div>
@@ -216,34 +216,23 @@ export default function ModelDock({
               <div className="space-y-1">
                 {modelsForSection.map((model) => {
                   const isSelected = isInChatMode ? chatSelectedModels.has(model.id) : false;
-                  // Only show as offline if explicitly marked as false (undefined means still checking)
-                  const isOffline = model.type === 'self-hosted' && model.available === false;
-                  const isClickable = !isOffline;
 
                   return (
                     <div
                       key={model.id}
-                      draggable={!isInChatMode && isClickable}
-                      onDragStart={!isInChatMode && isClickable ? (e) => handleDragStart(e, model.id) : undefined}
-                      onClick={isClickable ? () => handleModelClick(model.id) : undefined}
-                      className={`flex items-center justify-between px-3 py-2 rounded-lg transition-colors border ${
-                        isOffline
-                          ? 'opacity-40 cursor-not-allowed border-transparent'
-                          : isSelected
+                      draggable={!isInChatMode}
+                      onDragStart={!isInChatMode ? (e) => handleDragStart(e, model.id) : undefined}
+                      onClick={() => handleModelClick(model.id)}
+                      className={`flex items-center justify-between px-3 py-2 rounded-lg transition-colors border cursor-pointer ${
+                        isSelected
                           ? accent.active
-                          : 'hover:bg-white/5 border-transparent cursor-pointer'
+                          : 'hover:bg-white/5 border-transparent'
                       }`}
-                      title={isOffline ? 'Model is offline' : undefined}
                     >
-                      <div className="flex items-center gap-2">
-                        {isOffline && (
-                          <div className="w-1.5 h-1.5 rounded-full bg-red-500" />
-                        )}
-                        <span className={`text-xs font-medium ${isSelected ? 'text-slate-200' : 'text-slate-400'}`}>
-                          {model.name}
-                        </span>
-                      </div>
-                      {isSelected && !isOffline && <Check size={14} className={accent.text} />}
+                      <span className={`text-xs font-medium ${isSelected ? 'text-slate-200' : 'text-slate-400'}`}>
+                        {model.name}
+                      </span>
+                      {isSelected && <Check size={14} className={accent.text} />}
                     </div>
                   );
                 })}

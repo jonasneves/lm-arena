@@ -18,7 +18,6 @@ from core.state import (
     UNSUPPORTED_GITHUB_MODELS,
     get_http_client,
     mark_model_unsupported,
-    record_successful_inference,
 )
 
 logger = logging.getLogger(__name__)
@@ -257,8 +256,6 @@ class ModelClient:
             content = data["choices"][0]["message"]["content"]
             usage = data.get("usage", {})
 
-            await record_successful_inference(model_id)
-
             return {"content": content, "usage": usage, "model_id": model_id}
         except httpx.TimeoutException:
             raise Exception(f"Timeout calling local model {model_id}")
@@ -323,7 +320,6 @@ class ModelClient:
                 async for event in self._parse_sse_stream(response, model_id):
                     yield event
 
-            await record_successful_inference(model_id)
         except Exception as e:
             yield {"type": "error", "error": str(e), "model_id": model_id}
 

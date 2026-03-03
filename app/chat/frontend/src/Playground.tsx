@@ -5,7 +5,6 @@ import ModelDock from './components/ModelDock';
 import PromptInput from './components/PromptInput';
 import Header from './components/Header';
 import { useModelsManager } from './hooks/useModelsManager';
-import { useModelHealth } from './hooks/useModelHealth';
 import { usePersistedSetting } from './hooks/usePersistedSetting';
 import { useExtensionConfig } from './hooks/useExtensionConfig';
 import { useConversationHistory } from './hooks/useConversationHistory';
@@ -56,27 +55,12 @@ function PlaygroundInner() {
     totalModelsByType,
     allSelectedByType,
     modelIdToName,
-    updateModelAvailability,
     isLoading: isLoadingModels,
     loadError: modelsLoadError,
     retryCount: modelsRetryCount,
     retryNow: retryModelsNow,
     getModelEndpoints,
   } = useModelsManager();
-
-  // Check health status of self-hosted models
-  useModelHealth(modelsData, updateModelAvailability);
-
-  // Automatically deselect offline models
-  useEffect(() => {
-    const offlineModelIds = modelsData
-      .filter(m => m.type === 'self-hosted' && m.available === false)
-      .map(m => m.id);
-
-    if (offlineModelIds.length > 0) {
-      setSelected(prev => prev.filter(id => !offlineModelIds.includes(id)));
-    }
-  }, [modelsData, setSelected]);
 
   const [mode, setMode] = usePersistedSetting<Mode>(
     'playground_mode',
@@ -146,21 +130,10 @@ function PlaygroundInner() {
     'playground_chat_selected_models',
     ['lfm2.5-1.2b-instruct'], // Default to fastest model (will fallback if offline)
   );
-  const chatSelectedModels = useMemo(() => {
-    // Filter out offline models
-    const available = persistedChatModels.filter(id => {
-      const model = modelsData.find(m => m.id === id);
-      return model && model.available !== false;
-    });
-    // If all persisted models are offline, auto-select first available
-    if (available.length === 0 && modelsData.length > 0) {
-      const firstAvailable = modelsData.find(m => m.type === 'self-hosted' && m.available !== false);
-      if (firstAvailable) {
-        return new Set([firstAvailable.id]);
-      }
-    }
-    return new Set(available);
-  }, [persistedChatModels, modelsData]);
+  const chatSelectedModels = useMemo(
+    () => new Set(persistedChatModels.filter(id => modelsData.some(m => m.id === id))),
+    [persistedChatModels, modelsData],
+  );
   const [chatIsGenerating, setChatIsGenerating] = useState(false);
   const prevGestureActiveRef = useRef(false);
 
@@ -204,7 +177,7 @@ function PlaygroundInner() {
 
   const handleToggleChatGroup = useCallback((type: 'self-hosted' | 'github') => {
     const idsOfType = modelsData
-      .filter(m => m.type === type && m.available !== false)
+      .filter(m => m.type === type)
       .map(m => m.id);
     const otherType = type === 'self-hosted' ? 'github' : 'self-hosted';
     const idsOfOtherType = modelsData.filter(m => m.type === otherType).map(m => m.id);
@@ -437,7 +410,7 @@ function PlaygroundInner() {
 
   const handleAddGroup = (type: 'self-hosted' | 'github') => {
     const idsOfType = modelsData
-      .filter(m => m.type === type && m.available !== false)
+      .filter(m => m.type === type)
       .map(m => m.id);
     const isAllSelected = idsOfType.length > 0 && idsOfType.every(id => selected.includes(id));
 
@@ -643,7 +616,7 @@ function PlaygroundInner() {
     if (limit === undefined) return [];
 
     const availableSelfHosted = modelsData
-      .filter(m => m.type === 'self-hosted' && m.available !== false)
+      .filter(m => m.type === 'self-hosted')
       .map(m => m.id);
 
     return availableSelfHosted.slice(0, limit);
@@ -663,7 +636,7 @@ function PlaygroundInner() {
     const next = persistedByMode[nextMode as keyof typeof persistedByMode];
     if (next) {
       const persisted = next.get.filter(id =>
-        modelsData.find(m => m.id === id && m.available !== false)
+        modelsData.find(m => m.id === id)
       );
       setSelected(persisted.length > 0 ? persisted : getSmartDefaults(nextMode));
     }

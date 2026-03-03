@@ -8,17 +8,12 @@ import time
 import asyncio
 import json
 import logging
-import hashlib
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
 from typing import List, Optional, AsyncGenerator
 import uvicorn
-import pathlib
 from clients.model_client import ModelClient
-from services.health_service import fetch_model_capacity
 from core.config import (
     MODEL_CONFIG,
     MODEL_ENDPOINTS,
@@ -34,10 +29,9 @@ logger = logging.getLogger(__name__)
 model_client = ModelClient()
 from core.state import (
     MODEL_SEMAPHORES,
+    MODEL_CAPACITIES,
     close_http_client,
     get_http_client,
-    init_model_semaphores,
-    update_model_capacity,
 )
 
 
@@ -64,12 +58,12 @@ async def lifespan(app: FastAPI):
     # GitHub OAuth is now required; no default server-side token
     logger.info("○ GitHub Models: OAuth required (user provides token via Settings)")
 
-    # Initialize model semaphores
-    await init_model_semaphores(MODEL_ENDPOINTS, DEFAULT_MODEL_CAPACITY, logger)
-
-    # Run detailed capacity checks in background
-    logger.info("Starting background model capacity checks...")
-    asyncio.create_task(_update_all_model_capacities())
+    # Initialize model semaphores with default capacity
+    for model_id in MODEL_ENDPOINTS:
+        MODEL_SEMAPHORES[model_id] = asyncio.Semaphore(DEFAULT_MODEL_CAPACITY)
+        MODEL_CAPACITIES[model_id] = DEFAULT_MODEL_CAPACITY
+    if MODEL_SEMAPHORES:
+        logger.info(f"✓ Initialized {len(MODEL_SEMAPHORES)} model semaphores")
 
     # Fetch GitHub models
     from services.github_models_service import fetch_github_models
@@ -80,18 +74,6 @@ async def lifespan(app: FastAPI):
     # Shutdown
     await close_http_client()
 
-
-async def _update_all_model_capacities():
-    """Update model capacities in the background after server startup."""
-    logger.info("Background: Querying model capacities and context lengths...")
-    tasks = [
-        asyncio.create_task(
-            update_model_capacity(model_id, endpoint, fetch_model_capacity, logger)
-        )
-        for model_id, endpoint in MODEL_ENDPOINTS.items()
-    ]
-    await asyncio.gather(*tasks, return_exceptions=True)
-    logger.info("Background: Completed all model capacity updates")
 
 
 app = FastAPI(
@@ -153,11 +135,6 @@ def validate_environment():
     logger.info("✓ Environment validation passed")
 
 
-# Mount static files directory
-static_dir = pathlib.Path(__file__).parent / "static"
-app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
-templates = Jinja2Templates(directory=str(static_dir))
-
 # Include API routers
 from api.routes import chat, models, health
 
@@ -165,50 +142,6 @@ app.include_router(chat.router)
 app.include_router(models.router)
 app.include_router(health.router)
 
-# Cache file versions based on content hash for automatic cache busting
-FILE_VERSIONS = {}
-
-def get_file_version(filename: str) -> str:
-    """
-    Generate a cache-busting version string for a file based on its content hash.
-    Returns an 8-character MD5 hash that changes whenever file content changes.
-    """
-    file_path = static_dir / filename
-
-    # Return cached version if file hasn't changed
-    if filename in FILE_VERSIONS:
-        cached_mtime, cached_version = FILE_VERSIONS[filename]
-        try:
-            current_mtime = file_path.stat().st_mtime
-            if current_mtime == cached_mtime:
-                return cached_version
-        except FileNotFoundError:
-            return "1"
-
-    # Calculate new version from file content hash
-    try:
-        content = file_path.read_bytes()
-        file_hash = hashlib.md5(content).hexdigest()[:8]  # First 8 chars of hash
-        FILE_VERSIONS[filename] = (file_path.stat().st_mtime, file_hash)
-        return file_hash
-    except FileNotFoundError:
-        return "1"
-
-def get_static_versions() -> dict:
-    """Get all static file versions for template injection"""
-    return {
-        "design_tokens_css": get_file_version("design-tokens.css"),
-        "reset_css": get_file_version("reset.css"),
-        "typography_css": get_file_version("typography.css"),
-        "layout_css": get_file_version("layout.css"),
-        "navigation_css": get_file_version("components/navigation.css"),
-        "buttons_css": get_file_version("components/buttons.css"),
-        "cards_css": get_file_version("components/cards.css"),
-        "forms_css": get_file_version("components/forms.css"),
-        "badges_css": get_file_version("components/badges.css"),
-        "modals_css": get_file_version("components/modals.css"),
-        "common_css": get_file_version("common.css"),
-    }
 
 # Log configured endpoints at startup
 logger.info("=" * 60)
@@ -264,19 +197,6 @@ async def root():
         "docs": "/docs",
         "health": "/health"
     }
-
-@app.get("/status")
-async def status_page(request: Request):
-    """Serve health status dashboard with automatic cache busting"""
-    response = templates.TemplateResponse(
-        "status.html",
-        {"request": request, **get_static_versions()}
-    )
-    # Prevent HTML caching to ensure inline CSS/JS updates are always fetched
-    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-    response.headers["Pragma"] = "no-cache"
-    response.headers["Expires"] = "0"
-    return response
 
 
 async def query_model(model_id: str, messages: list, max_tokens: int, temperature: float):

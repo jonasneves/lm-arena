@@ -69,12 +69,8 @@ export default function ModelTabs({ models, selectedModels, onToggleModel, isGen
     };
 
     const toggleAllInCategory = (categoryModels: Model[]) => {
-        // Filter out offline self-hosted models
-        const availableModels = categoryModels.filter(m =>
-            !(m.type === 'self-hosted' && m.available === false)
-        );
-        const allSelected = availableModels.every(m => selectedModels.has(m.id));
-        availableModels.forEach(m => {
+        const allSelected = categoryModels.every(m => selectedModels.has(m.id));
+        categoryModels.forEach(m => {
             if (allSelected || !selectedModels.has(m.id)) {
                 onToggleModel(m.id);
             }
@@ -229,11 +225,7 @@ function ModelDropdown({
     showSearch: boolean;
     direction: 'up' | 'down';
 }) {
-    // Only consider available models for "all selected" check
-    const availableModels = allModels.filter(m =>
-        !(m.type === 'self-hosted' && m.available === false)
-    );
-    const allSelected = availableModels.length > 0 && availableModels.every(m => selectedModels.has(m.id));
+    const allSelected = allModels.length > 0 && allModels.every(m => selectedModels.has(m.id));
     const colorClasses = {
         emerald: { bg: 'bg-emerald-500/20', text: 'text-emerald-300', check: 'text-emerald-400', dot: 'bg-emerald-500/50', border: 'focus:border-emerald-500/50' },
         blue: { bg: 'bg-blue-500/20', text: 'text-blue-300', check: 'text-blue-400', dot: 'bg-blue-500/50', border: 'focus:border-blue-500/50' },
@@ -296,28 +288,22 @@ function ModelDropdown({
             >
                 {models.map(model => {
                     const isSelected = selectedModels.has(model.id);
-                    const isOffline = model.type === 'self-hosted' && model.available === false;
-                    const isClickable = !isOffline;
 
                     return (
                         <button
                             key={model.id}
-                            onClick={isClickable ? () => onToggleModel(model.id) : undefined}
-                            disabled={isOffline}
-                            title={isOffline ? 'Model is offline' : undefined}
+                            onClick={() => onToggleModel(model.id)}
                             className={`w-full px-3 py-2 text-left text-xs font-medium transition-colors flex items-center justify-between ${
-                                isOffline
-                                    ? 'opacity-40 cursor-not-allowed'
-                                    : isSelected
+                                isSelected
                                     ? `${colorClasses.bg} text-slate-200`
                                     : 'text-slate-300 hover:bg-slate-700/50'
                             }`}
                         >
                             <div className="flex items-center gap-2">
-                                <div className={`w-2 h-2 rounded-full ${isOffline ? 'bg-red-500' : colorClasses.dot}`} />
+                                <div className={`w-2 h-2 rounded-full ${colorClasses.dot}`} />
                                 <span>{model.name}</span>
                             </div>
-                            {isSelected && !isOffline && <span className={colorClasses.check}>✓</span>}
+                            {isSelected && <span className={colorClasses.check}>✓</span>}
                         </button>
                     );
                 })}

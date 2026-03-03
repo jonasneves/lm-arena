@@ -83,7 +83,6 @@ export function useModelsManager() {
             priority: model.priority,
             context_length: model.context_length,
             default: model.default,
-            available: modelType === 'github' ? true : undefined, // GitHub models are always available, self-hosted will be checked
           };
         });
 
@@ -182,10 +181,7 @@ export function useModelsManager() {
   }, [loadModels]);
 
   const availableModels = useMemo(
-    () => modelsData.filter(m =>
-      !selected.includes(m.id) &&
-      (m.type !== 'self-hosted' || m.available !== false)
-    ),
+    () => modelsData.filter(m => !selected.includes(m.id)),
     [modelsData, selected],
   );
 
@@ -212,29 +208,6 @@ export function useModelsManager() {
     (id: string) => modelsData.find(m => m.id === id)?.name || id,
     [modelsData],
   );
-
-  const updateModelAvailability = useCallback((modelId: string, available: boolean) => {
-    setModelsData(prev =>
-      prev.map(model =>
-        model.id === modelId ? { ...model, available } : model
-      )
-    );
-  }, []);
-
-  // Auto-switch to API model when all self-hosted models are offline
-  useEffect(() => {
-    const currentModel = modelsData.find(m => m.id === chatModelId);
-    const allSelfHosted = modelsData.filter(m => m.type === 'self-hosted');
-    const allSelfHostedOffline = allSelfHosted.length > 0 && allSelfHosted.every(m => m.available === false);
-
-    // If current model is offline or null, and all self-hosted models are offline, switch to first API model
-    if (allSelfHostedOffline && (!currentModel || currentModel.available === false)) {
-      const firstApiModel = modelsData.find(m => m.type === 'github' && m.available !== false);
-      if (firstApiModel && firstApiModel.id !== chatModelId) {
-        setChatModelId(firstApiModel.id);
-      }
-    }
-  }, [modelsData, chatModelId, setChatModelId]);
 
   const getModelEndpoints = useCallback((models: Model[]): Record<string, string> => {
     const endpoints: Record<string, string> = {};
@@ -308,7 +281,6 @@ export function useModelsManager() {
     totalModelsByType,
     allSelectedByType,
     modelIdToName,
-    updateModelAvailability,
     isLoading,
     loadError,
     retryCount,
