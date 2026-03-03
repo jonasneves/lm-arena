@@ -14,8 +14,11 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /build
 
+ARG LLAMA_COMMIT=""
+
 RUN git clone https://github.com/ggml-org/llama.cpp.git . \
     && git submodule update --init --recursive \
+    && if [ -n "$LLAMA_COMMIT" ]; then git checkout "$LLAMA_COMMIT"; fi \
     && cmake -B build \
         -DCMAKE_BUILD_TYPE=Release \
         -DGGML_BLAS=ON \
