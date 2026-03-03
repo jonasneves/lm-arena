@@ -390,10 +390,14 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         arg = sys.argv[1]
 
-        # Special command: --inference-dirs outputs JSON array of inference directories
         if arg == "--inference-dirs":
             dirs = [m.inference_dir for m in get_inference_models()]
             print(json.dumps(dirs))
+            sys.exit(0)
+
+        if arg == "--inference-names":
+            names = [m.name for m in get_inference_models()]
+            print(json.dumps(names))
             sys.exit(0)
 
         # CLI mode: python config/models.py <model_name> [field]

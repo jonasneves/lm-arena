@@ -1,25 +1,36 @@
-.PHONY: help build lint format clean update-models check-cf tunnels tunnel tunnels-dry-run tunnels-list
+.DEFAULT_GOAL := help
+
+.PHONY: help build lint format clean update-models check-cf tunnels tunnel tunnels-dry-run tunnels-list inference deploy build-images up down
 
 -include .env
 export
 
 help:
-	@echo "LLM Playground"
 	@echo ""
-	@echo "  make build                             Build frontend"
-	@echo "  make lint                              Check Python code"
-	@echo "  make format                            Format Python code"
-	@echo "  make update-models                     Refresh GitHub models in models.json"
-	@echo "  make clean                             Remove venv and caches"
+	@echo "\033[2m# Frontend\033[0m"
+	@echo "  \033[36mbuild\033[0m           Build frontend"
+	@echo "  \033[36mdeploy\033[0m          Trigger deploy workflow"
 	@echo ""
-	@echo "Tunnels (requires CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID):"
-	@echo "  make tunnels DOMAIN=neevs.io           Setup all tunnels"
-	@echo "  make tunnel MODEL=glm DOMAIN=neevs.io  Setup single tunnel"
-	@echo "  make tunnels-dry-run DOMAIN=neevs.io   Preview setup"
-	@echo "  make tunnels-list                      List models and ports"
+	@echo "\033[2m# Code\033[0m"
+	@echo "  \033[36mlint\033[0m            Check Python code"
+	@echo "  \033[36mformat\033[0m          Format Python code"
+	@echo "  \033[36mupdate-models\033[0m   Refresh GitHub models in models.json"
+	@echo "  \033[36mclean\033[0m           Remove caches"
+	@echo ""
+	@echo "\033[2m# Inference (GitHub Actions)\033[0m"
+	@echo "  \033[36minference\033[0m       Run MODEL=<name> [HOURS=5]"
+	@echo "  \033[36mbuild-images\033[0m    Build Docker images [MODELS=all] [NO_CACHE=false]"
+	@echo "  \033[36mup\033[0m              Launch all inference models [HOURS=5]"
+	@echo "  \033[36mdown\033[0m            Cancel all in-progress workflow runs"
+	@echo ""
+	@echo "\033[2m# Tunnels\033[0m"
+	@echo "  \033[36mtunnels\033[0m         Setup all tunnels  DOMAIN=neevs.io"
+	@echo "  \033[36mtunnel\033[0m          Setup one tunnel   MODEL=glm DOMAIN=neevs.io"
+	@echo "  \033[36mtunnels-dry-run\033[0m Preview setup      DOMAIN=neevs.io"
+	@echo "  \033[36mtunnels-list\033[0m    List models and ports"
+	@echo ""
 
 build:
-	@echo "Generating config from config/models.py..."
 	@python3 scripts/generate_extension_config.py
 	cd app/chat/frontend && npm install && npm run build
 
@@ -37,6 +48,29 @@ update-models:
 clean:
 	rm -rf __pycache__ .pytest_cache
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
+
+inference:
+	@[ -n "$(MODEL)" ] || { echo "Usage: make inference MODEL=<name> [HOURS=5]"; exit 1; }
+	gh workflow run inference.yml -f model=$(MODEL) -f duration_hours=$(or $(HOURS),5)
+
+deploy:
+	gh workflow run deploy.yml
+
+build-images:
+	gh workflow run build-push-images.yml -f models=$(or $(MODELS),all) -f no_cache=$(or $(NO_CACHE),false)
+
+up:
+	@for model in $$(python3 config/models.py --inference-names | jq -r '.[]'); do \
+		printf "\033[36mStarting $$model...\033[0m\n"; \
+		gh workflow run inference.yml -f model=$$model -f duration_hours=$(or $(HOURS),5); \
+	done
+
+down:
+	@gh run list --status in_progress --json databaseId,displayTitle --jq '.[] | "\(.databaseId) \(.displayTitle)"' | \
+		while read -r id name; do \
+			printf "\033[33mCancelling: $$name\033[0m\n"; \
+			gh run cancel $$id; \
+		done
 
 check-cf:
 	@[ -n "$(CLOUDFLARE_API_TOKEN)" ] || { echo "CLOUDFLARE_API_TOKEN not set in .env"; exit 1; }
