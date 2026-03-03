@@ -2,10 +2,9 @@
 # Serverless LLM - Unified Docker Compose with Profiles
 # =============================================================================
 # Usage:
-#   docker-compose up                      # Start chat interface only
-#   docker-compose --profile all up        # Start everything
-#   docker-compose --profile qwen up       # Start chat + qwen
-#   docker-compose --profile qwen --profile phi up  # Start chat + qwen + phi
+#   docker-compose --profile all up        # Start all inference servers
+#   docker-compose --profile qwen up       # Start qwen
+#   docker-compose --profile qwen --profile phi up  # Start qwen + phi
 #
 # Available profiles: all, qwen, phi, llama, mistral, gemma, r1qwen, rnj, lfm2, smollm3, nanbeige, functiongemma, gptoss
 # =============================================================================
@@ -24,41 +23,6 @@ x-inference-common: &inference-common
     <<: *common-env
 
 services:
-  # =============================================================================
-  # Chat Interface (always available)
-  # =============================================================================
-  chat:
-    build:
-      context: .
-      dockerfile: app/chat/backend/Dockerfile
-    ports:
-      - "${CHAT_PORT:-8080}:8080"
-    environment:
-      PORT: 8080
-      GH_MODELS_TOKEN: ${GH_MODELS_TOKEN}
-      # Model URLs auto-configured based on service names
-      QWEN_API_URL: http://qwen:8000
-      PHI_API_URL: http://phi:8000
-      LFM2_API_URL: http://lfm2:8000
-      LLAMA_API_URL: http://llama:8000
-      MISTRAL_API_URL: http://mistral:8000
-      GEMMA_API_URL: http://gemma:8000
-      R1QWEN_API_URL: http://r1qwen:8000
-      RNJ_API_URL: http://rnj:8000
-      SMOLLM3_API_URL: http://smollm3:8000
-      NANBEIGE_API_URL: http://nanbeige:8000
-      FUNCTIONGEMMA_API_URL: http://functiongemma:8000
-      GPTOSS_API_URL: http://gptoss:8000
-    networks:
-      - llm-network
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 10s
-
   # =============================================================================
   # Inference Servers (activated by profiles)
   # =============================================================================
