@@ -156,7 +156,3 @@ export const streamSseEvents = async (
   }
 };
 
-// Configure API base for extension mode
-export function setApiBase(url: string) {
-  (window as any).__API_BASE__ = url;
-}

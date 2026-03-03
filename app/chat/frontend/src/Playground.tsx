@@ -57,7 +57,6 @@ function PlaygroundInner() {
     modelIdToName,
     isLoading: isLoadingModels,
     loadError: modelsLoadError,
-    retryCount: modelsRetryCount,
     retryNow: retryModelsNow,
     getModelEndpoints,
   } = useModelsManager();
@@ -989,13 +988,8 @@ function PlaygroundInner() {
             </div>
             <div className="space-y-1.5">
               <p className="text-white/80 text-sm font-medium">
-                {modelsLoadError || 'Connecting to models...'}
+                {modelsLoadError || 'Loading models...'}
               </p>
-              {modelsRetryCount > 0 && (
-                <p className="text-white/40 text-xs tabular-nums">
-                  Attempt {modelsRetryCount} of 8
-                </p>
-              )}
             </div>
             <button
               onClick={retryModelsNow}

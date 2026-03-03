@@ -1,5 +1,1 @@
-// Runtime configuration
-// Loaded before app bundle to configure API backend URL
-window.__APP_CONFIG__ = {
-  apiBaseUrl: 'https://llm-api.jonasneves.workers.dev',
-};
+// Runtime configuration placeholder (reserved for future use)

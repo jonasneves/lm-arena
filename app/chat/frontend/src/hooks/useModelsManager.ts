@@ -2,8 +2,6 @@ import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import { Model } from '../types';
 import { MODEL_META } from '../constants';
 import { usePersistedSetting } from './usePersistedSetting';
-import { config } from '../config';
-import { fetchWithTimeout } from '../utils/fetch';
 
 interface ModelsApiModel {
   id: string;
@@ -18,17 +16,10 @@ interface ModelsApiResponse {
   models: ModelsApiModel[];
 }
 
-// Retry config for initial model loading (handles cold starts)
-const INITIAL_RETRY_DELAY = 800;   // Start with 800ms
-const MAX_RETRY_DELAY = 3000;      // Cap at 3s
-const MAX_RETRIES = 8;             // Give up after ~20s total
-const FETCH_TIMEOUT = 8000;        // 8s timeout for each fetch attempt
-
 export function useModelsManager() {
   const [modelsData, setModelsData] = useState<Model[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
-  const [retryCount, setRetryCount] = useState(0);
 
   // Multi-model selection (for Compare, Analyze, Debate, Personalities)
   const [persistedSelected, setPersistedSelected] = usePersistedSetting<string[] | null>('playground_selected_models', null);
@@ -49,25 +40,17 @@ export function useModelsManager() {
 
   const [moderator, setModerator] = useState<string>('');
 
-  // Ref to track active fetch and prevent race conditions
-  const fetchIdRef = useRef(0);
-  const retryTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const loadModels = useCallback(async (fetchId: number, currentRetry: number, isManualRetry = false): Promise<void> => {
-    // Clear any pending retry
-    if (retryTimeoutRef.current) {
-      clearTimeout(retryTimeoutRef.current);
-      retryTimeoutRef.current = null;
-    }
-
+  const loadModels = useCallback(async (): Promise<void> => {
     setIsLoading(true);
-    if (isManualRetry) {
-      setLoadError('Refreshing...');
-      setRetryCount(0);
-    }
+    setLoadError(null);
 
-    // Helper to process models response
-    const processModels = (data: ModelsApiResponse) => {
+    try {
+      const response = await fetch('/models.json');
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      const data: ModelsApiResponse = await response.json();
+      if (!data.models?.length) throw new Error('No models in models.json');
+
       const apiModels = data.models
         .filter((model) => model.type !== 'external')
         .map((model) => {
@@ -88,8 +71,6 @@ export function useModelsManager() {
 
       setModelsData(apiModels);
       setIsLoading(false);
-      setLoadError(null);
-      setRetryCount(0);
 
       if (!isSelectionInitialized.current) {
         setPersistedSelected([]);
@@ -98,7 +79,7 @@ export function useModelsManager() {
 
       // Initialize chat model: gpt-4o > default > first github > first available
       if (!isChatModelInitialized.current) {
-        const gpt4o = apiModels.find(m => m.id === 'gpt-4o');
+        const gpt4o = apiModels.find(m => m.id === 'openai/gpt-4o');
         const defaultModel = apiModels.find(m => m.default);
         const firstApiModel = apiModels.find(m => m.type === 'github');
         setChatModelId(gpt4o?.id ?? defaultModel?.id ?? firstApiModel?.id ?? apiModels[0]?.id ?? null);
@@ -111,73 +92,19 @@ export function useModelsManager() {
         ?? apiModels[0]?.id
         ?? '';
       setModerator(moderatorId);
-    };
-
-    try {
-      const response = await fetchWithTimeout(`${config.apiBaseUrl}/api/models`, undefined, FETCH_TIMEOUT);
-      if (fetchId !== fetchIdRef.current) return;
-
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-      const data: ModelsApiResponse = await response.json();
-      if (fetchId !== fetchIdRef.current) return;
-
-      if (!data.models?.length) throw new Error('No models available yet');
-
-      processModels(data);
 
     } catch {
-      if (fetchId !== fetchIdRef.current) return;
-
-      // Fallback: try static models.json (for extension mode)
-      try {
-        const staticResponse = await fetchWithTimeout('/models.json', undefined, FETCH_TIMEOUT);
-        if (staticResponse.ok) {
-          const staticData = await staticResponse.json();
-          if (staticData.models?.length > 0) {
-            processModels(staticData);
-            return;
-          }
-        }
-      } catch {
-        // Static fallback also unavailable
-      }
-
-      // Both failed - retry or give up
-      const nextRetry = currentRetry + 1;
-      setRetryCount(nextRetry);
-
-      if (nextRetry < MAX_RETRIES) {
-        const delay = Math.min(INITIAL_RETRY_DELAY * Math.pow(1.4, currentRetry), MAX_RETRY_DELAY);
-        setLoadError('Connecting to backend...');
-        retryTimeoutRef.current = setTimeout(() => {
-          loadModels(fetchId, nextRetry);
-        }, delay);
-      } else {
-        setIsLoading(false);
-        setLoadError('Could not load models');
-      }
+      setIsLoading(false);
+      setLoadError('Could not load models');
     }
   }, [setPersistedSelected, setChatModelId]);
 
-  // Manual retry function
   const retryNow = useCallback(() => {
-    fetchIdRef.current += 1;
-    loadModels(fetchIdRef.current, 0, true);
+    loadModels();
   }, [loadModels]);
 
-  // Initial load on mount
   useEffect(() => {
-    fetchIdRef.current += 1;
-    loadModels(fetchIdRef.current, 0);
-
-    return () => {
-      // Invalidate any in-flight fetches
-      fetchIdRef.current += 1;
-      if (retryTimeoutRef.current) {
-        clearTimeout(retryTimeoutRef.current);
-      }
-    };
+    loadModels();
   }, [loadModels]);
 
   const availableModels = useMemo(
@@ -215,7 +142,7 @@ export function useModelsManager() {
 
     const subdomainMap: Record<string, string> = {
       'qwen3-4b': 'qwen',
-      'phi-3-mini': 'phi',
+      'phi-4-mini': 'phi',
       'functiongemma-270m-it': 'functiongemma',
       'smollm3-3b': 'smollm3',
       'lfm2.5-1.2b-instruct': 'lfm2',
@@ -227,26 +154,26 @@ export function useModelsManager() {
       'rnj-1-instruct': 'rnj',
       'deepseek-r1-distill-qwen-1.5b': 'r1qwen',
       'nanbeige4-3b-thinking': 'nanbeige',
-      'z-ai/glm-4.5-air:free': 'glm',
+      'glm-4.7-flash': 'glm',
       'gpt-oss-20b': 'gptoss',
     };
 
     const portMap: Record<string, number> = {
       'qwen3-4b': 8100,
-      'phi-3-mini': 8110,
-      'functiongemma-270m-it': 8120,
-      'smollm3-3b': 8130,
-      'lfm2.5-1.2b-instruct': 8140,
-      'dasd-4b-thinking': 8300,
-      'agentcpm-explore-4b': 8310,
+      'phi-4-mini': 8101,
+      'functiongemma-270m-it': 8103,
+      'smollm3-3b': 8104,
+      'lfm2.5-1.2b-instruct': 8105,
+      'dasd-4b-thinking': 8106,
+      'agentcpm-explore-4b': 8107,
       'gemma-3-12b-it': 8200,
-      'llama-3.2-3b': 8210,
-      'mistral-7b-instruct-v0.3': 8220,
-      'rnj-1-instruct': 8230,
-      'deepseek-r1-distill-qwen-1.5b': 8320,
-      'nanbeige4-3b-thinking': 8330,
-      'z-ai/glm-4.5-air:free': 8340,
-      'gpt-oss-20b': 8350,
+      'llama-3.2-3b': 8201,
+      'mistral-7b-instruct-v0.3': 8202,
+      'rnj-1-instruct': 8203,
+      'deepseek-r1-distill-qwen-1.5b': 8300,
+      'nanbeige4-3b-thinking': 8301,
+      'glm-4.7-flash': 8302,
+      'gpt-oss-20b': 8303,
     };
 
     models.forEach(model => {
@@ -283,7 +210,6 @@ export function useModelsManager() {
     modelIdToName,
     isLoading,
     loadError,
-    retryCount,
     retryNow,
     getModelEndpoints,
   };

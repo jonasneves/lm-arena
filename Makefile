@@ -1,4 +1,4 @@
-.PHONY: help install dev preview build lint format clean check-cf tunnels tunnel tunnels-dry-run tunnels-list
+.PHONY: help install dev preview build lint format clean update-models check-cf tunnels tunnel tunnels-dry-run tunnels-list
 
 -include .env
 export
@@ -12,6 +12,7 @@ help:
 	@echo "  make build                             Build frontend"
 	@echo "  make lint                              Check Python code"
 	@echo "  make format                            Format Python code"
+	@echo "  make update-models                     Refresh GitHub models in models.json"
 	@echo "  make clean                             Remove venv and caches"
 	@echo ""
 	@echo "Tunnels (requires CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID):"
@@ -49,6 +50,9 @@ lint:
 format:
 	@command -v ruff >/dev/null || { echo "Install: pip install ruff"; exit 1; }
 	ruff format app scripts config
+
+update-models:
+	python3 scripts/update_github_models.py
 
 clean:
 	rm -rf venv __pycache__ .pytest_cache
