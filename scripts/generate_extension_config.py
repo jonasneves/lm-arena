@@ -4,7 +4,6 @@ Generate configuration files from the Python source of truth.
 
 Updates:
 - Frontend JSON configs (extension-config.json, services.json)
-- .shipctl/apps.json manifest
 - .github/workflows/inference.yml model options
 
 Usage:
@@ -150,16 +149,6 @@ def main():
     output_dirs = [
         project_root / "app" / "chat" / "frontend" / "src" / "data",
     ]
-
-    # Write to standard ShipCTL Manifest location
-    manifest_dir = project_root / ".shipctl"
-    manifest_dir.mkdir(exist_ok=True)
-    manifest_file = manifest_dir / "apps.json"
-
-    # Generate Manifest
-    with open(manifest_file, "w") as f:
-        json.dump(config, f, indent=2)
-    print(f"✓ Generated Manifest: .shipctl/apps.json")
 
     # Update local frontend configs
     for output_dir in output_dirs:
