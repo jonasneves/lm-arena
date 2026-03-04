@@ -2,10 +2,10 @@
   "services": [
     {
       "key": "nanbeige",
-      "name": "Nanbeige4-3B Thinking",
+      "name": "Nanbeige4.1-3B",
       "localPort": 8301,
       "category": "reasoning",
-      "modelId": "nanbeige4-3b-thinking",
+      "modelId": "nanbeige4.1-3b",
       "rank": 1
     },
     {
@@ -49,6 +49,14 @@
       "rank": 4
     },
     {
+      "key": "lfm2thinking",
+      "name": "LFM2.5 1.2B Thinking",
+      "localPort": 8108,
+      "category": "small",
+      "modelId": "lfm2.5-1.2b-thinking",
+      "rank": 5
+    },
+    {
       "key": "r1qwen",
       "name": "DeepSeek R1 1.5B",
       "localPort": 8300,
@@ -71,6 +79,14 @@
       "category": "medium",
       "modelId": "mistral-7b-instruct-v0.3",
       "rank": 7
+    },
+    {
+      "key": "jancode",
+      "name": "Jan-code 4B",
+      "localPort": 8109,
+      "category": "small",
+      "modelId": "jan-code-4b",
+      "rank": 8
     },
     {
       "key": "phi",
@@ -120,7 +136,7 @@
       "category": "core"
     },
     {
-      "name": "Nanbeige4-3B Thinking",
+      "name": "Nanbeige4.1-3B",
       "path": "inference.yml",
       "category": "reasoning",
       "serviceKey": "nanbeige"
@@ -156,6 +172,12 @@
       "serviceKey": "lfm2"
     },
     {
+      "name": "LFM2.5 1.2B Thinking",
+      "path": "inference.yml",
+      "category": "small",
+      "serviceKey": "lfm2thinking"
+    },
+    {
       "name": "DeepSeek R1 1.5B",
       "path": "inference.yml",
       "category": "reasoning",
@@ -172,6 +194,12 @@
       "path": "inference.yml",
       "category": "medium",
       "serviceKey": "mistral"
+    },
+    {
+      "name": "Jan-code 4B",
+      "path": "inference.yml",
+      "category": "small",
+      "serviceKey": "jancode"
     },
     {
       "name": "Phi-4 Mini",
@@ -232,8 +260,8 @@
   ],
   "models": [
     {
-      "id": "nanbeige4-3b-thinking",
-      "name": "Nanbeige4-3B Thinking",
+      "id": "nanbeige4.1-3b",
+      "name": "Nanbeige4.1-3B",
       "type": "local",
       "priority": 1,
       "category": "reasoning"
@@ -274,6 +302,13 @@
       "category": "small"
     },
     {
+      "id": "lfm2.5-1.2b-thinking",
+      "name": "LFM2.5 1.2B Thinking",
+      "type": "local",
+      "priority": 5,
+      "category": "small"
+    },
+    {
       "id": "deepseek-r1-distill-qwen-1.5b",
       "name": "DeepSeek R1 1.5B",
       "type": "local",
@@ -293,6 +328,13 @@
       "type": "local",
       "priority": 7,
       "category": "medium"
+    },
+    {
+      "id": "jan-code-4b",
+      "name": "Jan-code 4B",
+      "type": "local",
+      "priority": 8,
+      "category": "small"
     },
     {
       "id": "phi-4-mini",
@@ -330,6 +372,6 @@
       "category": "reasoning"
     }
   ],
-  "generatedAt": "2026-03-04T20:52:11.865312Z",
+  "generatedAt": "2026-03-04T22:20:19.502341Z",
   "sourceFile": "config/models.py"
 }

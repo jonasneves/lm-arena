@@ -2,10 +2,10 @@
   "services": [
     {
       "key": "nanbeige",
-      "name": "Nanbeige4-3B Thinking",
+      "name": "Nanbeige4.1-3B",
       "localPort": 8301,
       "category": "reasoning",
-      "modelId": "nanbeige4-3b-thinking",
+      "modelId": "nanbeige4.1-3b",
       "rank": 1
     },
     {
@@ -49,6 +49,14 @@
       "rank": 4
     },
     {
+      "key": "lfm2thinking",
+      "name": "LFM2.5 1.2B Thinking",
+      "localPort": 8108,
+      "category": "small",
+      "modelId": "lfm2.5-1.2b-thinking",
+      "rank": 5
+    },
+    {
       "key": "r1qwen",
       "name": "DeepSeek R1 1.5B",
       "localPort": 8300,
@@ -71,6 +79,14 @@
       "category": "medium",
       "modelId": "mistral-7b-instruct-v0.3",
       "rank": 7
+    },
+    {
+      "key": "jancode",
+      "name": "Jan-code 4B",
+      "localPort": 8109,
+      "category": "small",
+      "modelId": "jan-code-4b",
+      "rank": 8
     },
     {
       "key": "phi",
