@@ -613,13 +613,6 @@
       "description": "Math reasoning (83.9% MATH-500), Codeforces 954 rating"
     },
     {
-      "id": "glm-4.7-flash",
-      "name": "GLM-4.7 Flash",
-      "type": "self-hosted",
-      "context_length": 4096,
-      "description": "MoE (30B / 3B active), AIME 91.6%, SWE-bench 59.2%, function calling"
-    },
-    {
       "id": "gemma-3-12b-it",
       "name": "Gemma 3 12B",
       "type": "self-hosted",

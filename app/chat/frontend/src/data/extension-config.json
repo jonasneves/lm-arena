@@ -161,12 +161,6 @@
       "serviceKey": "dasd"
     },
     {
-      "name": "GLM-4.7 Flash",
-      "path": "inference.yml",
-      "category": "reasoning",
-      "serviceKey": "glm"
-    },
-    {
       "name": "SmolLM3 3B",
       "path": "inference.yml",
       "category": "small",
@@ -282,13 +276,6 @@
       "category": "small"
     },
     {
-      "id": "glm-4.7-flash",
-      "name": "GLM-4.7 Flash",
-      "type": "local",
-      "priority": 2,
-      "category": "reasoning"
-    },
-    {
       "id": "smollm3-3b",
       "name": "SmolLM3 3B",
       "type": "local",
@@ -366,6 +353,6 @@
       "category": "reasoning"
     }
   ],
-  "generatedAt": "2026-03-03T14:19:45.860409Z",
+  "generatedAt": "2026-03-04T18:17:35.586645Z",
   "sourceFile": "config/models.py"
 }

@@ -12,7 +12,6 @@ run-name: "${{ inputs.model }} \u2022 ${{ inputs.duration_hours || '5' }}h"
         - dasd
         - functiongemma
         - gemma
-        - glm
         - gptoss
         - lfm2
         - llama

@@ -28,15 +28,6 @@
       "tunnelId": "d0e212f9-12dd-4c6d-af12-ee17113ea68b"
     },
     {
-      "key": "glm",
-      "name": "GLM-4.7 Flash",
-      "localPort": 8302,
-      "category": "reasoning",
-      "modelId": "glm-4.7-flash",
-      "rank": 2,
-      "tunnelId": "cb7bea42-a89a-484a-8a9a-a4b34d1709e5"
-    },
-    {
       "key": "smollm3",
       "name": "SmolLM3 3B",
       "localPort": 8104,

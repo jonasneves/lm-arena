@@ -48,7 +48,6 @@ GitHub Pages (static frontend)
 │   └── deploy.yml                          # Deploy frontend to GitHub Pages
 ├── app/
 │   ├── shared/                             # Dockerfile.inference, Dockerfile.llama-server, inference_server.py
-│   ├── glm-inference/                      # GLM inference_server.py (llama-server)
 │   ├── lfm2-inference/                     # LFM2 inference_server.py (llama-server)
 │   ├── rnj-inference/                      # RNJ inference_server.py (llama-server, pinned commit)
 │   └── chat/frontend/                      # Vite + React frontend
