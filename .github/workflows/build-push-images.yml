@@ -130,13 +130,7 @@ jobs:
           MODEL="${{ matrix.model }}"
           LLAMA_COMMIT=""
 
-          if [ "$MODEL" = "rnj-inference" ]; then
-            # rnj1 architecture requires a specific llama.cpp commit
-            DOCKERFILE="./app/shared/Dockerfile.llama-server"
-            CONTEXT="."
-            BUILD_ARGS="MODEL_DIR=$MODEL"
-            LLAMA_COMMIT="e1b7d46"
-          elif echo "$LLAMA_SERVER_MODELS" | grep -qw "$MODEL"; then
+          if echo "$LLAMA_SERVER_MODELS" | grep -qw "$MODEL"; then
             DOCKERFILE="./app/shared/Dockerfile.llama-server"
             CONTEXT="."
             BUILD_ARGS="MODEL_DIR=$MODEL"
