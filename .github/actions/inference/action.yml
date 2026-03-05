@@ -163,7 +163,11 @@ runs:
         fi
 
     - name: Install cloudflared
-      uses: AnimMouse/setup-cloudflared@v2
+      shell: bash
+      run: |
+        curl -fsSL https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm64 -o /tmp/cloudflared
+        chmod +x /tmp/cloudflared
+        echo /tmp >> $GITHUB_PATH
 
     - name: Start cloudflared
       id: cloudflared
