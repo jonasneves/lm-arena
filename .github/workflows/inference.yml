@@ -15,6 +15,7 @@ run-name: "${{ inputs.model }}"
         - gptoss
         - jancode
         - lfm2
+        - lfm2mini
         - lfm2thinking
         - llama
         - mistral
