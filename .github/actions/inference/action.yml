@@ -189,7 +189,7 @@ runs:
             cat /tmp/cloudflared.log
             exit 1
           fi
-          TUNNEL_URL=$(grep -o 'https://[a-z0-9-]*\.trycloudflare\.com' /tmp/cloudflared.log | head -1)
+          TUNNEL_URL=$(grep -o 'https://[a-z0-9-]*\.trycloudflare\.com' /tmp/cloudflared.log | head -1 || true)
           [ -n "$TUNNEL_URL" ] && break
           echo "Waiting for tunnel... ($i/30)"
           sleep 2
@@ -240,7 +240,7 @@ runs:
         register_tunnel() {
           local url
           for i in {1..15}; do
-            url=$(grep -o 'https://[a-z0-9-]*\.trycloudflare\.com' /tmp/cloudflared.log | tail -1)
+            url=$(grep -o 'https://[a-z0-9-]*\.trycloudflare\.com' /tmp/cloudflared.log | tail -1 || true)
             [ -n "$url" ] && break
             sleep 2
           done
