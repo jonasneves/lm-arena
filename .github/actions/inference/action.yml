@@ -162,20 +162,20 @@ runs:
           exit 1
         fi
 
-    - name: Install cloudflared
-      shell: bash
-      run: |
-        curl -fsSL https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm64 -o /tmp/cloudflared
-        chmod +x /tmp/cloudflared
-        echo /tmp >> $GITHUB_PATH
-
     - name: Start cloudflared
       id: cloudflared
       shell: bash
       env:
         TUNNEL_WRITE_KEY: ${{ inputs.tunnel_write_key }}
       run: |
-        cloudflared tunnel --no-autoupdate --url http://localhost:${{ inputs.port }} > /tmp/cloudflared.log 2>&1 &
+        curl -fsSL --retry 5 --retry-delay 2 \
+          https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm64 \
+          -o /tmp/cloudflared || \
+          wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm64 \
+          -O /tmp/cloudflared
+        chmod +x /tmp/cloudflared
+
+        /tmp/cloudflared tunnel --no-autoupdate --url http://localhost:${{ inputs.port }} > /tmp/cloudflared.log 2>&1 &
 
         TUNNEL_URL=""
         for i in {1..30}; do
@@ -248,7 +248,7 @@ runs:
             "$REGISTRY/tunnel/$MODEL_NAME" > /dev/null || true
           docker stop inference-server 2>/dev/null || true
           docker rm inference-server 2>/dev/null || true
-          pkill cloudflared 2>/dev/null || true
+          pkill -f '/tmp/cloudflared' 2>/dev/null || true
           exit 0
         }
         trap cleanup SIGTERM SIGINT
@@ -292,7 +292,7 @@ runs:
           fi
 
           SERVER_STATUS=$(docker inspect -f '{{.State.Status}}' inference-server 2>/dev/null || echo "stopped")
-          TUNNEL_STATUS=$(pgrep -x cloudflared > /dev/null 2>&1 && echo "running" || echo "stopped")
+          TUNNEL_STATUS=$(pgrep -f '/tmp/cloudflared' > /dev/null 2>&1 && echo "running" || echo "stopped")
 
           printf "[%s] Server: %s | Tunnel: %s | %dm elapsed | %dm remaining\n" \
             "$(date '+%H:%M:%S')" "$SERVER_STATUS" "$TUNNEL_STATUS" "$((ELAPSED/60))" "$((REMAINING/60))"
@@ -300,7 +300,7 @@ runs:
           [ "$SERVER_STATUS" != "running" ] && docker start inference-server
           if [ "$TUNNEL_STATUS" != "running" ]; then
             > /tmp/cloudflared.log
-            cloudflared tunnel --no-autoupdate --url http://localhost:$PORT >> /tmp/cloudflared.log 2>&1 &
+            /tmp/cloudflared tunnel --no-autoupdate --url http://localhost:$PORT >> /tmp/cloudflared.log 2>&1 &
             register_tunnel
           fi
 
