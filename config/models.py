@@ -18,7 +18,6 @@ from enum import Enum
 
 class ModelCategory(Enum):
     """Model category for port allocation and grouping."""
-    CORE = "core"
     SMALL = "small"
     MEDIUM = "medium"
     REASONING = "reasoning"
@@ -78,23 +77,12 @@ class ModelConfig:
 # =============================================================================
 # PORT ALLOCATION SCHEME
 # =============================================================================
-# 8080      : Chat Interface (main app)
-# 8081-8089 : Reserved for core services
 # 8100-8199 : Small models (< 7B params)
-# 8200-8299 : Medium models (7B-30B params)  
+# 8200-8299 : Medium models (7B-30B params)
 # 8300-8399 : Reasoning/specialty models
 # =============================================================================
 
 MODELS: dict[str, ModelConfig] = {
-    # Core services
-    "chat": ModelConfig(
-        name="chat",
-        port=8080,
-        category=ModelCategory.CORE,
-        inference_dir="chat",
-        description="Main chat interface and API gateway",
-    ),
-    
     # Small models (< 7B params)
     "qwen": ModelConfig(
         name="qwen",
@@ -361,9 +349,8 @@ def get_model(name: str) -> ModelConfig:
 
 
 def get_inference_models() -> list[ModelConfig]:
-    """Get all inference models (excludes core services), sorted by rank."""
-    models = [m for m in MODELS.values() if m.category != ModelCategory.CORE]
-    return sorted(models, key=lambda m: m.rank)
+    """Get all inference models sorted by rank."""
+    return sorted(MODELS.values(), key=lambda m: m.rank)
 
 
 def get_default_model() -> ModelConfig:

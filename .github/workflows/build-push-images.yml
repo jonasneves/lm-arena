@@ -55,7 +55,7 @@ jobs:
             echo "$CHANGED_FILES"
 
             # Extract changed model directories (includes -inference and chat)
-            CHANGED_MODELS=$(echo "$CHANGED_FILES" | grep -E '^app/(.+-inference|chat)/' | cut -d'/' -f2 | sort -u | tr '\n' ',' | sed 's/,$//')
+            CHANGED_MODELS=$(echo "$CHANGED_FILES" | grep -E '^app/.+-inference/' | cut -d'/' -f2 | sort -u | tr '\n' ',' | sed 's/,$//')
 
             # Check if cloudflared changed
             CLOUDFLARED_CHANGED=$(echo "$CHANGED_FILES" | grep -q '^docker/cloudflared/' && echo "cloudflared" || echo "")
