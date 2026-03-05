@@ -12,7 +12,7 @@ const GITHUB_MODELS_CATALOG_URL = 'https://models.github.ai/catalog/models';
 
 function getLocalModels() {
     try {
-        const output = execSync('python3 ../../../scripts/generate_models_json.py', {
+        const output = execSync('python3 ../../../../scripts/generate_models_json.py', {
             encoding: 'utf-8',
             cwd: new URL('.', import.meta.url).pathname
         });
