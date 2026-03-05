@@ -10,17 +10,19 @@ run-name: "${{ inputs.model }}"
         options:
         - agentcpm
         - dasd
+        - falcon
         - functiongemma
         - gemma
+        - gemma3n
         - gptoss
         - jancode
         - lfm2
         - lfm2mini
         - lfm2thinking
         - llama
-        - mistral
         - nanbeige
         - phi
+        - phireasoning
         - qwen
         - r1qwen
         - rnj
