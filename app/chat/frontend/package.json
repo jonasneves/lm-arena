@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "node scripts/fetch-models.mjs && tsc && vite build",
     "fetch-models": "node scripts/fetch-models.mjs",
     "fetch-mediapipe": "node scripts/fetch-mediapipe.mjs",
     "build:extension": "npm run fetch-models && npm run fetch-mediapipe && tsc && vite build --config vite.config.extension.ts",
