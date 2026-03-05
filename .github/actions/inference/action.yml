@@ -172,13 +172,21 @@ runs:
         gh release download --repo cloudflare/cloudflared --pattern 'cloudflared-linux-arm64' -D /tmp
         mv /tmp/cloudflared-linux-arm64 /tmp/cloudflared
         chmod +x /tmp/cloudflared
+        echo "✓ cloudflared downloaded: $(/tmp/cloudflared --version 2>&1 || true)"
 
         /tmp/cloudflared tunnel --no-autoupdate --url http://localhost:${{ inputs.port }} > /tmp/cloudflared.log 2>&1 &
+        CLOUDFLARED_PID=$!
 
         TUNNEL_URL=""
         for i in {1..30}; do
+          if ! kill -0 $CLOUDFLARED_PID 2>/dev/null; then
+            echo "cloudflared exited early (pid $CLOUDFLARED_PID)"
+            cat /tmp/cloudflared.log
+            exit 1
+          fi
           TUNNEL_URL=$(grep -o 'https://[a-z0-9-]*\.trycloudflare\.com' /tmp/cloudflared.log | head -1)
           [ -n "$TUNNEL_URL" ] && break
+          echo "Waiting for tunnel... ($i/30)"
           sleep 2
         done
 
