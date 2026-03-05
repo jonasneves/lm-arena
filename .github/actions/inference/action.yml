@@ -167,6 +167,7 @@ runs:
       shell: bash
       env:
         TUNNEL_WRITE_KEY: ${{ inputs.tunnel_write_key }}
+        GH_TOKEN: ${{ inputs.github_token }}
       run: |
         gh release download --repo cloudflare/cloudflared --pattern 'cloudflared-linux-arm64' -D /tmp
         chmod +x /tmp/cloudflared
