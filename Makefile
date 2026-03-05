@@ -28,6 +28,7 @@ help:
 	@echo ""
 
 build:
+	python3 scripts/generate_models_json.py > app/chat/frontend/public/models.json
 	cd app/chat/frontend && npm install && npm run build
 
 lint:
