@@ -50,8 +50,9 @@ async function* streamModel(
   // Emit routing metadata when the gateway performed auto-routing
   const routedTo = response.headers.get('X-Routed-Model');
   const routeCategory = response.headers.get('X-Route-Category');
+  const routeClassifier = response.headers.get('X-Route-Classifier');
   if (routedTo) {
-    yield { event: 'routing', model_id: model, routed_to: routedTo, category: routeCategory ?? 'general' };
+    yield { event: 'routing', model_id: model, routed_to: routedTo, category: routeCategory ?? 'general', classifier: routeClassifier ?? null };
   }
 
   if (!response.ok) {

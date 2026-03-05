@@ -2,7 +2,7 @@ const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, PUT, DELETE, OPTIONS, POST',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-  'Access-Control-Expose-Headers': 'X-Routed-Model, X-Route-Category',
+  'Access-Control-Expose-Headers': 'X-Routed-Model, X-Route-Category, X-Route-Classifier',
 };
 
 // Category → preferred models (in priority order)
@@ -201,7 +201,7 @@ async function routeAuto(env, body) {
           const candidates = ROUTE_MAP[category] || ROUTE_MAP.general;
           for (const candidate of candidates) {
             if (available[candidate]) {
-              return { url: available[candidate], modelKey: candidate, category };
+              return { url: available[candidate], modelKey: candidate, category, classifier: 'functiongemma' };
             }
           }
         }
@@ -236,6 +236,7 @@ async function handleChatCompletions(request, env) {
     routingHeaders = {
       'X-Routed-Model': routed.modelKey,
       'X-Route-Category': routed.category,
+      ...(routed.classifier ? { 'X-Route-Classifier': routed.classifier } : {}),
     };
   } else {
     const raw = await env.TUNNELS_KV.get(`tunnel:${model}`);

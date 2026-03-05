@@ -21,6 +21,7 @@ export interface ChatViewHandle {
 export interface RoutingInfo {
     routed_to: string;
     category: string;
+    classifier: string | null;
 }
 
 export interface ChatMessage {
@@ -105,13 +106,19 @@ const ChatMessageItem = memo(({ msg, idx, gesturesActive, uiBuilderEnabled, isCo
                             </summary>
                             <div className="px-3 py-2 bg-slate-950/40 font-mono text-[11px] space-y-1.5">
                                 <div className="flex justify-between gap-4">
-                                    <span className="text-slate-500">model</span>
+                                    <span className="text-slate-500">routed to</span>
                                     <span className="text-slate-200">{msg.routingInfo.routed_to}</span>
                                 </div>
                                 <div className="flex justify-between gap-4">
                                     <span className="text-slate-500">category</span>
                                     <span className={cat.text}>{cat.label}</span>
                                 </div>
+                                {msg.routingInfo.classifier && (
+                                    <div className="flex justify-between gap-4">
+                                        <span className="text-slate-500">classified by</span>
+                                        <span className="text-slate-400">{msg.routingInfo.classifier}</span>
+                                    </div>
+                                )}
                             </div>
                         </details>
                     );
@@ -344,6 +351,7 @@ const ChatView = forwardRef<ChatViewHandle, ChatViewProps>(({
                         routingInfo = {
                             routed_to: String(event.routed_to ?? ''),
                             category: String(event.category ?? 'general'),
+                            classifier: event.classifier ? String(event.classifier) : null,
                         };
                         return;
                     }
