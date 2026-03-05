@@ -6,6 +6,11 @@ import servicesConfig from '../data/services.json';
 
 const SERVICES = servicesConfig.services as { key: string; modelId: string; localPort: number }[];
 
+// Static map: model.id → service.key (used to send the right model key to the gateway)
+const MODEL_KEY_MAP: Record<string, string> = Object.fromEntries(
+  SERVICES.map(s => [s.modelId, s.key]),
+);
+
 interface ModelsApiModel {
   id: string;
   name?: string;
@@ -25,7 +30,7 @@ export function useModelsManager() {
   const [modelsData, setModelsData] = useState<Model[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
-  const [tunnelUrls, setTunnelUrls] = useState<Record<string, string>>({});
+  const [onlineKeys, setOnlineKeys] = useState<Set<string>>(new Set());
 
   // Multi-model selection (for Compare, Analyze, Debate, Personalities)
   const [persistedSelected, setPersistedSelected] = usePersistedSetting<string[] | null>('playground_selected_models', null);
@@ -77,10 +82,10 @@ export function useModelsManager() {
 
       setModelsData(apiModels);
 
-      // Fetch active tunnel URLs from registry (best-effort)
-      fetch(`${TUNNEL_REGISTRY}/tunnels`)
-        .then(r => r.ok ? r.json() : {})
-        .then(setTunnelUrls)
+      // Fetch online model keys from registry (best-effort)
+      fetch(`${TUNNEL_REGISTRY}/v1/models`)
+        .then(r => r.ok ? r.json() : { data: [] })
+        .then(data => setOnlineKeys(new Set((data.data ?? []).map((m: { id: string }) => m.id))))
         .catch(() => {});
 
       setIsLoading(false);
@@ -158,8 +163,8 @@ export function useModelsManager() {
         const service = SERVICES.find(s => s.modelId === model.id);
         if (isDev) {
           endpoints[model.id] = `http://localhost:${service?.localPort ?? 8000}/v1`;
-        } else if (service && tunnelUrls[service.key]) {
-          endpoints[model.id] = `${tunnelUrls[service.key]}/v1`;
+        } else if (service && onlineKeys.has(service.key)) {
+          endpoints[model.id] = `${TUNNEL_REGISTRY}/v1`;
         }
       } else if (model.type === 'github') {
         endpoints[model.id] = 'https://models.github.ai/inference';
@@ -167,17 +172,17 @@ export function useModelsManager() {
     });
 
     return endpoints;
-  }, [tunnelUrls]);
+  }, [onlineKeys]);
 
   const onlineModelIds = useMemo(() => {
     const isDev = window.location.hostname === 'localhost';
     if (isDev) return new Set(modelsData.filter(m => m.type === 'self-hosted').map(m => m.id));
     const online = new Set<string>();
     for (const service of SERVICES) {
-      if (tunnelUrls[service.key]) online.add(service.modelId);
+      if (onlineKeys.has(service.key)) online.add(service.modelId);
     }
     return online;
-  }, [tunnelUrls, modelsData]);
+  }, [onlineKeys, modelsData]);
 
   return {
     modelsData,
@@ -197,5 +202,6 @@ export function useModelsManager() {
     retryNow,
     getModelEndpoints,
     onlineModelIds,
+    modelKeyMap: MODEL_KEY_MAP,
   };
 }

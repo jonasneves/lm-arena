@@ -48,6 +48,7 @@ interface SessionControllerParams {
   clearPendingStreamForModel: (modelId: string) => void;
   resetPendingStream: () => void;
   getModelEndpoints: (models: Model[]) => Record<string, string>;
+  modelKeyMap: Record<string, string>;
   modelsData: Model[];
 }
 
@@ -91,6 +92,7 @@ export function useSessionController(params: SessionControllerParams) {
     clearPendingStreamForModel,
     resetPendingStream,
     getModelEndpoints,
+    modelKeyMap,
     modelsData,
   } = params;
 
@@ -248,6 +250,7 @@ export function useSessionController(params: SessionControllerParams) {
           temperature: GENERATION_DEFAULTS.temperature,
           github_token: githubToken || null,
           modelEndpoints,
+          modelKeys: modelKeyMap,
         }, currentController.signal);
 
         await streamSseEvents(response, (data) => {
@@ -331,6 +334,7 @@ export function useSessionController(params: SessionControllerParams) {
           githubToken: githubToken || null,
           signal: currentController.signal,
           modelEndpoints,
+          modelKeys: modelKeyMap,
           modelIdToName,
         })) {
           const eventType = event.type;
@@ -469,6 +473,7 @@ export function useSessionController(params: SessionControllerParams) {
           githubToken: githubToken || null,
           signal: currentController.signal,
           modelEndpoints,
+          modelKeys: modelKeyMap,
           modelIdToName,
         })) {
           const eventType = event.type;

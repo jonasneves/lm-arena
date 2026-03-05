@@ -42,6 +42,7 @@ interface ChatViewProps {
     uiBuilderEnabled: boolean;
     setUiBuilderEnabled: React.Dispatch<React.SetStateAction<boolean>>;
     getModelEndpoints: (models: Model[]) => Record<string, string>;
+    modelKeyMap: Record<string, string>;
     onlineModelIds?: Set<string>;
 }
 
@@ -130,6 +131,7 @@ const ChatView = forwardRef<ChatViewHandle, ChatViewProps>(({
     uiBuilderEnabled,
     setUiBuilderEnabled,
     getModelEndpoints,
+    modelKeyMap,
     onlineModelIds,
 }, ref) => {
     const [inputFocused, setInputFocused] = useState(false);
@@ -282,6 +284,7 @@ const ChatView = forwardRef<ChatViewHandle, ChatViewProps>(({
                     temperature: 0.7,
                     github_token: githubToken,
                     modelEndpoints,
+                    modelKeys: modelKeyMap,
                 }, controller.signal);
 
                 let content = '';

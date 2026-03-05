@@ -16,6 +16,7 @@ export interface ChatStreamPayload {
   temperature: number;
   github_token?: string | null;
   modelEndpoints?: Record<string, string>;
+  modelKeys?: Record<string, string>;
 }
 
 async function* streamModel(
@@ -37,7 +38,7 @@ async function* streamModel(
     method: 'POST',
     headers,
     body: JSON.stringify({
-      model,
+      model: payload.modelKeys?.[model] ?? model,
       messages: payload.messages,
       max_tokens: payload.max_tokens,
       temperature: payload.temperature,

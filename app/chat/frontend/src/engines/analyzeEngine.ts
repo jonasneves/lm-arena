@@ -28,6 +28,7 @@ interface AnalyzeParams {
   githubToken: string | null;
   signal: AbortSignal;
   modelEndpoints: Record<string, string>;
+  modelKeys?: Record<string, string>;
   modelIdToName: (id: string) => string;
 }
 
@@ -126,6 +127,7 @@ function findUniqueContributions(responses: Array<{ model_id: string; response: 
 
 async function* streamModelDirect(
   modelId: string,
+  modelKey: string,
   modelUrl: string,
   messages: Array<{ role: string; content: string }>,
   maxTokens: number,
@@ -145,7 +147,7 @@ async function* streamModelDirect(
       method: 'POST',
       headers,
       body: JSON.stringify({
-        model: modelId,
+        model: modelKey,
         messages,
         max_tokens: maxTokens,
         temperature: 0.7,
@@ -200,7 +202,7 @@ async function* streamModelDirect(
 }
 
 export async function* runAnalyze(params: AnalyzeParams): AsyncGenerator<AnalyzeEvent> {
-  const { query, participants, maxTokens, systemPrompt, githubToken, signal, modelEndpoints, modelIdToName } = params;
+  const { query, participants, maxTokens, systemPrompt, githubToken, signal, modelEndpoints, modelKeys, modelIdToName } = params;
 
   if (!participants.length) {
     yield { type: 'error', error: 'No participants selected' };
@@ -262,7 +264,7 @@ Target length: 100-200 words.`
     let fullResponse = '';
 
     try {
-      for await (const event of streamModelDirect(modelId, modelUrl, messages, maxTokens, githubToken, signal)) {
+      for await (const event of streamModelDirect(modelId, modelKeys?.[modelId] ?? modelId, modelUrl, messages, maxTokens, githubToken, signal)) {
         if (event.type === 'chunk') {
           fullResponse += event.content;
           modelResponses[modelId] = fullResponse;

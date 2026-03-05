@@ -56,6 +56,7 @@ function PlaygroundInner() {
     retryNow: retryModelsNow,
     getModelEndpoints,
     onlineModelIds,
+    modelKeyMap,
   } = useModelsManager();
 
   const [mode, setMode] = usePersistedSetting<Mode>(
@@ -851,6 +852,7 @@ function PlaygroundInner() {
     clearPendingStreamForModel,
     resetPendingStream,
     getModelEndpoints,
+    modelKeyMap,
     modelsData,
   });
 
@@ -1220,6 +1222,7 @@ function PlaygroundInner() {
                     uiBuilderEnabled={uiBuilderEnabled}
                     setUiBuilderEnabled={setUiBuilderEnabled}
                     getModelEndpoints={getModelEndpoints}
+                    modelKeyMap={modelKeyMap}
                     onlineModelIds={onlineModelIds}
                   />
                 </Suspense>

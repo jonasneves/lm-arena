@@ -45,6 +45,7 @@ interface DebateParams {
   githubToken: string | null;
   signal: AbortSignal;
   modelEndpoints: Record<string, string>;
+  modelKeys?: Record<string, string>;
   modelIdToName: (id: string) => string;
 }
 
@@ -94,6 +95,7 @@ Provide your response:`;
 
 async function* streamModelDirect(
   modelId: string,
+  modelKey: string,
   modelUrl: string,
   messages: Array<{ role: string; content: string }>,
   maxTokens: number,
@@ -114,7 +116,7 @@ async function* streamModelDirect(
       method: 'POST',
       headers,
       body: JSON.stringify({
-        model: modelId,
+        model: modelKey,
         messages,
         max_tokens: maxTokens,
         temperature,
@@ -181,7 +183,8 @@ async function* executeTurn(
   githubToken: string | null,
   signal: AbortSignal,
   modelEndpoints: Record<string, string>,
-  modelIdToName: (id: string) => string
+  modelIdToName: (id: string) => string,
+  modelKeys?: Record<string, string>
 ): AsyncGenerator<DebateEvent> {
   const modelName = modelIdToName(modelId);
   const modelUrl = modelEndpoints[modelId];
@@ -237,7 +240,7 @@ Target length: 100-200 words.`
     });
     messages.push({ role: 'user', content: prompt });
 
-    for await (const event of streamModelDirect(modelId, modelUrl, messages, maxTokens, temperature, githubToken, signal)) {
+    for await (const event of streamModelDirect(modelId, modelKeys?.[modelId] ?? modelId, modelUrl, messages, maxTokens, temperature, githubToken, signal)) {
       if (event.type === 'chunk') {
         fullResponse += event.content;
         yield {
@@ -290,6 +293,7 @@ export async function* runDebate(params: DebateParams): AsyncGenerator<DebateEve
     githubToken,
     signal,
     modelEndpoints,
+    modelKeys,
     modelIdToName,
   } = params;
 
@@ -329,7 +333,8 @@ export async function* runDebate(params: DebateParams): AsyncGenerator<DebateEve
           githubToken,
           signal,
           modelEndpoints,
-          modelIdToName
+          modelIdToName,
+          modelKeys,
         )) {
           yield event;
 
