@@ -2,6 +2,7 @@ const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, PUT, DELETE, OPTIONS, POST',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  'Access-Control-Expose-Headers': 'X-Routed-Model, X-Route-Category',
 };
 
 // Category → preferred models (in priority order)
@@ -145,10 +146,11 @@ async function getAvailableModels(env) {
 
 async function routeAuto(env, body) {
   const available = await getAvailableModels(env);
-  const models = Object.keys(available);
-  if (models.length === 0) return null;
+  const modelKeys = Object.keys(available);
+  if (modelKeys.length === 0) return null;
 
-  const fallbackUrl = available[models[0]];
+  const fallbackKey = modelKeys[0];
+  const fallbackUrl = available[fallbackKey];
   const classifierUrl = available['functiongemma'];
 
   if (classifierUrl) {
@@ -179,14 +181,16 @@ async function routeAuto(env, body) {
           const { category } = JSON.parse(jsonMatch[0]);
           const candidates = ROUTE_MAP[category] || ROUTE_MAP.general;
           for (const candidate of candidates) {
-            if (available[candidate]) return available[candidate];
+            if (available[candidate]) {
+              return { url: available[candidate], modelKey: candidate, category };
+            }
           }
         }
       }
     } catch {}
   }
 
-  return fallbackUrl;
+  return { url: fallbackUrl, modelKey: fallbackKey, category: 'general' };
 }
 
 async function handleChatCompletions(request, env) {
@@ -199,15 +203,21 @@ async function handleChatCompletions(request, env) {
 
   const { model, stream } = body;
   let targetUrl;
+  let routingHeaders = {};
 
   if (model === 'auto') {
-    targetUrl = await routeAuto(env, body);
-    if (!targetUrl) {
+    const routed = await routeAuto(env, body);
+    if (!routed) {
       return jsonResponse(
         { error: { message: 'No models available', type: 'service_unavailable' } },
         503,
       );
     }
+    targetUrl = routed.url;
+    routingHeaders = {
+      'X-Routed-Model': routed.modelKey,
+      'X-Route-Category': routed.category,
+    };
   } else {
     const raw = await env.TUNNELS_KV.get(`tunnel:${model}`);
     const parsed = parseTunnelValue(raw);
@@ -233,12 +243,16 @@ async function handleChatCompletions(request, env) {
         ...CORS_HEADERS,
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache',
+        ...routingHeaders,
       },
     });
   }
 
   const data = await upstream.json();
-  return jsonResponse(data, upstream.status);
+  return new Response(JSON.stringify(data), {
+    status: upstream.status,
+    headers: { ...CORS_HEADERS, 'Content-Type': 'application/json', ...routingHeaders },
+  });
 }
 
 // ── Feature 3: Benchmarks ────────────────────────────────────────────────────

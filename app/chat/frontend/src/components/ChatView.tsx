@@ -18,6 +18,11 @@ export interface ChatViewHandle {
     scroll: (deltaY: number) => void;
 }
 
+export interface RoutingInfo {
+    routed_to: string;
+    category: string;
+}
+
 export interface ChatMessage {
     role: 'user' | 'assistant';
     content: string;
@@ -25,6 +30,7 @@ export interface ChatMessage {
     modelId?: string;
     error?: boolean;
     timing?: ExecutionTimeData;
+    routingInfo?: RoutingInfo;
 }
 
 interface ChatViewProps {
@@ -46,12 +52,20 @@ interface ChatViewProps {
     onlineModelIds?: Set<string>;
 }
 
+const CATEGORY_STYLE: Record<string, string> = {
+    coding:           'border-violet-500/40 bg-violet-500/10 text-violet-300',
+    reasoning:        'border-sky-500/40 bg-sky-500/10 text-sky-300',
+    function_calling: 'border-amber-500/40 bg-amber-500/10 text-amber-300',
+    general:          'border-emerald-500/40 bg-emerald-500/10 text-emerald-300',
+};
+
 interface ChatMessageItemProps {
     msg: ChatMessage;
     idx: number;
     gesturesActive: boolean;
     uiBuilderEnabled: boolean;
     isCopied: boolean;
+    showRouting: boolean;
     onCopy: (idx: number) => void;
     onGestureSelect: (value: string) => void;
 }
@@ -67,7 +81,7 @@ function getMessageBubbleClasses(role: 'user' | 'assistant', hasError?: boolean)
     return `${base} bg-slate-800/60 border border-slate-700/60 text-slate-200 rounded-tl-sm`;
 }
 
-const ChatMessageItem = memo(({ msg, idx, gesturesActive, uiBuilderEnabled, isCopied, onCopy, onGestureSelect }: ChatMessageItemProps) => {
+const ChatMessageItem = memo(({ msg, idx, gesturesActive, uiBuilderEnabled, isCopied, showRouting, onCopy, onGestureSelect }: ChatMessageItemProps) => {
     const hasGestureOptions = msg.role === 'assistant' && (gesturesActive || uiBuilderEnabled) && msg.content.includes('```json');
 
     return (
@@ -79,6 +93,11 @@ const ChatMessageItem = memo(({ msg, idx, gesturesActive, uiBuilderEnabled, isCo
                     {msg.role === 'user' ? <User size={12} /> : <Bot size={12} />}
                     {msg.role === 'user' ? 'You' : msg.modelName || 'Assistant'}
                     {msg.error && <AlertTriangle size={12} className="text-red-400" />}
+                    {showRouting && msg.routingInfo && (
+                        <span className={`inline-flex items-center gap-1 font-mono normal-case tracking-normal rounded px-1.5 py-px border ${CATEGORY_STYLE[msg.routingInfo.category] ?? CATEGORY_STYLE.general}`}>
+                            auto · {msg.routingInfo.category} · {msg.routingInfo.routed_to}
+                        </span>
+                    )}
                 </div>
                 <div className="prose prose-invert prose-sm max-w-none">
                     <FormattedContent text={msg.role === 'user' ? msg.content : extractTextWithoutJSON(msg.content)} />
@@ -138,6 +157,16 @@ const ChatView = forwardRef<ChatViewHandle, ChatViewProps>(({
     const [copiedMessageId, setCopiedMessageId] = useState<number | null>(null);
     const [streamingResponses, setStreamingResponses] = useState<Map<string, string>>(new Map());
     const [streamingTiming, setStreamingTiming] = useState<Map<string, ExecutionTimeData>>(new Map());
+    const [routeDebug, setRouteDebug] = useState(() => {
+        try { return localStorage.getItem('chat_route_debug') === '1'; } catch { return false; }
+    });
+    const toggleRouteDebug = useCallback(() => {
+        setRouteDebug(v => {
+            const next = !v;
+            try { localStorage.setItem('chat_route_debug', next ? '1' : '0'); } catch {}
+            return next;
+        });
+    }, []);
     const abortRefs = useRef<Map<string, AbortController>>(new Map());
     const scrollRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -291,8 +320,16 @@ const ChatView = forwardRef<ChatViewHandle, ChatViewProps>(({
                 let firstToken = true;
                 let firstTokenTime: number | undefined;
                 let hasError = false;
+                let routingInfo: RoutingInfo | undefined;
 
                 await streamSseEvents(stream, (event) => {
+                    if (event.event === 'routing') {
+                        routingInfo = {
+                            routed_to: String(event.routed_to ?? ''),
+                            category: String(event.category ?? 'general'),
+                        };
+                        return;
+                    }
                     if (event.event === 'error' || event.error === true) {
                         hasError = true;
                         content = typeof event.content === 'string' ? event.content : 'An error occurred';
@@ -321,6 +358,7 @@ const ChatView = forwardRef<ChatViewHandle, ChatViewProps>(({
                     modelName: model.name,
                     timing: { startTime, firstTokenTime, endTime },
                     error: hasError,
+                    routingInfo,
                 });
             } catch (err: any) {
                 if (err.name !== 'AbortError') {
@@ -427,6 +465,7 @@ const ChatView = forwardRef<ChatViewHandle, ChatViewProps>(({
                             gesturesActive={gesturesActive}
                             uiBuilderEnabled={uiBuilderEnabled}
                             isCopied={copiedMessageId === idx}
+                            showRouting={routeDebug}
                             onCopy={copyResponse}
                             onGestureSelect={handleGestureSelect}
                         />
@@ -458,6 +497,19 @@ const ChatView = forwardRef<ChatViewHandle, ChatViewProps>(({
             </div>
 
             <div className="fixed bottom-0 left-0 right-0 z-[99] flex flex-col items-center gap-2 px-4 pb-4" style={{ paddingBottom: 'calc(1rem + env(safe-area-inset-bottom))' }}>
+                <div className="w-full max-w-2xl flex justify-end pr-1">
+                    <button
+                        onClick={toggleRouteDebug}
+                        title="Toggle auto-routing debug pills"
+                        className={`text-[9px] font-mono px-1.5 py-px rounded border transition-colors ${
+                            routeDebug
+                                ? 'border-violet-500/50 bg-violet-500/10 text-violet-400'
+                                : 'border-slate-700/40 text-slate-600 hover:text-slate-500'
+                        }`}
+                    >
+                        route dbg
+                    </button>
+                </div>
                 <PromptInput
                     inputRef={inputRef}
                     inputFocused={inputFocused}

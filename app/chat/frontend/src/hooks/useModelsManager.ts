@@ -80,7 +80,17 @@ export function useModelsManager() {
           };
         });
 
-      setModelsData(apiModels);
+      // Prepend virtual "Auto" model — always available, gateway picks the best
+      const autoModel = {
+        id: 'auto',
+        name: 'Auto',
+        color: '#8b5cf6',
+        type: 'self-hosted' as const,
+        response: '',
+        priority: -1,
+        default: false,
+      };
+      setModelsData([autoModel, ...apiModels]);
 
       // Fetch online model keys from registry (best-effort)
       fetch(`${TUNNEL_REGISTRY}/v1/models`)
@@ -159,6 +169,11 @@ export function useModelsManager() {
     const isDev = window.location.hostname === 'localhost';
 
     models.forEach(model => {
+      if (model.id === 'auto') {
+        // Virtual model — always routes through the gateway
+        endpoints[model.id] = `${TUNNEL_REGISTRY}/v1`;
+        return;
+      }
       if (model.type === 'self-hosted') {
         const service = SERVICES.find(s => s.modelId === model.id);
         if (isDev) {
@@ -181,6 +196,8 @@ export function useModelsManager() {
     for (const service of SERVICES) {
       if (onlineKeys.has(service.key)) online.add(service.modelId);
     }
+    // "auto" is available whenever at least one self-hosted model is online
+    if (onlineKeys.size > 0) online.add('auto');
     return online;
   }, [onlineKeys, modelsData]);
 
