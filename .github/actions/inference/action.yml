@@ -168,11 +168,7 @@ runs:
       env:
         TUNNEL_WRITE_KEY: ${{ inputs.tunnel_write_key }}
       run: |
-        curl -fsSL --retry 5 --retry-delay 2 \
-          https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm64 \
-          -o /tmp/cloudflared || \
-          wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm64 \
-          -O /tmp/cloudflared
+        gh release download --repo cloudflare/cloudflared --pattern 'cloudflared-linux-arm64' -D /tmp
         chmod +x /tmp/cloudflared
 
         /tmp/cloudflared tunnel --no-autoupdate --url http://localhost:${{ inputs.port }} > /tmp/cloudflared.log 2>&1 &
