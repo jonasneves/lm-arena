@@ -170,6 +170,7 @@ runs:
         GH_TOKEN: ${{ inputs.github_token }}
       run: |
         gh release download --repo cloudflare/cloudflared --pattern 'cloudflared-linux-arm64' -D /tmp
+        mv /tmp/cloudflared-linux-arm64 /tmp/cloudflared
         chmod +x /tmp/cloudflared
 
         /tmp/cloudflared tunnel --no-autoupdate --url http://localhost:${{ inputs.port }} > /tmp/cloudflared.log 2>&1 &
