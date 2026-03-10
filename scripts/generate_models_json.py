@@ -25,6 +25,8 @@ def main():
             "type": "self-hosted",
             "priority": m.rank,
             "context_length": m.n_ctx,
+            "owned_by": m.owned_by,
+            "description": m.description,
         }
         for m in models
     ]

@@ -120,6 +120,8 @@
     tbody td { padding: 10px 12px; vertical-align: top; }
     tbody tr:hover > td { background: var(--surface-raised); }
 
+    .model-cell { display: flex; align-items: flex-start; gap: 8px; }
+    .model-icon { width: 16px; height: 16px; border-radius: 3px; flex-shrink: 0; margin-top: 1px; opacity: .85; }
     .model-name { font-weight: 500; font-size: 13px; }
     .model-sub  { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
     .val  { font-family: var(--font-mono); font-size: 12.5px; }
@@ -283,7 +285,7 @@
       modelMeta = Object.fromEntries(
         (data.models ?? [])
           .filter(m => m.key)
-          .map(m => [m.key, { name: m.name, description: m.description }])
+          .map(m => [m.key, { name: m.name, description: m.description, owned_by: m.owned_by }])
       );
     } catch { /* non-fatal */ }
   }
@@ -306,6 +308,30 @@
   // ---------------------------------------------------------------------------
   // Render
   // ---------------------------------------------------------------------------
+
+  const FAVICON_DOMAINS = {
+    'qwen':           'qwen.ai',
+    'microsoft':      'microsoft.com',
+    'google':         'deepmind.google',
+    'huggingfacetb':  'huggingface.co',
+    'liquidai':       'liquid.ai',
+    'alibaba-apsara': 'alibabacloud.com',
+    'openbmb':        'openbmb.cn',
+    'janhq':          'jan.ai',
+    'meta':           'meta.com',
+    'tii':            'falconllm.tii.ae',
+    'essentialai':    'essential.ai',
+    'deepseek':       'deepseek.com',
+    'nanbeige':       'huggingface.co',
+    'openai':         'openai.com',
+  };
+
+  function modelIcon(owned_by) {
+    const domain = FAVICON_DOMAINS[owned_by];
+    if (!domain) return '';
+    const src = `https://www.google.com/s2/favicons?domain=${domain}&sz=32`;
+    return `<img class="model-icon" src="${src}" alt="" loading="lazy">`;
+  }
 
   function fmt(v) {
     if (v == null) return '<span class="na">—</span>';
@@ -402,8 +428,13 @@
         const offline = m.functional === false;
         return `<tr${offline ? ' class="row-offline"' : ''}>
           <td>
-            <div class="model-name">${meta.name ?? m.model}${offline ? ' <span class="badge badge-offline">not responding</span>' : ''}</div>
-            ${meta.description ? `<div class="model-sub">${escHtml(meta.description)}</div>` : ''}
+            <div class="model-cell">
+              ${modelIcon(meta.owned_by)}
+              <div>
+                <div class="model-name">${meta.name ?? m.model}${offline ? ' <span class="badge badge-offline">not responding</span>' : ''}</div>
+                ${meta.description ? `<div class="model-sub">${escHtml(meta.description)}</div>` : ''}
+              </div>
+            </div>
           </td>
           <td>${o.p50_ms != null ? fmt(o.p50_ms + ' ms') : fmt(null)}</td>
           <td>${o.max_ms != null ? fmt(o.max_ms + ' ms') : fmt(null)}</td>
@@ -434,8 +465,13 @@
         const offline = m.functional === false;
         const summaryRow = `<tr${offline ? ' class="row-offline"' : ''}>
           <td>
-            <div class="model-name">${meta.name ?? m.model}${offline ? ' <span class="badge badge-offline">not responding</span>' : ''}</div>
-            ${meta.description ? `<div class="model-sub">${escHtml(meta.description)}</div>` : ''}
+            <div class="model-cell">
+              ${modelIcon(meta.owned_by)}
+              <div>
+                <div class="model-name">${meta.name ?? m.model}${offline ? ' <span class="badge badge-offline">not responding</span>' : ''}</div>
+                ${meta.description ? `<div class="model-sub">${escHtml(meta.description)}</div>` : ''}
+              </div>
+            </div>
           </td>
           <td>${accCell}</td>
           <td>${s.p50_ms != null ? fmt(s.p50_ms + ' ms') : fmt(null)}</td>
