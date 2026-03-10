@@ -83,7 +83,7 @@
       border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .suite-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+    .suite-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
     .tab {
       padding: 5px 14px; border-radius: var(--radius);
       font-size: 12.5px; cursor: pointer;
@@ -91,6 +91,27 @@
     }
     .tab:hover { border-color: var(--text-secondary); color: var(--text); }
     .tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    /* Suite tooltip */
+    .tab-wrap { position: relative; display: inline-flex; align-items: center; gap: 4px; }
+    .tip-icon {
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--surface-raised); border: 1px solid var(--border);
+      color: var(--text-secondary); font-size: 9px; font-weight: 700;
+      display: inline-flex; align-items: center; justify-content: center;
+      cursor: default; flex-shrink: 0; line-height: 1;
+    }
+    .tip-box {
+      position: absolute; bottom: calc(100% + 8px); left: 0;
+      background: var(--surface-raised); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 8px 10px;
+      font-size: 11.5px; color: var(--text-secondary); line-height: 1.5;
+      width: 230px; pointer-events: none;
+      opacity: 0; transition: opacity .15s;
+      z-index: 20;
+    }
+    .tip-box strong { color: var(--text); font-weight: 600; display: block; margin-bottom: 2px; }
+    .tab-wrap:hover .tip-box { opacity: 1; }
 
     /* Summary table */
     .table-wrap { overflow-x: auto; margin-bottom: 40px; }
@@ -189,6 +210,27 @@
 <script>
   const SUITES = ['overall', 'mmlu', 'instruct', 'gsm8k'];
 
+  const SUITE_INFO = {
+    overall: {
+      name: 'Overall',
+      desc: 'Aggregate latency (P50/P95) and throughput across all suites. No accuracy score — pure speed.',
+    },
+    mmlu: {
+      name: 'MMLU',
+      full: 'Massive Multitask Language Understanding',
+      desc: 'Factual knowledge across science, history, and math. Proxy: 10 questions from the original 57-subject academic benchmark.',
+    },
+    instruct: {
+      name: 'Instruct',
+      desc: 'Instruction following — 8 prompts requiring precise format compliance (single word, exact number). Tests whether the model follows directions without rambling.',
+    },
+    gsm8k: {
+      name: 'GSM8K',
+      full: 'Grade School Math 8K',
+      desc: 'Arithmetic word problems requiring multi-step reasoning. Proxy: 5 questions from the original 8,500-problem benchmark.',
+    },
+  };
+
   let runData    = {};   // model_id → metrics for active run
   let activeSuite = 'overall';
   let expanded    = new Set();
@@ -279,9 +321,14 @@
         }</select>`
       : `<span style="font-size:12px;color:var(--text-secondary)">${activeDate}</span>`;
 
-    const tabs = SUITES.map(s =>
-      `<button class="tab${s === activeSuite ? ' active' : ''}" onclick="setTab('${s}','${activeDate}')">${s}</button>`
-    ).join('');
+    const tabs = SUITES.map(s => {
+      const info = SUITE_INFO[s];
+      const tooltip = `<div class="tip-box"><strong>${info.full ?? info.name}</strong>${info.desc}</div>`;
+      return `<div class="tab-wrap">
+        <button class="tab${s === activeSuite ? ' active' : ''}" onclick="setTab('${s}','${activeDate}')">${s}</button>
+        <span class="tip-icon">?</span>${tooltip}
+      </div>`;
+    }).join('');
 
     let thead, rows;
 

@@ -4,27 +4,70 @@ on:
   workflow_dispatch:
 
 jobs:
+  detect:
+    runs-on: ubuntu-latest
+    outputs:
+      models: ${{ steps.list.outputs.models }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - name: List online models
+        id: list
+        env:
+          REGISTRY: https://tunnel-registry.jonasneves.workers.dev
+        run: |
+          MODELS=$(python scripts/benchmark.py --list-models)
+          echo "models=$MODELS" >> $GITHUB_OUTPUT
+          echo "Online: $MODELS"
+
   benchmark:
+    needs: detect
+    if: needs.detect.outputs.models != '[]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    strategy:
+      matrix:
+        model: ${{ fromJson(needs.detect.outputs.models) }}
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - name: Run benchmark
+        env:
+          TUNNEL_WRITE_KEY: ${{ secrets.TUNNEL_WRITE_KEY }}
+          REGISTRY: https://tunnel-registry.jonasneves.workers.dev
+        run: python scripts/benchmark.py --model ${{ matrix.model }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: result-${{ matrix.model }}
+          path: /tmp/benchmark-result.json
+
+  merge:
+    needs: benchmark
     runs-on: ubuntu-latest
     permissions:
       contents: write
       actions: write
     steps:
       - uses: actions/checkout@v4
-
+      - uses: actions/download-artifact@v4
+        with:
+          path: /tmp/results
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
-      - name: Install dependencies
-        run: pip install requests
-
-      - name: Run benchmarks
+      - run: pip install requests
+      - name: Merge results
         env:
-          TUNNEL_WRITE_KEY: ${{ secrets.TUNNEL_WRITE_KEY }}
           REGISTRY: https://tunnel-registry.jonasneves.workers.dev
-        run: python scripts/benchmark.py
-
+        run: python scripts/benchmark.py --merge /tmp/results
       - name: Commit results
         run: |
           git config user.name "github-actions[bot]"
@@ -33,7 +76,6 @@ jobs:
           git diff --cached --quiet || git commit -m "chore: benchmark results $(date -u +%Y-%m-%d)"
           git pull --rebase origin main
           git push
-
       - name: Trigger deploy
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -4,6 +4,12 @@ Benchmark runner for lm-arena.
 Calls /v1/chat/completions for each online model across three suites
 (MMLU, instruction-following, GSM8K), measures latency and throughput.
 
+Modes:
+  --list-models          Print JSON array of online model IDs and exit
+  --model <id>           Benchmark a single model, write result to /tmp/benchmark-result.json
+  --merge <dir>          Merge per-model result files into the final dated JSON + index
+  (no args)              Sequential: benchmark all online models (local dev)
+
 Writes results to:
   app/chat/frontend/public/benchmarks/YYYY-MM-DD.json   — full run with per-prompt traces
   app/chat/frontend/public/benchmarks/index.json        — list of available runs
@@ -11,6 +17,7 @@ Writes results to:
 Also pushes aggregate metrics to KV via PUT /benchmark/:model for the live page widget.
 """
 
+import argparse
 import json
 import os
 import statistics
@@ -25,6 +32,7 @@ WRITE_KEY  = os.environ.get("TUNNEL_WRITE_KEY", "")
 TIMEOUT    = 60
 MAX_TOKENS = 256
 OUT_DIR    = Path("app/chat/frontend/public/benchmarks")
+RESULT_FILE = Path("/tmp/benchmark-result.json")
 
 
 # ---------------------------------------------------------------------------
@@ -214,12 +222,10 @@ def push_to_kv(model_id, metrics):
 def write_results(today, all_results):
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Full run with traces
     run_file = OUT_DIR / f"{today}.json"
     run_file.write_text(json.dumps(all_results, indent=2))
     print(f"\nResults written to {run_file}")
 
-    # Update index
     index_file = OUT_DIR / "index.json"
     runs = []
     if index_file.exists():
@@ -235,25 +241,69 @@ def write_results(today, all_results):
 
 
 # ---------------------------------------------------------------------------
-# Main
+# CLI modes
 # ---------------------------------------------------------------------------
 
-def main():
+def cmd_list_models():
+    models = get_online_models()
+    print(json.dumps(models))
+
+
+def cmd_single(model_id):
+    metrics = benchmark_model(model_id)
+    push_to_kv(model_id, metrics)
+    RESULT_FILE.write_text(json.dumps({"model_id": model_id, "metrics": metrics}))
+    print(f"Result written to {RESULT_FILE}")
+
+
+def cmd_merge(results_dir):
+    """Merge per-model result files uploaded as artifacts into a single dated JSON."""
+    today = date.today().isoformat()
+    all_results = {}
+    for f in sorted(Path(results_dir).glob("*/benchmark-result.json")):
+        data = json.loads(f.read_text())
+        all_results[data["model_id"]] = data["metrics"]
+        print(f"  merged: {data['model_id']}")
+    if not all_results:
+        print("No results to merge — exiting.")
+        return
+    write_results(today, all_results)
+
+
+def cmd_all():
     models = get_online_models()
     if not models:
         print("No models online — exiting.")
         return
-
     print(f"Online models: {models}")
     today = date.today().isoformat()
     all_results = {}
-
     for model_id in models:
         metrics = benchmark_model(model_id)
         all_results[model_id] = metrics
         push_to_kv(model_id, metrics)
-
     write_results(today, all_results)
+
+
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--list-models", action="store_true", help="Print JSON array of online model IDs")
+    parser.add_argument("--model", metavar="ID", help="Benchmark a single model")
+    parser.add_argument("--merge", metavar="DIR", help="Merge per-model result files from artifact directory")
+    args = parser.parse_args()
+
+    if args.list_models:
+        cmd_list_models()
+    elif args.model:
+        cmd_single(args.model)
+    elif args.merge:
+        cmd_merge(args.merge)
+    else:
+        cmd_all()
 
 
 if __name__ == "__main__":
