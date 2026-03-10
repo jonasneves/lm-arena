@@ -16,6 +16,8 @@ inputs:
     required: true
   tunnel_write_key:
     required: true
+  benchmark_after:
+    default: 'false'
 
 runs:
   using: composite
@@ -215,6 +217,20 @@ runs:
           -d "{\"url\": \"$TUNNEL_URL\", \"runner_account\": \"${{ github.repository_owner }}\"}" \
           "https://tunnel-registry.jonasneves.workers.dev/tunnel/${{ inputs.model_name }}"
         echo "✓ Registered tunnel for ${{ inputs.model_name }}"
+
+    - name: Trigger benchmark
+      if: inputs.benchmark_after == 'true'
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github_token }}
+      run: |
+        curl -fsSL -X POST \
+          -H "Authorization: token $GH_TOKEN" \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "Content-Type: application/json" \
+          -d '{"ref": "main"}' \
+          "https://api.github.com/repos/${{ github.repository }}/actions/workflows/benchmark.yml/dispatches"
+        echo "✓ Benchmark triggered"
 
     - name: Cancel previous workflow
       if: steps.find_previous.outputs.previous_run_id != ''

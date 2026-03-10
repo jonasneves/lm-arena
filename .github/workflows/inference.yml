@@ -27,6 +27,11 @@ run-name: "${{ inputs.model }}"
         - r1qwen
         - rnj
         - smollm3
+      benchmark_after:
+        description: 'Trigger benchmark run once server is healthy'
+        required: false
+        default: false
+        type: boolean
 permissions:
   actions: write
   contents: read
@@ -46,3 +51,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           hf_token: ${{ secrets.HF_TOKEN }}
           tunnel_write_key: ${{ secrets.TUNNEL_WRITE_KEY }}
+          benchmark_after: ${{ inputs.benchmark_after }}
