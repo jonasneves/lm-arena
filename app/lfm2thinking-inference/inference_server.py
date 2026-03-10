@@ -20,6 +20,11 @@ config = LlamaServerConfig(
     default_port=8108,
     n_ctx=4096,
     max_concurrent=6,
+    # LFM2.5 uses short convolution + GQA blocks (no SSM); LiquidAI's design
+    # explicitly excludes flash attention. Both flash_attn and kv_cache_quant
+    # cause llama_decode -1 on this architecture. See docs/models/lfm2thinking.md
+    flash_attn=False,
+    kv_cache_quant=False,
 )
 
 app = create_llama_server_app(config)

@@ -34,6 +34,8 @@ class LlamaServerConfig:
     n_batch: int = 256
     max_concurrent: int = 2
     startup_timeout: int = 300
+    flash_attn: bool = True
+    kv_cache_quant: bool = True
     extra_args: Optional[List[str]] = None
 
 
@@ -45,7 +47,8 @@ def create_llama_server_app(config: LlamaServerConfig) -> FastAPI:
     n_threads = int(os.getenv("N_THREADS", str(config.n_threads)))
     n_batch = int(os.getenv("N_BATCH", str(config.n_batch)))
     max_concurrent = int(os.getenv("MAX_CONCURRENT", str(config.max_concurrent)))
-    kv_cache_quant = os.getenv("KV_CACHE_QUANT", "true").lower() in {"1", "true", "yes", "on"}
+    kv_cache_quant = os.getenv("KV_CACHE_QUANT", "true" if config.kv_cache_quant else "false").lower() in {"1", "true", "yes", "on"}
+    flash_attn = os.getenv("FLASH_ATTN", "true" if config.flash_attn else "false").lower() in {"1", "true", "yes", "on"}
     hf_token = os.getenv("HF_TOKEN")
     startup_timeout = int(os.getenv("STARTUP_TIMEOUT", str(config.startup_timeout)))
 
@@ -114,8 +117,10 @@ def create_llama_server_app(config: LlamaServerConfig) -> FastAPI:
             "--batch-size", str(n_batch),
             "--parallel", str(max_concurrent),
             "--cont-batching",
-            "--flash-attn", "auto",
         ]
+
+        if flash_attn:
+            cmd.extend(["--flash-attn", "auto"])
 
         if kv_cache_quant:
             cmd.extend(["--cache-type-k", "q8_0", "--cache-type-v", "q8_0"])
