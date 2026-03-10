@@ -121,6 +121,7 @@
     tbody tr:hover > td { background: var(--surface-raised); }
 
     .model-name { font-weight: 500; font-size: 13px; }
+    .model-sub  { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
     .val  { font-family: var(--font-mono); font-size: 12.5px; }
     .na   { color: var(--text-secondary); }
 
@@ -245,6 +246,7 @@
   };
 
   let runData    = {};   // model_id → metrics for active run
+  let modelMeta  = {};   // model_id → { name, description }
   let activeSuite = 'overall';
   let expanded    = new Set();
   let runs        = [];  // available run dates, newest first
@@ -270,9 +272,22 @@
     render(date);
   }
 
+  async function loadModelMeta() {
+    try {
+      const res = await fetch('./models.json');
+      if (!res.ok) return;
+      const data = await res.json();
+      modelMeta = Object.fromEntries(
+        (data.models ?? [])
+          .filter(m => m.id)
+          .map(m => [m.id, { name: m.name, description: m.description }])
+      );
+    } catch { /* non-fatal */ }
+  }
+
   async function init() {
     try {
-      await loadIndex();
+      await Promise.all([loadIndex(), loadModelMeta()]);
       await loadRun(runs[0]);
     } catch (e) {
       $main.innerHTML = `
@@ -376,8 +391,12 @@
         const o = m.overall || {};
         const tps = o.avg_tokens_per_sec ?? 0;
         const pct = Math.round((tps / maxTps) * 100);
+        const meta = modelMeta[m.model] || {};
         return `<tr>
-          <td><div class="model-name">${m.model}</div></td>
+          <td>
+            <div class="model-name">${meta.name ?? m.model}</div>
+            ${meta.description ? `<div class="model-sub">${escHtml(meta.description)}</div>` : ''}
+          </td>
           <td>${o.p50_ms != null ? fmt(o.p50_ms + ' ms') : fmt(null)}</td>
           <td>${o.max_ms != null ? fmt(o.max_ms + ' ms') : fmt(null)}</td>
           <td>${tps ? fmt(tps + ' t/s') : fmt(null)}</td>
@@ -403,8 +422,12 @@
           ? fmt(pct + '%') + (s.answered != null ? ` <span style="color:var(--text-secondary);font-size:11px">(${s.answered}/${s.prompts})</span>` : '')
           : fmt(null);
 
+        const meta = modelMeta[m.model] || {};
         const summaryRow = `<tr>
-          <td><div class="model-name">${m.model}</div></td>
+          <td>
+            <div class="model-name">${meta.name ?? m.model}</div>
+            ${meta.description ? `<div class="model-sub">${escHtml(meta.description)}</div>` : ''}
+          </td>
           <td>${accCell}</td>
           <td>${s.p50_ms != null ? fmt(s.p50_ms + ' ms') : fmt(null)}</td>
           <td class="bar-cell"><div class="bar-bg"><div class="bar-fill" style="width:${pct}%"></div></div></td>
