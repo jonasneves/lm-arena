@@ -4,6 +4,8 @@
  */
 
 import { splitThinkingContent } from '../utils/thinking';
+import { DEBATE_TURN_SYSTEM } from '../constants';
+import { readSseStream } from '../utils/streaming';
 
 export interface DebateTurn {
   turn_number: number;
@@ -130,38 +132,7 @@ async function* streamModelDirect(
       return;
     }
 
-    const reader = response.body!.getReader();
-    const decoder = new TextDecoder();
-    let buffer = '';
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-
-      buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split('\n');
-      buffer = lines.pop() || '';
-
-      for (const line of lines) {
-        if (line.startsWith('data: ')) {
-          const data = line.slice(6);
-          if (data === '[DONE]') {
-            yield { type: 'done' };
-            return;
-          }
-
-          try {
-            const parsed = JSON.parse(data);
-            const content = parsed.choices?.[0]?.delta?.content;
-            if (content) {
-              yield { type: 'chunk', content };
-            }
-          } catch {
-            // Skip malformed JSON
-          }
-        }
-      }
-    }
+    yield* readSseStream(response.body!);
   } catch (error: unknown) {
     if (error instanceof Error && error.name === 'AbortError') {
       return;
@@ -216,28 +187,7 @@ async function* executeTurn(
     if (systemPrompt) {
       messages.push({ role: 'system', content: systemPrompt });
     }
-    messages.push({
-      role: 'system',
-      content: `You are participating in a multi-model debate.
-
-Guidelines for your response:
-- Focus on facts and problem-solving with direct, objective information
-- Show your reasoning step-by-step, but keep each step concise
-- Avoid unnecessary superlatives, praise, or emotional validation
-- Do not repeat the question or add meta-commentary
-- Get straight to the analysis - no preamble like "Let me think about this"
-- When uncertain, acknowledge it and explain why rather than claiming certainty
-- Be professional and objective - prioritize technical accuracy over validation
-
-Your task:
-- Respond to the question considering previous responses (if any)
-- You may build on, challenge, or offer alternatives to earlier points
-- Bring new perspectives or evidence to the discussion
-- Reference specific points from others when relevant, but stay concise
-- No meta-commentary about the debate process itself
-
-Target length: 100-200 words.`
-    });
+    messages.push({ role: 'system', content: DEBATE_TURN_SYSTEM });
     messages.push({ role: 'user', content: prompt });
 
     for await (const event of streamModelDirect(modelId, modelKeys?.[modelId] ?? modelId, modelUrl, messages, maxTokens, temperature, githubToken, signal)) {

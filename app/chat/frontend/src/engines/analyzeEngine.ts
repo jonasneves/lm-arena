@@ -4,6 +4,8 @@
  */
 
 import { splitThinkingContent } from '../utils/thinking';
+import { ANALYZE_RESPONSE_SYSTEM } from '../constants';
+import { readSseStream } from '../utils/streaming';
 
 export interface AnalyzeEvent {
   type: 'analyze_start' | 'model_start' | 'model_chunk' | 'model_response' | 'model_error' | 'analysis_complete' | 'analyze_complete' | 'error';
@@ -161,38 +163,7 @@ async function* streamModelDirect(
       return;
     }
 
-    const reader = response.body!.getReader();
-    const decoder = new TextDecoder();
-    let buffer = '';
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-
-      buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split('\n');
-      buffer = lines.pop() || '';
-
-      for (const line of lines) {
-        if (line.startsWith('data: ')) {
-          const data = line.slice(6);
-          if (data === '[DONE]') {
-            yield { type: 'done' };
-            return;
-          }
-
-          try {
-            const parsed = JSON.parse(data);
-            const content = parsed.choices?.[0]?.delta?.content;
-            if (content) {
-              yield { type: 'chunk', content };
-            }
-          } catch {
-            // Skip malformed JSON
-          }
-        }
-      }
-    }
+    yield* readSseStream(response.body!);
   } catch (error: unknown) {
     if (error instanceof Error && error.name === 'AbortError') {
       return;
@@ -215,27 +186,7 @@ export async function* runAnalyze(params: AnalyzeParams): AsyncGenerator<Analyze
   if (systemPrompt) {
     messages.push({ role: 'system', content: systemPrompt });
   }
-  messages.push({
-    role: 'system',
-    content: `You are participating in a multi-model analysis session.
-
-Guidelines for your response:
-- Focus on facts and problem-solving with direct, objective information
-- Show your reasoning step-by-step, but keep each step concise
-- Avoid unnecessary superlatives, praise, or emotional validation
-- Do not repeat the question or add meta-commentary
-- Get straight to the analysis - no preamble like "Let me think about this"
-- When uncertain, acknowledge it and explain why rather than claiming certainty
-- Be professional and objective - prioritize technical accuracy over validation
-
-Your task:
-- Provide your independent analysis of the question
-- Your response will be compared with other models to identify consensus and divergence
-- Focus on clear reasoning and key insights
-- No need to mention other models or compare approaches
-
-Target length: 100-200 words.`
-  });
+  messages.push({ role: 'system', content: ANALYZE_RESPONSE_SYSTEM });
   messages.push({ role: 'user', content: query });
 
   const modelResponses: Record<string, string> = {};
