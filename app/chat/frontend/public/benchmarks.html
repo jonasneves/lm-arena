@@ -221,22 +221,26 @@
 
   const SUITE_INFO = {
     overall: {
+      label: 'overall',
       name: 'Overall',
-      desc: 'Aggregate latency (P50/P95) and throughput across all suites. No accuracy score — pure speed.',
+      desc: 'Aggregate latency (P50/max) and throughput across all suites. No accuracy score — pure speed.',
     },
     mmlu: {
-      name: 'MMLU',
-      full: 'Massive Multitask Language Understanding',
-      desc: 'Factual knowledge across science, history, and math. Proxy: 10 questions from the original 57-subject academic benchmark.',
+      label: 'mmlu · 10q',
+      name: 'mini-MMLU',
+      full: 'mini-MMLU (10 questions)',
+      desc: 'Factual knowledge across science, history, and math. 10-question proxy — not comparable to published MMLU scores (57 subjects, 14k questions).',
     },
     instruct: {
+      label: 'instruct · 8q',
       name: 'Instruct',
       desc: 'Instruction following — 8 prompts requiring precise format compliance (single word, exact number). Tests whether the model follows directions without rambling.',
     },
     gsm8k: {
-      name: 'GSM8K',
-      full: 'Grade School Math 8K',
-      desc: 'Arithmetic word problems requiring multi-step reasoning. Proxy: 5 questions from the original 8,500-problem benchmark.',
+      label: 'gsm8k · 5q',
+      name: 'mini-GSM8K',
+      full: 'mini-GSM8K (5 questions)',
+      desc: 'Arithmetic word problems requiring multi-step reasoning. 5-question proxy — not comparable to published GSM8K scores (8,500 problems).',
     },
   };
 
@@ -352,7 +356,7 @@
       const info = SUITE_INFO[s];
       const tooltip = `<div class="tip-box"><strong>${info.full ?? info.name}</strong>${info.desc}</div>`;
       return `<div class="tab-wrap">
-        <button class="tab${s === activeSuite ? ' active' : ''}" onclick="setTab('${s}','${activeDate}')">${s}</button>
+        <button class="tab${s === activeSuite ? ' active' : ''}" onclick="setTab('${s}','${activeDate}')">${info.label}</button>
         ${tooltip}
       </div>`;
     }).join('');
@@ -364,9 +368,9 @@
       thead = `<tr>
         <th>Model</th>
         <th>P50 latency</th>
-        <th>P95 latency</th>
+        <th>Max latency</th>
         <th>Tokens/sec</th>
-        <th class="bar-cell">Speed</th>
+        <th class="bar-cell">Speed <span style="font-weight:400;opacity:.6">(relative)</span></th>
       </tr>`;
       rows = sorted.map(m => {
         const o = m.overall || {};
@@ -375,7 +379,7 @@
         return `<tr>
           <td><div class="model-name">${m.model}</div></td>
           <td>${o.p50_ms != null ? fmt(o.p50_ms + ' ms') : fmt(null)}</td>
-          <td>${o.p95_ms != null ? fmt(o.p95_ms + ' ms') : fmt(null)}</td>
+          <td>${o.max_ms != null ? fmt(o.max_ms + ' ms') : fmt(null)}</td>
           <td>${tps ? fmt(tps + ' t/s') : fmt(null)}</td>
           <td class="bar-cell"><div class="bar-bg"><div class="bar-fill" style="width:${pct}%"></div></div></td>
         </tr>`;

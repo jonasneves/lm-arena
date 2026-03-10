@@ -4,29 +4,9 @@ run-name: "${{ inputs.model }}"
   workflow_dispatch:
     inputs:
       model:
-        description: Model to run
+        description: 'Model name (run `python config/models.py` to list valid names)'
         required: true
-        type: choice
-        options:
-        - agentcpm
-        - dasd
-        - falcon
-        - functiongemma
-        - gemma
-        - gemma3n
-        - gptoss
-        - jancode
-        - lfm2
-        - lfm2mini
-        - lfm2thinking
-        - llama
-        - nanbeige
-        - phi
-        - phireasoning
-        - qwen
-        - r1qwen
-        - rnj
-        - smollm3
+        type: string
       benchmark_after:
         description: 'Trigger benchmark run once server is healthy'
         required: false

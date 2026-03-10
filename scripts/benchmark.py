@@ -20,6 +20,7 @@ Also pushes aggregate metrics to KV via PUT /benchmark/:model for the live page 
 import argparse
 import json
 import os
+import re
 import statistics
 import time
 from datetime import date, datetime, timezone
@@ -122,7 +123,8 @@ def run_prompt(model_id, prompt):
 
 
 def exact_match(response, expected):
-    return expected.lower() in response.lower()
+    # Word-boundary match: "6" must not be part of "16" or "60"; "Au" must not be part of "beautiful"
+    return bool(re.search(r'\b' + re.escape(expected.lower()) + r'\b', response.lower()))
 
 
 # ---------------------------------------------------------------------------
@@ -175,7 +177,7 @@ def benchmark_model(model_id):
             "correct": correct_count,
             "accuracy": round(correct_count / answered, 3) if answered else 0,
             "p50_ms": round(statistics.median(suite_latencies), 1) if suite_latencies else None,
-            "p95_ms": round(sorted(suite_latencies)[int(len(suite_latencies) * 0.95)], 1) if len(suite_latencies) >= 2 else None,
+            "max_ms": round(max(suite_latencies), 1) if suite_latencies else None,
             "traces": traces,
         }
 
@@ -186,7 +188,7 @@ def benchmark_model(model_id):
         "suites": suites_out,
         "overall": {
             "p50_ms": round(statistics.median(all_latencies), 1) if all_latencies else None,
-            "p95_ms": round(sorted(all_latencies)[int(len(all_latencies) * 0.95)], 1) if len(all_latencies) >= 2 else None,
+            "max_ms": round(max(all_latencies), 1) if all_latencies else None,
             "avg_tokens_per_sec": round(statistics.mean(all_tps), 1) if all_tps else None,
         },
     }
