@@ -285,6 +285,25 @@ export function useSessionController(params: SessionControllerParams) {
             applyThinkingChunk(modelId, String(data.content ?? ''));
           }
 
+          if (data.event === 'error' && data.model_id) {
+            const modelId = data.model_id as string;
+            const now = performance.now();
+            const errorText = String(data.content ?? 'Error generating response.');
+            setExecutionTimes(prev => ({
+              ...prev,
+              [modelId]: { ...prev[modelId], endTime: now },
+            }));
+            setSpeaking(prev => {
+              const next = new Set(prev);
+              next.delete(modelId);
+              return next;
+            });
+            setModelsData(prev => prev.map(model =>
+              model.id === modelId ? { ...model, response: errorText, error: errorText } : model,
+            ));
+            markModelFailed(modelId);
+          }
+
           if (data.event === 'done' && data.model_id) {
             const now = performance.now();
             const modelId = data.model_id as string;
