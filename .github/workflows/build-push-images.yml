@@ -133,12 +133,16 @@ jobs:
           if echo "$LLAMA_SERVER_MODELS" | grep -qw "$MODEL"; then
             DOCKERFILE="./app/shared/Dockerfile.llama-server"
             CONTEXT="."
-            BUILD_ARGS="MODEL_DIR=$MODEL
-LLAMA_COMMIT=$LLAMA_COMMIT"
+            {
+              echo 'build_args<<EOF'
+              echo "MODEL_DIR=$MODEL"
+              echo "LLAMA_COMMIT=$LLAMA_COMMIT"
+              echo EOF
+            } >> $GITHUB_OUTPUT
           else
             DOCKERFILE="./app/shared/Dockerfile.inference"
             CONTEXT="."
-            BUILD_ARGS="MODEL_DIR=$MODEL"
+            echo "build_args=MODEL_DIR=$MODEL" >> $GITHUB_OUTPUT
           fi
 
           if [ -f "$DOCKERFILE" ]; then
@@ -151,8 +155,6 @@ LLAMA_COMMIT=$LLAMA_COMMIT"
           echo "context=$CONTEXT" >> $GITHUB_OUTPUT
           echo "scope=$MODEL-$HASH" >> $GITHUB_OUTPUT
           echo "Using Dockerfile: $DOCKERFILE (scope: $MODEL-$HASH)"
-
-          echo "build_args=$BUILD_ARGS" >> $GITHUB_OUTPUT
 
       - name: Build and push
         uses: docker/build-push-action@v5
