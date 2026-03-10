@@ -21,6 +21,10 @@ Self-hosted LLM inference using GitHub Actions as compute. Each model runs in a 
 | 12 | **FunctionGemma 270M** | 270M | 50 t/s on Pixel 8, 32K context | Edge agents, mobile function calling |
 | 13 | **GPT-OSS 20B** | 20B MoE (3.6B active) | Function calling, agentic operations | Experimental MoE, agent operations |
 
+## Benchmarks
+
+Live results at [lm-arena.github.io/benchmarks.html](https://lm-arena.github.io/benchmarks.html) — latency, tokens/sec, and per-prompt traces across MMLU, instruction-following, and GSM8K suites.
+
 ## Local Development
 
 ```bash
