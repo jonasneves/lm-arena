@@ -78,9 +78,7 @@ RUN chown -R appuser:appuser /app
 
 USER appuser
 
-# MODEL_NAME selects the model from config/models.py at runtime
-ARG MODEL_NAME
-ENV MODEL_NAME=${MODEL_NAME}
+# MODEL_NAME is set at runtime (docker run -e MODEL_NAME=...) not baked in
 ENV PORT=8000
 
 EXPOSE 8000

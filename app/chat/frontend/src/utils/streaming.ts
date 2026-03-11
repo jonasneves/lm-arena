@@ -220,6 +220,10 @@ export async function* readSseStream(
 
         try {
           const parsed = JSON.parse(data);
+          if (parsed.error) {
+            yield { type: 'error', error: String(parsed.error) };
+            return;
+          }
           const content = parsed.choices?.[0]?.delta?.content;
           if (content) {
             yield { type: 'chunk', content };

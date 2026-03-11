@@ -77,12 +77,13 @@ jobs:
         run: |
           MODELS="${{ steps.detect.outputs.models }}"
 
-          if [ "$MODELS" = "all" ] || [ -z "$MODELS" ]; then
+          if [ "$MODELS" = "all" ]; then
             # Get inference directories from Python config (single source of truth)
             INFERENCE_MODELS=$(python3 config/models.py --inference-dirs)
-
-            # Combine inference models with core services
             MATRIX=$(echo "$INFERENCE_MODELS" | jq -c '.')
+          elif [ -z "$MODELS" ]; then
+            # No relevant changes detected; skip all builds
+            MATRIX="[]"
           else
             # Build only specified models (use -c for compact output)
             MATRIX=$(echo "$MODELS" | jq -cR 'split(",") | map(select(length > 0))')
@@ -137,12 +138,8 @@ jobs:
           if [ "$DOCKERFILE_TYPE" = "llama-server" ]; then
             DOCKERFILE="./app/shared/Dockerfile.llama-server"
             CONTEXT="."
-            {
-              echo 'build_args<<EOF'
-              echo "MODEL_NAME=$MODEL_NAME"
-              echo "LLAMA_COMMIT=$LLAMA_COMMIT"
-              echo EOF
-            } >> $GITHUB_OUTPUT
+            # Only LLAMA_COMMIT is a build arg; MODEL_NAME is set at runtime
+            echo "build_args=LLAMA_COMMIT=$LLAMA_COMMIT" >> $GITHUB_OUTPUT
           else
             DOCKERFILE="./app/shared/Dockerfile.inference"
             CONTEXT="."

@@ -218,43 +218,26 @@ export async function* runAnalyze(params: AnalyzeParams): AsyncGenerator<Analyze
     }
   }
 
-  const streams = participants.map(modelId => streamModel(modelId));
-  const queues: Array<{ queue: Array<AnalyzeEvent | null>; done: boolean }> = streams.map(() => ({
-    queue: [],
-    done: false,
-  }));
+  // Merge all model streams concurrently using Promise.race (no polling)
+  type ActiveEntry = {
+    gen: AsyncGenerator<AnalyzeEvent>;
+    idx: number;
+    next: Promise<{ result: IteratorResult<AnalyzeEvent>; idx: number }>;
+  };
 
-  const tasks = streams.map(async (stream, index) => {
-    try {
-      for await (const event of stream) {
-        queues[index].queue.push(event);
-      }
-    } finally {
-      queues[index].queue.push(null);
-      queues[index].done = true;
-    }
+  const active: ActiveEntry[] = participants.map((modelId, idx) => {
+    const gen = streamModel(modelId);
+    return { gen, idx, next: gen.next().then(result => ({ result, idx })) };
   });
 
-  Promise.all(tasks).catch(() => {});
-
-  let activeStreams = queues.length;
-  while (activeStreams > 0) {
-    let yielded = false;
-
-    for (const queueData of queues) {
-      if (queueData.queue.length > 0) {
-        const event = queueData.queue.shift()!;
-        if (event === null) {
-          activeStreams--;
-        } else {
-          yield event;
-          yielded = true;
-        }
-      }
-    }
-
-    if (!yielded && activeStreams > 0) {
-      await new Promise(resolve => setTimeout(resolve, 10));
+  while (active.length > 0) {
+    const { result, idx } = await Promise.race(active.map(e => e.next));
+    const entryIdx = active.findIndex(e => e.idx === idx);
+    if (result.done) {
+      active.splice(entryIdx, 1);
+    } else {
+      yield result.value;
+      active[entryIdx].next = active[entryIdx].gen.next().then(result => ({ result, idx }));
     }
   }
 

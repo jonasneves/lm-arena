@@ -243,6 +243,11 @@ def create_inference_app(config: InferenceAppConfig) -> FastAPI:
     ):
         try:
             start_time = time.perf_counter()
+            generated_text = ""
+            first_token_time: Optional[float] = None
+            lock_acquired: float = 0.0
+            generation_done: float = 0.0
+
             async with inference_lock:
                 lock_acquired = time.perf_counter()
                 response = await asyncio.to_thread(
@@ -254,8 +259,6 @@ def create_inference_app(config: InferenceAppConfig) -> FastAPI:
                     stream=True,
                 )
 
-                generated_text = ""
-                first_token_time: Optional[float] = None
                 for chunk in response:
                     if "choices" in chunk and len(chunk["choices"]) > 0:
                         delta = chunk["choices"][0].get("delta", {})
@@ -268,57 +271,58 @@ def create_inference_app(config: InferenceAppConfig) -> FastAPI:
                             await asyncio.sleep(0)
 
                 generation_done = time.perf_counter()
+            # Semaphore released — tokenize outside the lock to unblock concurrent requests
+            prompt_text = "\n".join([f"{m['role']}: {m['content']}" for m in messages])
+            prompt_tokens = len(llm.tokenize(prompt_text.encode()))
+            completion_tokens = len(llm.tokenize(generated_text.encode()))
+            total_tokens = prompt_tokens + completion_tokens
+            tokenization_done = time.perf_counter()
 
-                prompt_text = "\n".join([f"{m['role']}: {m['content']}" for m in messages])
-                prompt_tokens = len(llm.tokenize(prompt_text.encode()))
-                completion_tokens = len(llm.tokenize(generated_text.encode()))
-                total_tokens = prompt_tokens + completion_tokens
-                tokenization_done = time.perf_counter()
+            usage_chunk = {
+                "choices": [{"delta": {}, "finish_reason": "stop"}],
+                "usage": {
+                    "prompt_tokens": prompt_tokens,
+                    "completion_tokens": completion_tokens,
+                    "total_tokens": total_tokens,
+                },
+            }
 
-                usage_chunk = {
-                    "choices": [{"delta": {}, "finish_reason": "stop"}],
-                    "usage": {
-                        "prompt_tokens": prompt_tokens,
-                        "completion_tokens": completion_tokens,
-                        "total_tokens": total_tokens,
-                    },
+            if include_perf:
+                queue_ms = int((lock_acquired - start_time) * 1000)
+                total_ms = int((tokenization_done - start_time) * 1000)
+                generation_ms = int((generation_done - lock_acquired) * 1000)
+                tokenize_ms = int((tokenization_done - generation_done) * 1000)
+                ttft_ms = (
+                    int((first_token_time - start_time) * 1000)
+                    if first_token_time is not None
+                    else None
+                )
+                completion_tps = (
+                    round(completion_tokens / (generation_ms / 1000), 2)
+                    if generation_ms > 0
+                    else None
+                )
+                usage_chunk["perf"] = {
+                    "queue_ms": queue_ms,
+                    "ttft_ms": ttft_ms,
+                    "generation_ms": generation_ms,
+                    "tokenize_ms": tokenize_ms,
+                    "total_ms": total_ms,
+                    "completion_tps": completion_tps,
+                    "n_ctx": n_ctx,
+                    "n_threads": n_threads,
+                    "n_batch": n_batch,
+                    "max_concurrent": max_concurrent,
                 }
 
-                if include_perf:
-                    queue_ms = int((lock_acquired - start_time) * 1000)
-                    total_ms = int((tokenization_done - start_time) * 1000)
-                    generation_ms = int((generation_done - lock_acquired) * 1000)
-                    tokenize_ms = int((tokenization_done - generation_done) * 1000)
-                    ttft_ms = (
-                        int((first_token_time - start_time) * 1000)
-                        if first_token_time is not None
-                        else None
-                    )
-                    completion_tps = (
-                        round(completion_tokens / (generation_ms / 1000), 2)
-                        if generation_ms > 0
-                        else None
-                    )
-                    usage_chunk["perf"] = {
-                        "queue_ms": queue_ms,
-                        "ttft_ms": ttft_ms,
-                        "generation_ms": generation_ms,
-                        "tokenize_ms": tokenize_ms,
-                        "total_ms": total_ms,
-                        "completion_tps": completion_tps,
-                        "n_ctx": n_ctx,
-                        "n_threads": n_threads,
-                        "n_batch": n_batch,
-                        "max_concurrent": max_concurrent,
-                    }
+                if log_perf:
+                    print(f"perf stream queue_ms={queue_ms} ttft_ms={ttft_ms} gen_ms={generation_ms} tok_ms={tokenize_ms} total_ms={total_ms} completion_tokens={completion_tokens} completion_tps={completion_tps}")
 
-                    if log_perf:
-                        print(f"perf stream queue_ms={queue_ms} ttft_ms={ttft_ms} gen_ms={generation_ms} tok_ms={tokenize_ms} total_ms={total_ms} completion_tokens={completion_tokens} completion_tps={completion_tps}")
-
-                yield f"data: {json.dumps(usage_chunk)}\n\n"
-                yield "data: [DONE]\n\n"
+            yield f"data: {json.dumps(usage_chunk)}\n\n"
+            yield "data: [DONE]\n\n"
         except Exception as e:
-            yield f"data: {json.dumps({'error': str(e)})}\n\n"
+            print(f"Stream error: {e}")
+            yield f"data: {json.dumps({'error': 'Generation failed'})}\n\n"
 
     @app.post("/v1/chat/completions")
     async def chat_completions(request: GenerateRequest):
@@ -395,6 +399,7 @@ def create_inference_app(config: InferenceAppConfig) -> FastAPI:
 
             return result
         except Exception as e:
-            raise HTTPException(status_code=500, detail=str(e))
+            print(f"Completion error: {e}")
+            raise HTTPException(status_code=500, detail="Generation failed")
 
     return app
