@@ -211,7 +211,12 @@ export async function* streamCompletion(
       return;
     }
 
-    yield* readSseStream(response.body!);
+    if (!response.body) {
+      yield { type: 'error', error: 'No response body' };
+      return;
+    }
+
+    yield* readSseStream(response.body);
   } catch (error: unknown) {
     if (error instanceof Error && error.name === 'AbortError') {
       return;

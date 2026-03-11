@@ -174,7 +174,8 @@ async function routeAuto(env, body) {
   const modelKeys = Object.keys(available);
   if (modelKeys.length === 0) return null;
 
-  const fallbackKey = modelKeys[0];
+  const generalCandidates = ROUTE_MAP.general || [];
+  const fallbackKey = generalCandidates.find(k => available[k]) || modelKeys[0];
   const fallbackUrl = available[fallbackKey];
   const classifierUrl = available['functiongemma'];
 
