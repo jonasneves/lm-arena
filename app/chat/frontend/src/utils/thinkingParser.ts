@@ -5,7 +5,6 @@ export interface ThinkingState {
   inThink: boolean;
   carry: string;
   implicitThinking?: boolean;
-  harmonyFormat?: boolean;
 }
 
 /**
@@ -22,8 +21,9 @@ export interface ThinkingParseResult {
  *
  * Handles:
  * - Standard <think>...</think> and <thinking>...</thinking> tags
- * - Harmony format (GPT-OSS): <|channel|>analysis/final<|message|>
- * - Implicit thinking mode (DeepSeek R1 style)
+ * - Implicit thinking mode (DeepSeek R1 style: close tag before open tag)
+ *
+ * Note: Harmony format (GPT-OSS <|channel|>) is handled post-stream in thinking.ts.
  */
 export function parseThinkingChunk(
   rawChunk: string,
@@ -48,32 +48,6 @@ export function parseThinkingChunk(
 
   let thinkingAdd = '';
   let answerAdd = '';
-
-  // Handle Harmony format (GPT-OSS)
-  if (newState.harmonyFormat) {
-    const finalChannelMarker = '<|channel|>final<|message|>';
-    const finalIdx = textChunk.indexOf(finalChannelMarker);
-
-    if (finalIdx !== -1) {
-      if (newState.inThink) {
-        thinkingAdd += textChunk.slice(0, finalIdx);
-      }
-      newState.inThink = false;
-      answerAdd += textChunk.slice(finalIdx + finalChannelMarker.length);
-    } else if (newState.inThink) {
-      const cleanChunk = textChunk
-        .replace(/<\|channel\|>analysis<\|message\|>/gi, '')
-        .replace(/<\|end\|>/gi, '')
-        .replace(/<\|start\|>/gi, '')
-        .replace(/assistant/gi, '');
-      thinkingAdd += cleanChunk;
-    } else {
-      const cleanChunk = textChunk.replace(/<\|end\|>/gi, '');
-      answerAdd += cleanChunk;
-    }
-
-    return { answerAdd, thinkingAdd, newState };
-  }
 
   // Check for implicit thinking mode
   if (!newState.inThink && !newState.implicitThinking) {

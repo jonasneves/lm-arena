@@ -146,7 +146,8 @@ jobs:
           else
             DOCKERFILE="./app/shared/Dockerfile.inference"
             CONTEXT="."
-            echo "build_args=MODEL_DIR=$MODEL" >> $GITHUB_OUTPUT
+            # Dockerfile.inference uses MODEL_NAME at runtime (env var), not a build arg
+            echo "build_args=" >> $GITHUB_OUTPUT
           fi
 
           if [ -f "$DOCKERFILE" ]; then

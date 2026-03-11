@@ -56,9 +56,10 @@ def create_llama_server_app(config: LlamaServerConfig) -> FastAPI:
     @asynccontextmanager
     async def lifespan(app: FastAPI):
         nonlocal llama_process, http_client
+        import asyncio
         check_llama_server()
-        model_path = download_model()
-        llama_process = start_llama_server(model_path)
+        model_path = await asyncio.to_thread(download_model)
+        llama_process = await asyncio.to_thread(start_llama_server, model_path)
         http_client = httpx.AsyncClient(
             base_url=f"http://127.0.0.1:{LLAMA_SERVER_PORT}",
             timeout=300.0,
@@ -85,6 +86,7 @@ def create_llama_server_app(config: LlamaServerConfig) -> FastAPI:
 
     llama_process: Optional[subprocess.Popen] = None
     http_client: Optional[httpx.AsyncClient] = None
+    server_log_file: Optional[object] = None
 
     def check_llama_server():
         llama_path = "/usr/local/bin/llama-server"
@@ -148,11 +150,12 @@ def create_llama_server_app(config: LlamaServerConfig) -> FastAPI:
 
         logger.info(f"Starting llama-server: {' '.join(cmd)}")
 
-        server_log = open(log_path, "w", buffering=1)
+        nonlocal server_log_file
+        server_log_file = open(log_path, "w", buffering=1)
 
         process = subprocess.Popen(
             cmd,
-            stdout=server_log,
+            stdout=server_log_file,
             stderr=subprocess.STDOUT,
             text=True,
             bufsize=1,
@@ -186,7 +189,7 @@ def create_llama_server_app(config: LlamaServerConfig) -> FastAPI:
         raise RuntimeError(f"llama-server did not become healthy in {startup_timeout}s")
 
     def cleanup():
-        nonlocal llama_process
+        nonlocal llama_process, server_log_file
         if llama_process:
             logger.info("Shutting down llama-server...")
             llama_process.terminate()
@@ -194,6 +197,12 @@ def create_llama_server_app(config: LlamaServerConfig) -> FastAPI:
                 llama_process.wait(timeout=5)
             except subprocess.TimeoutExpired:
                 llama_process.kill()
+        if server_log_file is not None:
+            try:
+                server_log_file.close()
+            except Exception:
+                pass
+            server_log_file = None
 
     @app.get("/health")
     async def health():
@@ -212,8 +221,9 @@ def create_llama_server_app(config: LlamaServerConfig) -> FastAPI:
 
     @app.get("/health/details")
     async def health_details():
+        is_alive = llama_process is not None and llama_process.poll() is None
         return {
-            "status": "healthy",
+            "status": "healthy" if is_alive else "down",
             "model": config.display_name,
             "format": "GGUF",
             "repo": model_repo,
@@ -291,8 +301,6 @@ def create_llama_server_app(config: LlamaServerConfig) -> FastAPI:
 
 def create_llama_server_app_for_model(model_name: str) -> FastAPI:
     """Create a llama-server app by model name, reading all config from config/models.py."""
-    import sys
-    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
     from config.models import get_model
 
     m = get_model(model_name)

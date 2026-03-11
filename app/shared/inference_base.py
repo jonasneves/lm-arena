@@ -93,9 +93,6 @@ def _download_model(default_repo: str, default_file: str) -> str:
 
 def create_app_for_model(model_name: str) -> FastAPI:
     """Create an inference app for a model by reading config from config/models.py."""
-    # Import here to avoid circular imports
-    import sys
-    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
     from config.models import get_model
 
     model = get_model(model_name)
@@ -123,7 +120,7 @@ def create_app_for_model(model_name: str) -> FastAPI:
 def create_inference_app(config: InferenceAppConfig) -> FastAPI:
     @asynccontextmanager
     async def lifespan(app: FastAPI):
-        _load_model()
+        await asyncio.to_thread(_load_model)
         yield
 
     app = FastAPI(
@@ -244,7 +241,6 @@ def create_inference_app(config: InferenceAppConfig) -> FastAPI:
         *,
         include_perf: bool,
     ):
-        nonlocal llm
         try:
             start_time = time.perf_counter()
             async with inference_lock:
@@ -326,7 +322,6 @@ def create_inference_app(config: InferenceAppConfig) -> FastAPI:
 
     @app.post("/v1/chat/completions")
     async def chat_completions(request: GenerateRequest):
-        nonlocal llm
         if llm is None:
             raise HTTPException(status_code=503, detail="Model not loaded")
 

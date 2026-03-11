@@ -4,17 +4,17 @@
 # Builds llama.cpp from source and runs models via the native llama-server
 # binary. Used by models whose architecture requires a newer llama.cpp than
 # llama-cpp-python packages (lfm2, lfm2mini, lfm2thinking, rnj, qwen, jancode,
-# falcon, glm).
+# falcon).
 #
 # Build args:
-#   MODEL_DIR    - Subdirectory under app/ containing inference_server.py
+#   MODEL_NAME   - Model name from config/models.py (e.g., "lfm2", "qwen")
 #   LLAMA_COMMIT - llama.cpp git tag/SHA to pin (invalidates clone layer cache)
 # =============================================================================
 
-FROM python:3.11-slim
+# Stage 1: Builder — compiles llama-server from source
+FROM python:3.11-slim AS builder
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV PYTHONUNBUFFERED=1
 
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -22,7 +22,6 @@ RUN apt-get update && apt-get install -y \
     git \
     pkg-config \
     libopenblas-dev \
-    curl \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /build
@@ -44,27 +43,35 @@ RUN git clone https://github.com/ggml-org/llama.cpp.git . \
         -DLLAMA_BUILD_EXAMPLES=OFF \
         -DLLAMA_BUILD_TESTS=OFF \
         -DLLAMA_BUILD_SERVER=ON \
-    && cmake --build build --target llama-server -j$(nproc) \
-    && cp build/bin/llama-server /usr/local/bin/ \
-    && chmod +x /usr/local/bin/llama-server \
-    && find build -name "*.so*" -exec cp -v {} /usr/local/lib/ \; || true \
-    && ldconfig \
-    && rm -rf /build
+    && cmake --build build --target llama-server -j$(nproc)
 
-WORKDIR /app
+# Stage 2: Runtime — minimal image with only the binary and runtime libraries
+FROM python:3.11-slim AS runtime
 
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED=1
+
+# Runtime libraries only (no build tools)
 RUN apt-get update && apt-get install -y \
     libopenblas0-pthread \
     libgomp1 \
+    curl \
     && rm -rf /var/lib/apt/lists/*
+
+# Copy compiled binary from builder
+COPY --from=builder /build/build/bin/llama-server /usr/local/bin/llama-server
+RUN chmod +x /usr/local/bin/llama-server
 
 # Create a non-root user (use UID 10000 to avoid conflicts)
 RUN useradd -m -u 10000 appuser
 
-COPY --chown=appuser:appuser app/shared/ ./shared/
-COPY --chown=appuser:appuser config/ ./config/
+WORKDIR /app
+
 COPY app/shared/requirements-llama-server.txt requirements.txt
 RUN pip3 install --no-cache-dir -r requirements.txt
+
+COPY --chown=appuser:appuser app/shared/ ./shared/
+COPY --chown=appuser:appuser config/ ./config/
 
 # Ensure appuser owns /app
 RUN chown -R appuser:appuser /app
