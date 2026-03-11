@@ -261,6 +261,7 @@ async function handleChatCompletions(request, env) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
+    signal: AbortSignal.timeout(120_000),
   });
 
   if (stream) {

@@ -25,6 +25,7 @@ export interface RoutingInfo {
 }
 
 export interface ChatMessage {
+    id: string;
     role: 'user' | 'assistant';
     content: string;
     modelName?: string;
@@ -287,7 +288,7 @@ const ChatView = forwardRef<ChatViewHandle, ChatViewProps>(({
         setStreamingResponses(new Map(initialContent));
         setStreamingTiming(new Map(initialTiming));
 
-        const userMessage: ChatMessage = { role: 'user', content: text };
+        const userMessage: ChatMessage = { id: crypto.randomUUID(), role: 'user', content: text };
         setMessages(prev => [...prev, userMessage]);
 
         const baseMessages = [...messagesRef.current, userMessage].map(m => ({ role: m.role, content: m.content }));
@@ -313,8 +314,8 @@ const ChatView = forwardRef<ChatViewHandle, ChatViewProps>(({
         let completedCount = 0;
         const totalCount = modelIds.length;
 
-        function appendAssistantMessage(fields: Omit<ChatMessage, 'role'>) {
-            setMessages(prev => [...prev, { role: 'assistant', ...fields }]);
+        function appendAssistantMessage(fields: Omit<ChatMessage, 'id' | 'role'>) {
+            setMessages(prev => [...prev, { id: crypto.randomUUID(), role: 'assistant', ...fields }]);
         }
 
         const streamPromises = modelIds.map(async (modelId) => {
@@ -487,7 +488,7 @@ const ChatView = forwardRef<ChatViewHandle, ChatViewProps>(({
 
                     {messages.map((msg, idx) => (
                         <ChatMessageItem
-                            key={idx}
+                            key={msg.id}
                             msg={msg}
                             idx={idx}
                             gesturesActive={gesturesActive}

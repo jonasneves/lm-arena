@@ -1,7 +1,18 @@
 import { Dispatch, SetStateAction } from 'react';
 
-const ICON_CLOCK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display: inline-block; vertical-align: text-bottom; margin-right: 6px;"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
-const ICON_WARNING = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display: inline-block; vertical-align: text-bottom; margin-right: 6px;"><path d="M12 2L2 20h20L12 2z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M12 9v4M12 17h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+// Sentinel prefix that cannot appear in normal text or model output (null bytes).
+// renderSvgContent in ArenaCanvas checks for this exact prefix before calling
+// dangerouslySetInnerHTML, so only strings produced here are rendered as HTML.
+const SVG_SENTINEL_PREFIX = '\x00SVG\x00';
+const SVG_SENTINEL_SUFFIX = '\x00END\x00';
+
+const ICON_CLOCK_SVG = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display: inline-block; vertical-align: text-bottom; margin-right: 6px;"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+const ICON_WARNING_SVG = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display: inline-block; vertical-align: text-bottom; margin-right: 6px;"><path d="M12 2L2 20h20L12 2z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M12 9v4M12 17h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+
+const wrapSvgIcon = (svgContent: string, message: string): string =>
+  `${SVG_SENTINEL_PREFIX}${svgContent}${SVG_SENTINEL_SUFFIX}${message}`;
+
+export { SVG_SENTINEL_PREFIX, SVG_SENTINEL_SUFFIX };
 
 const escapeHtml = (t: string) =>
   t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
@@ -242,10 +253,10 @@ export function useSessionController(params: SessionControllerParams) {
     const addIconToMessage = (message: string): string => {
       const lowerMsg = message.toLowerCase();
       if (lowerMsg.includes('rate limit') || lowerMsg.includes('waiting')) {
-        return ICON_CLOCK + escapeHtml(message);
+        return wrapSvgIcon(ICON_CLOCK_SVG, escapeHtml(message));
       }
       if (lowerMsg.includes('error') || lowerMsg.includes('failed')) {
-        return ICON_WARNING + escapeHtml(message);
+        return wrapSvgIcon(ICON_WARNING_SVG, escapeHtml(message));
       }
       return escapeHtml(message);
     };

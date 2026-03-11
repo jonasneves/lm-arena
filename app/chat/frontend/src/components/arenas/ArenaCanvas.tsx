@@ -7,6 +7,7 @@ import {
 } from 'react';
 import { LAYOUT } from '../../constants';
 import type { Model, Mode, Position } from '../../types';
+import { SVG_SENTINEL_PREFIX, SVG_SENTINEL_SUFFIX } from '../../hooks/useSessionController';
 import StatusIndicator from '../StatusIndicator';
 import ExecutionTimeDisplay, { ExecutionTimeData } from '../ExecutionTimeDisplay';
 import Typewriter from '../Typewriter';
@@ -665,8 +666,12 @@ interface CardStyleParams {
 }
 
 function renderSvgContent(content: string): React.ReactNode {
-  if (content.startsWith('<svg')) {
-    return <span dangerouslySetInnerHTML={{ __html: content }} />;
+  if (content.startsWith(SVG_SENTINEL_PREFIX)) {
+    // Strip sentinel markers; the remaining string is trusted SVG icon + escaped text.
+    const inner = content
+      .slice(SVG_SENTINEL_PREFIX.length)
+      .replace(SVG_SENTINEL_SUFFIX, '');
+    return <span dangerouslySetInnerHTML={{ __html: inner }} />;
   }
   return null;
 }

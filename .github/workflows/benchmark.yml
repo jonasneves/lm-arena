@@ -6,6 +6,8 @@ on:
 jobs:
   detect:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       models: ${{ steps.list.outputs.models }}
     steps:
