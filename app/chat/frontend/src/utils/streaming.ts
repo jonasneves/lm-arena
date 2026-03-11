@@ -194,7 +194,7 @@ export async function* streamCompletion(
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
   };
-  if (githubToken && (!url || url.includes('github.ai'))) {
+  if (githubToken && url && url.includes('github.ai')) {
     headers['Authorization'] = `Bearer ${githubToken}`;
   }
 

@@ -383,9 +383,9 @@
       if (isStopping || isPending) {
         btn = `<button class="btn-ghost" disabled>…</button>`;
       } else if (isRunning) {
-        btn = `<button class="btn-danger" onclick="stopModel('${m.key}')">Stop</button>`;
+        btn = `<button class="btn-danger" data-key="${esc(m.key)}" onclick="stopModel(this.dataset.key)">Stop</button>`;
       } else {
-        btn = `<button class="btn-success" onclick="startModel('${m.key}')">Start</button>`;
+        btn = `<button class="btn-success" data-key="${esc(m.key)}" onclick="startModel(this.dataset.key)">Start</button>`;
       }
 
       const entry = tunnelMap[m.key];

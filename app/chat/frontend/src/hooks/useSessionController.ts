@@ -525,7 +525,9 @@ export function useSessionController(params: SessionControllerParams) {
           const turnNum = event.turn_number ?? 0;
           recordResponse(modelId, responseText);
           setModelsData(prev => prev.map(model =>
-            model.id === modelId ? { ...model, response: responseText } : model
+            model.id === modelId
+              ? { ...model, response: model.response ? model.response + '\n\n---\n\n' + responseText : responseText }
+              : model
           ));
 
           setDiscussionTurnsByModel(prev => ({

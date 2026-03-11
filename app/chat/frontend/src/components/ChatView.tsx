@@ -387,9 +387,10 @@ const ChatView = forwardRef<ChatViewHandle, ChatViewProps>(({
                     error: hasError,
                     routingInfo,
                 });
-            } catch (err: any) {
-                if (err.name !== 'AbortError') {
-                    appendAssistantMessage({ content: err.message || 'Request failed', modelId, modelName: model.name, error: true });
+            } catch (error: unknown) {
+                if (!(error instanceof Error) || error.name !== 'AbortError') {
+                    const msg = error instanceof Error ? error.message : String(error);
+                    appendAssistantMessage({ content: msg || 'Request failed', modelId, modelName: model.name, error: true });
                 }
             } finally {
                 abortRefs.current.delete(modelId);

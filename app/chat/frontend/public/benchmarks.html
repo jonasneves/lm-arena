@@ -832,7 +832,7 @@ function renderTable() {
       return `<td class="suite-col">
         <span class="acc-pct">${pct}%</span>
         <span class="acc-frac">${correct}/${s.prompts}</span>
-        <button class="expand-btn" onclick="toggleTraces('${m.model}','${sk}')">${isOpen ? 'hide' : 'traces'}</button>
+        <button class="expand-btn" data-model="${esc(m.model)}" data-suite="${esc(sk)}" onclick="handleToggleTraces(event)">${isOpen ? 'hide' : 'traces'}</button>
       </td>`;
     }
 
@@ -954,6 +954,11 @@ async function switchRun(date) {
   } catch (e) {
     $main.innerHTML = `<div class="state-wrap"><p>Failed to load run: ${esc(e.message)}</p></div>`;
   }
+}
+
+function handleToggleTraces(event) {
+  const { model, suite } = event.currentTarget.dataset;
+  toggleTraces(model, suite);
 }
 
 function toggleTraces(modelId, suite) {
