@@ -810,16 +810,16 @@ function renderTable() {
 
   function thCls(key) {
     if (sortKey !== key) return '';
-    return sortAsc ? ' class="sort-asc"' : ' class="sort-desc"';
+    return sortAsc ? ' sort-asc' : ' sort-desc';
   }
 
   const thead = `<tr>
     <th>Model</th>
-    <th class="suite-col" title="${esc(SUITE_INFO.mmlu.desc)}"${thCls('mmlu')} onclick="setSort('mmlu')">mini-MMLU</th>
-    <th class="suite-col" title="${esc(SUITE_INFO.instruct.desc)}"${thCls('instruct')} onclick="setSort('instruct')">Instruct</th>
-    <th class="suite-col" title="${esc(SUITE_INFO.gsm8k.desc)}"${thCls('gsm8k')} onclick="setSort('gsm8k')">mini-GSM8K</th>
-    <th class="num-col"${thCls('p50')} onclick="setSort('p50')">P50</th>
-    <th class="num-col"${thCls('tps')} onclick="setSort('tps')">TPS</th>
+    <th class="suite-col${thCls('mmlu')}" title="${esc(SUITE_INFO.mmlu.desc)}" onclick="setSort('mmlu')">mini-MMLU</th>
+    <th class="suite-col${thCls('instruct')}" title="${esc(SUITE_INFO.instruct.desc)}" onclick="setSort('instruct')">Instruct</th>
+    <th class="suite-col${thCls('gsm8k')}" title="${esc(SUITE_INFO.gsm8k.desc)}" onclick="setSort('gsm8k')">mini-GSM8K</th>
+    <th class="num-col${thCls('p50')}" onclick="setSort('p50')">P50</th>
+    <th class="num-col${thCls('tps')}" onclick="setSort('tps')">TPS</th>
   </tr>`;
 
   const rows = models.flatMap(m => {

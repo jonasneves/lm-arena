@@ -102,7 +102,7 @@ export function OrchestratorCard({
   const isWorking = orchestratorStatus === 'responding';
   const activeColor = isWorking ? '#fbbf24' : moderatorModel.color;
   const githubModels = availableModels.filter(m => m.type === 'github');
-  const selfHostedModels = availableModels.filter(m => m.type === 'self-hosted');
+  const selfHostedModels = availableModels.filter(m => m.type === 'self-hosted' || !m.type);
 
   return (
     <div
