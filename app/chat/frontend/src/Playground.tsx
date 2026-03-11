@@ -13,7 +13,7 @@ import { useSelectionBox } from './hooks/useSelectionBox';
 import { useCardReorder } from './hooks/useCardReorder';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { useArenaScroll } from './hooks/useArenaScroll';
-import { ArenaCanvas } from './components/arenas/ArenaCanvas';
+import { ArenaCanvas, type OrchestratorAutoScope } from './components/arenas/ArenaCanvas';
 import { ArenaContextMenu } from './components/arenas/types';
 import type { ExecutionTimeData } from './components/ExecutionTimeDisplay';
 import SelectionOverlay from './components/SelectionOverlay';
@@ -682,7 +682,6 @@ function PlaygroundInner() {
     setSpeaking(new Set());
   }, [clearHistory, setModelsData]);
 
-  type OrchestratorAutoScope = 'all' | 'self-hosted' | 'api';
   const [orchestratorAutoMode, setOrchestratorAutoMode] = useState(true);
   const [orchestratorAutoScope, setOrchestratorAutoScope] = useState<OrchestratorAutoScope>('api');
   const [showOrchestratorMenu, setShowOrchestratorMenu] = useState(false);
@@ -716,7 +715,7 @@ function PlaygroundInner() {
   const [, setDiscussionTurnsByModel] = useState<Record<string, Array<{
     turn_number: number;
     response: string;
-    evaluation?: any;
+    evaluation?: unknown;
   }>>>({});
   const [failedModels, setFailedModels] = useState<Set<string>>(new Set());
   const failedModelsRef = useRef<Set<string>>(new Set());
@@ -897,6 +896,8 @@ function PlaygroundInner() {
     : 'translate(-50%, -50%)';
   const orchestratorTransformWithScale = `${orchestratorTransform} scale(1)`;
 
+  const selectedModelIds = useMemo(() => selectedModels.map(m => m.id).join(','), [selectedModels]);
+
   useLayoutEffect(() => {
     if (mode !== 'compare') return;
     const rects: Record<string, DOMRect> = {};
@@ -907,7 +908,7 @@ function PlaygroundInner() {
       }
     });
     compareCardRectsRef.current = rects;
-  }, [mode, selectedModels.length, selectedModels.map(m => m.id).join(',')]);
+  }, [mode, selectedModels.length, selectedModelIds]);
 
   useEffect(() => {
     const prevMode = prevModeRef.current;
@@ -1027,7 +1028,7 @@ function PlaygroundInner() {
                 }
 
                 if (selected.length > 0) {
-                  sendMessage(msg, {}, selected);
+                  sendMessage(msg, null, selected);
                 }
               }}
               onScroll={(deltaY) => {

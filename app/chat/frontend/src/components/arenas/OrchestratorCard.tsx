@@ -69,18 +69,8 @@ export function OrchestratorCard({
   const orchestratorPhaseLabel = phaseLabel || '';
 
   useEffect(() => {
-    if (!showOrchestratorMenu) return;
-
-    const handleClickOutside = (e: MouseEvent) => {
-      if (orchestratorMenuRef.current && !orchestratorMenuRef.current.contains(e.target as Node)) {
-        setShowOrchestratorMenu(false);
-        setMenuPosition(null);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside, true);
-    return () => document.removeEventListener('mousedown', handleClickOutside, true);
-  }, [showOrchestratorMenu, orchestratorMenuRef, setShowOrchestratorMenu]);
+    if (!showOrchestratorMenu) setMenuPosition(null);
+  }, [showOrchestratorMenu]);
 
   const renderModeratorContent = () => {
     if (moderatorSynthesis) {
