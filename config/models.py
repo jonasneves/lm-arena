@@ -48,6 +48,8 @@ class ModelConfig:
     flash_attn: bool = True
     # Routing category for auto-routing (general/coding/reasoning/function_calling)
     routing_category: str | None = None
+    # Dockerfile variant: "inference" (llama-cpp-python) or "llama-server" (builds from source)
+    dockerfile: str = "inference"
     
     @property
     def service_url(self) -> str:
@@ -101,6 +103,7 @@ MODELS: dict[str, ModelConfig] = {
         hf_file="Qwen3.5-4B-Q4_K_M.gguf",
         owned_by="qwen",
         routing_category="general",
+        dockerfile="llama-server",
     ),
     "phi": ModelConfig(
         name="phi",
@@ -161,6 +164,7 @@ MODELS: dict[str, ModelConfig] = {
         hf_file="LFM2.5-1.2B-Instruct-Q4_K_M.gguf",
         owned_by="liquidai",
         routing_category="general",
+        dockerfile="llama-server",
     ),
     "dasd": ModelConfig(
         name="dasd",
@@ -211,6 +215,7 @@ MODELS: dict[str, ModelConfig] = {
         n_batch=512,
         max_concurrent=4,
         routing_category="general",
+        dockerfile="llama-server",
     ),
     "phireasoning": ModelConfig(
         name="phireasoning",
@@ -244,6 +249,7 @@ MODELS: dict[str, ModelConfig] = {
         kv_cache_quant=False,
         flash_attn=False,
         routing_category="reasoning",
+        dockerfile="llama-server",
     ),
     "jancode": ModelConfig(
         name="jancode",
@@ -260,6 +266,7 @@ MODELS: dict[str, ModelConfig] = {
         n_batch=512,
         max_concurrent=3,
         routing_category="coding",
+        dockerfile="llama-server",
     ),
 
     # Medium models (7B-30B params)
@@ -306,6 +313,7 @@ MODELS: dict[str, ModelConfig] = {
         hf_file="Falcon-H1R-7B-Q4_K_M.gguf",
         owned_by="tii",
         routing_category="reasoning",
+        dockerfile="llama-server",
     ),
     "gemma3n": ModelConfig(
         name="gemma3n",
@@ -340,6 +348,7 @@ MODELS: dict[str, ModelConfig] = {
         n_batch=512,
         max_concurrent=3,
         routing_category="function_calling",
+        dockerfile="llama-server",
     ),
 
     # Reasoning models
@@ -487,6 +496,7 @@ if __name__ == "__main__":
                     "max_concurrent": m.max_concurrent,
                     "kv_cache_quant": m.kv_cache_quant,
                     "flash_attn": m.flash_attn,
+                    "dockerfile": m.dockerfile,
                 }))
         except KeyError as e:
             print(str(e), file=sys.stderr)

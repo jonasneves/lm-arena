@@ -100,7 +100,6 @@ export default function ModelDock({
   const getAccentClasses = (color: AccentColor) => ({
     emerald: { dot: 'bg-emerald-500', text: 'text-emerald-400', active: 'bg-emerald-500/20 border-emerald-500/30' },
     blue: { dot: 'bg-blue-500', text: 'text-blue-400', active: 'bg-blue-500/20 border-blue-500/30' },
-    purple: { dot: 'bg-purple-500', text: 'text-purple-400', active: 'bg-purple-500/20 border-purple-500/30' },
   }[color]);
 
   return (

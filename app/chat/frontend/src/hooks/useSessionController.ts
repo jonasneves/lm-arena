@@ -232,7 +232,7 @@ export function useSessionController(params: SessionControllerParams) {
       if (lowerMsg.includes('error') || lowerMsg.includes('failed')) {
         return ICON_WARNING + escapeHtml(message);
       }
-      return message;
+      return escapeHtml(message);
     };
 
     const handleCompare = async () => {

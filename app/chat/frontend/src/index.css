@@ -157,60 +157,35 @@ aside summary,
   padding: 0;
 }
 
-/* Subtle vertical scrollbar for inspector content */
-.markdown-content {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(100, 116, 139, 0.6) transparent;
-}
-
-.markdown-content::-webkit-scrollbar {
-  width: 8px;
-}
-
-.markdown-content::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.markdown-content::-webkit-scrollbar-thumb {
-  background-color: rgba(100, 116, 139, 0.6);
-  border-radius: 9999px;
-  border: 2px solid transparent;
-  background-clip: content-box;
-}
-
-/* Subtle vertical scrollbar for dock lists */
-.dock-scroll {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(100, 116, 139, 0.6) transparent;
-}
-
-.dock-scroll::-webkit-scrollbar {
-  width: 8px;
-}
-
-.dock-scroll::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.dock-scroll::-webkit-scrollbar-thumb {
-  background-color: rgba(100, 116, 139, 0.6);
-  border-radius: 9999px;
-  border: 2px solid transparent;
-  background-clip: content-box;
-}
-
-/* Subtle horizontal scrollbar for inspector tabs */
+/* Shared thin scrollbar — inspector content, dock lists, inspector tabs */
+.markdown-content,
+.dock-scroll,
 .inspector-tabs {
   scrollbar-width: thin;
   scrollbar-color: rgba(100, 116, 139, 0.6) transparent;
+}
+
+.markdown-content::-webkit-scrollbar,
+.dock-scroll::-webkit-scrollbar {
+  width: 8px;
 }
 
 .inspector-tabs::-webkit-scrollbar {
   height: 6px;
 }
 
+.markdown-content::-webkit-scrollbar-track,
+.dock-scroll::-webkit-scrollbar-track,
 .inspector-tabs::-webkit-scrollbar-track {
   background: transparent;
+}
+
+.markdown-content::-webkit-scrollbar-thumb,
+.dock-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 116, 139, 0.6);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
 }
 
 .inspector-tabs::-webkit-scrollbar-thumb {

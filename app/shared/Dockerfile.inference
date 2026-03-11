@@ -2,12 +2,14 @@
 # Shared Inference Server Dockerfile
 # =============================================================================
 # Multi-stage build for efficient inference server images.
-# Used by all standard models (qwen, phi, llama, mistral, gemma, deepseek-r1qwen).
+# Used by models whose architecture is supported by the packaged llama-cpp-python
+# (phi, llama, mistral, gemma, deepseek-r1qwen).
 #
 # Environment:
-#   MODEL_NAME - Model name from config/models.py (e.g., "qwen", "phi")
+#   MODEL_NAME - Model name from config/models.py (e.g., "phi", "gemma")
 #
-# Exception: LFM2, RNJ, GLM use Dockerfile.llama-server (native llama-server)
+# Exception: Models requiring newer llama.cpp (lfm2, rnj, qwen, jancode, etc.)
+#            use Dockerfile.llama-server (builds from source).
 # =============================================================================
 
 # Stage 1: Builder - Heavy build dependencies

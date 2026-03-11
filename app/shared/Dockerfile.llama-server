@@ -1,3 +1,16 @@
+# =============================================================================
+# llama-server Inference Dockerfile
+# =============================================================================
+# Builds llama.cpp from source and runs models via the native llama-server
+# binary. Used by models whose architecture requires a newer llama.cpp than
+# llama-cpp-python packages (lfm2, lfm2mini, lfm2thinking, rnj, qwen, jancode,
+# falcon, glm).
+#
+# Build args:
+#   MODEL_DIR    - Subdirectory under app/ containing inference_server.py
+#   LLAMA_COMMIT - llama.cpp git tag/SHA to pin (invalidates clone layer cache)
+# =============================================================================
+
 FROM python:3.11-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -45,14 +58,22 @@ RUN apt-get update && apt-get install -y \
     libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
-COPY app/shared/ ./shared/
-COPY config/ ./config/
+# Create a non-root user (use UID 10000 to avoid conflicts)
+RUN useradd -m -u 10000 appuser
+
+COPY --chown=appuser:appuser app/shared/ ./shared/
+COPY --chown=appuser:appuser config/ ./config/
 COPY app/shared/requirements-llama-server.txt requirements.txt
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-ARG MODEL_DIR
-COPY app/${MODEL_DIR}/inference_server.py .
+# Ensure appuser owns /app
+RUN chown -R appuser:appuser /app
 
+USER appuser
+
+# MODEL_NAME selects the model from config/models.py at runtime
+ARG MODEL_NAME
+ENV MODEL_NAME=${MODEL_NAME}
 ENV PORT=8000
 
 EXPOSE 8000
@@ -60,4 +81,4 @@ EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=10s --start-period=180s --retries=3 \
     CMD curl -f http://localhost:8000/health || exit 1
 
-CMD ["python3", "inference_server.py"]
+CMD ["python3", "shared/llama_inference_server.py"]
