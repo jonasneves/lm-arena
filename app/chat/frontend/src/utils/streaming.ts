@@ -64,6 +64,12 @@ async function* streamModel(
   signal?: AbortSignal,
 ): AsyncGenerator<ChatStreamEvent> {
   const endpoint = payload.modelEndpoints?.[model];
+
+  if (!endpoint && !payload.github_token) {
+    yield { event: 'error', model_id: model, error: true, content: `No endpoint configured for model: ${model}` };
+    return;
+  }
+
   const url = endpoint ? `${endpoint}/chat/completions` : GITHUB_MODELS_URL;
 
   const headers: Record<string, string> = {

@@ -664,7 +664,7 @@ interface CardStyleParams {
   typeColor: string;
 }
 
-function renderSvgContent(content: string): React.ReactNode {
+export function renderSvgContent(content: string): React.ReactNode {
   if (content.startsWith(SVG_SENTINEL_PREFIX)) {
     // Strip sentinel markers; the remaining string is trusted SVG icon + escaped text.
     const inner = content

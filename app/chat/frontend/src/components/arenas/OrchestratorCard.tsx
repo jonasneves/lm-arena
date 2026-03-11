@@ -4,8 +4,8 @@ import { Zap } from 'lucide-react';
 import StatusIndicator from '../StatusIndicator';
 import Typewriter from '../Typewriter';
 import type { Model, Mode } from '../../types';
-import { type OrchestratorAutoScope, type StatusState, getStatusLabel } from './ArenaCanvas';
-import { SVG_SENTINEL_PREFIX, SVG_SENTINEL_SUFFIX } from '../../hooks/useSessionController';
+import { type OrchestratorAutoScope, type StatusState, getStatusLabel, renderSvgContent } from './ArenaCanvas';
+import { SVG_SENTINEL_PREFIX } from '../../hooks/useSessionController';
 
 interface OrchestratorCardProps {
   mode: Mode;
@@ -86,11 +86,7 @@ export function OrchestratorCard({
 
     if (isGenerating) {
       if (phaseLabel?.startsWith(SVG_SENTINEL_PREFIX)) {
-        // Strip sentinel markers; the remaining string is trusted SVG icon + escaped text.
-        const inner = phaseLabel
-          .slice(SVG_SENTINEL_PREFIX.length)
-          .replace(SVG_SENTINEL_SUFFIX, '');
-        return <span className="text-slate-500 italic" dangerouslySetInnerHTML={{ __html: inner }} />;
+        return <span className="text-slate-500 italic">{renderSvgContent(phaseLabel)}</span>;
       }
       const label = phaseLabel === 'Stage 1 · Responses' ? 'Waiting for model responses...' : (phaseLabel || 'Orchestrating...');
       return <span className="text-slate-500 italic">{label}</span>;
