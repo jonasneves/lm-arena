@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useCallback, ReactNode, useRef } from 'react';
 
-export type AppContext = 'chat' | 'compare' | 'analyze' | 'debate';
+export type AppContext = 'chat' | 'compare' | 'analyze' | 'debate' | 'benchmark';
 
 export interface GestureCallbacks {
   onStopGeneration?: () => void;

@@ -5,7 +5,7 @@ import { useGesture } from '../context/GestureContext';
 
 const STORAGE_KEY = 'gesture-control-skip-intro';
 
-export type AppContext = 'chat' | 'compare' | 'analyze' | 'debate';
+export type AppContext = 'chat' | 'compare' | 'analyze' | 'debate' | 'benchmark';
 
 interface GestureControlProps {
   onStopGeneration?: () => void;
