@@ -73,16 +73,16 @@ Streaming is supported — set `"stream": true`. If a model is offline the respo
 
 ### Auto-routing
 
-`"model": "auto"` classifies the prompt using FunctionGemma 270M and routes to the best available model:
+`"model": "auto"` classifies the prompt and routes to the best available model:
 
 | Category | Preferred models |
 |---|---|
 | `coding` | jancode |
-| `reasoning` | nanbeige, r1qwen |
-| `function_calling` | functiongemma, agentcpm |
-| `general` | gemma, llama |
+| `reasoning` | nanbeige, phireasoning, falcon, qwenclaude27b |
+| `function_calling` | smollm3, gptoss, rnj |
+| `general` | qwen, qwen7b, lfm2 |
 
-Falls back to any available model if the classifier is offline.
+Falls back to any available model if routing fails.
 
 ### Python
 
