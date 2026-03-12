@@ -75,8 +75,11 @@ export const COGNITIVE_LEVEL_NAMES: Record<CognitiveLevel, string> = {
   5: 'Mental Rotation',
 };
 
+export type SpatialBenchmarkSuiteId = 'stepgame' | 'spartqa' | 'sparc';
+
 export interface SpatialTask {
   id: string;
+  suite_id: SpatialBenchmarkSuiteId;
   category: 'route' | 'relationship' | 'perspective';
   cognitive_level: CognitiveLevel;
   prompt: string;
@@ -85,8 +88,20 @@ export interface SpatialTask {
   difficulty: 'easy' | 'medium' | 'hard';
 }
 
+export interface SpatialBenchmarkSuite {
+  id: SpatialBenchmarkSuiteId;
+  name: string;
+  short_name: string;
+  description: string;
+  focus: string;
+  source_url: string;
+  accent: string;
+  tasks: SpatialTask[];
+}
+
 export interface BenchmarkConfig {
   mode: 'spatial_reasoning';
+  benchmark_suite: SpatialBenchmarkSuiteId | 'all';
   task_category: 'route' | 'relationship' | 'perspective' | 'all';
   num_tasks: number;
   difficulty_filter?: 'easy' | 'medium' | 'hard' | 'all';
@@ -102,6 +117,8 @@ export interface SpatialResult {
 }
 
 export interface BenchmarkResult {
+  suite_id: SpatialBenchmarkSuiteId;
+  suite_name: string;
   task_id: string;
   task_text: string;
   category: 'route' | 'relationship' | 'perspective';

@@ -9,18 +9,30 @@ export function extractSpatialAnswer(
   const cleaned = response.trim();
 
   if (taskFormat === 'direction') {
-    // Extract cardinal directions and relative directions
-    const directions = ['north', 'south', 'east', 'west', 'left', 'right', 'up', 'down', 'forward', 'backward', 'turn'];
-    const found = directions.filter(d => cleaned.toLowerCase().includes(d));
+    // Extract both cardinal and compound directions before falling back to raw text.
+    const directions = [
+      'northwest', 'north west',
+      'northeast', 'north east',
+      'southwest', 'south west',
+      'southeast', 'south east',
+      'north', 'south', 'east', 'west',
+      'left', 'right', 'up', 'down', 'forward', 'backward',
+    ];
+    const lower = cleaned.toLowerCase();
+    const found = directions.filter(direction => lower.includes(direction));
     if (found.length > 0) {
-      return found.join(', ').toLowerCase();
+      return found.join(', ').replace(/\s+/g, ' ').toLowerCase();
     }
   }
 
   if (taskFormat === 'entity') {
+    const lower = cleaned.toLowerCase();
+    if (/\byes\b/.test(lower)) return 'yes';
+    if (/\bno\b/.test(lower)) return 'no';
+
     // For entity answers, extract noun phrases or color names
     const colors = ['red', 'blue', 'green', 'yellow', 'white', 'black', 'pink', 'orange', 'purple'];
-    const colorMatch = colors.find(c => cleaned.toLowerCase().includes(c));
+    const colorMatch = colors.find(c => lower.includes(c));
     if (colorMatch) return colorMatch;
 
     // Extract capitalized words (likely proper nouns)
@@ -42,11 +54,17 @@ export function extractSpatialAnswer(
 }
 
 export function extractCardinals(text: string): string[] {
-  const cardinals = ['north', 'south', 'east', 'west', 'n', 's', 'e', 'w'];
+  const normalized = text
+    .toLowerCase()
+    .replace(/\bnorth[\s-]+east\b/g, 'northeast')
+    .replace(/\bnorth[\s-]+west\b/g, 'northwest')
+    .replace(/\bsouth[\s-]+east\b/g, 'southeast')
+    .replace(/\bsouth[\s-]+west\b/g, 'southwest');
+  const cardinals = ['northeast', 'northwest', 'southeast', 'southwest', 'north', 'south', 'east', 'west', 'n', 's', 'e', 'w'];
   const found = new Set<string>();
 
   for (const cardinal of cardinals) {
-    if (new RegExp(`\\b${cardinal}\\b`, 'i').test(text)) {
+    if (new RegExp(`\\b${cardinal}\\b`, 'i').test(normalized)) {
       found.add(cardinal.toLowerCase());
     }
   }

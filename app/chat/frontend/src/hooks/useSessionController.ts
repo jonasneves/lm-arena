@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
-import { GENERATION_DEFAULTS, isThinkingModel, SPATIAL_REASONING_TASKS } from '../constants';
+import { GENERATION_DEFAULTS, isThinkingModel } from '../constants';
+import { SPATIAL_BENCHMARK_SUITE_MAP, SPATIAL_BENCHMARK_SUITES } from '../data/spatialBenchmarkSuites';
 import { fetchChatStream } from '../utils/streaming';
 import { ChatHistoryEntry, Mode, Model, BenchmarkResult } from '../types';
 import { ExecutionTimeData } from '../components/ExecutionTimeDisplay';
@@ -579,7 +580,7 @@ export function useSessionController(params: SessionControllerParams) {
 
       const modelEndpoints = getModelEndpoints(modelsData);
 
-      const allTasks = Object.values(SPATIAL_REASONING_TASKS).flat();
+      const allTasks = SPATIAL_BENCHMARK_SUITES.flatMap((suite) => suite.tasks);
       const tasksToRun = allTasks;
 
       const benchmarkResults: BenchmarkResult[] = [];
@@ -610,6 +611,8 @@ export function useSessionController(params: SessionControllerParams) {
           if (event.type === 'spatial_complete' && event.results) {
             // Create benchmark result entry
             const result: BenchmarkResult = {
+              suite_id: task.suite_id,
+              suite_name: SPATIAL_BENCHMARK_SUITE_MAP[task.suite_id].name,
               task_id: task.id,
               task_text: task.prompt,
               category: task.category,
