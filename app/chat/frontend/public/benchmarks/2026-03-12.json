@@ -2,7 +2,7 @@
   "falcon": {
     "model": "falcon",
     "date": "2026-03-12",
-    "run_at": "2026-03-12T03:01:24.991780+00:00",
+    "run_at": "2026-03-12T12:09:31.184397+00:00",
     "functional": false,
     "suites": {},
     "overall": {
@@ -15,7 +15,7 @@
   "gemma3n": {
     "model": "gemma3n",
     "date": "2026-03-12",
-    "run_at": "2026-03-12T03:04:00.814733+00:00",
+    "run_at": "2026-03-12T12:10:49.924251+00:00",
     "functional": true,
     "suites": {
       "mmlu": {
@@ -23,8 +23,8 @@
         "answered": 10,
         "correct": 9,
         "accuracy": 0.9,
-        "p50_ms": 6163.2,
-        "max_ms": 14498.2,
+        "p50_ms": 5498.4,
+        "max_ms": 12704.2,
         "traces": [
           {
             "prompt": "What is the chemical symbol for gold?",
@@ -33,7 +33,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 5363.9
+            "latency_ms": 4906.9
           },
           {
             "prompt": "Which planet is closest to the Sun?",
@@ -42,7 +42,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 5118.5
+            "latency_ms": 4614.2
           },
           {
             "prompt": "What is the square root of 144?",
@@ -51,7 +51,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 6043.9
+            "latency_ms": 5411.8
           },
           {
             "prompt": "Who wrote Romeo and Juliet?",
@@ -60,7 +60,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 6282.6
+            "latency_ms": 5585.0
           },
           {
             "prompt": "What is the capital of France?",
@@ -69,7 +69,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 2416.3
+            "latency_ms": 2158.7
           },
           {
             "prompt": "How many sides does a hexagon have?",
@@ -78,7 +78,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 2628.2
+            "latency_ms": 2417.0
           },
           {
             "prompt": "What gas do plants absorb from the atmosphere?",
@@ -87,7 +87,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 14197.5
+            "latency_ms": 12290.2
           },
           {
             "prompt": "In what year did World War II end?",
@@ -96,7 +96,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 14498.2
+            "latency_ms": 12704.2
           },
           {
             "prompt": "What is the boiling point of water in Celsius?",
@@ -105,7 +105,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 11766.6
+            "latency_ms": 10384.6
           },
           {
             "prompt": "How many bones are in the adult human body?",
@@ -114,7 +114,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 9501.4
+            "latency_ms": 8337.8
           }
         ]
       },
@@ -123,8 +123,8 @@
         "answered": 8,
         "correct": 6,
         "accuracy": 0.75,
-        "p50_ms": 1321.9,
-        "max_ms": 1957.0,
+        "p50_ms": 1229.9,
+        "max_ms": 1854.9,
         "traces": [
           {
             "prompt": "Respond with exactly one word: the color of the sky.",
@@ -133,7 +133,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 1957.0
+            "latency_ms": 1854.9
           },
           {
             "prompt": "Respond with exactly one word: the opposite of hot.",
@@ -142,7 +142,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 1395.2
+            "latency_ms": 1323.8
           },
           {
             "prompt": "Respond with exactly one word: the first month of the year.",
@@ -151,7 +151,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 1539.8
+            "latency_ms": 1398.0
           },
           {
             "prompt": "Respond with exactly one word: the number of days in a week.",
@@ -160,7 +160,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 1239.8
+            "latency_ms": 1136.0
           },
           {
             "prompt": "Respond with exactly one word: what is 2 + 2?",
@@ -169,7 +169,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 1689.7
+            "latency_ms": 1637.8
           },
           {
             "prompt": "Respond with exactly one word: what metal is used in electrical wires?",
@@ -178,7 +178,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 1248.6
+            "latency_ms": 1132.2
           },
           {
             "prompt": "Respond with exactly one word: the largest ocean.",
@@ -187,7 +187,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 1182.1
+            "latency_ms": 1104.2
           },
           {
             "prompt": "Respond with exactly one word: what do bees produce?",
@@ -196,7 +196,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 1138.6
+            "latency_ms": 1105.9
           }
         ]
       },
@@ -205,8 +205,8 @@
         "answered": 5,
         "correct": 4,
         "accuracy": 0.8,
-        "p50_ms": 3072.3,
-        "max_ms": 3390.9,
+        "p50_ms": 2925.2,
+        "max_ms": 3074.8,
         "traces": [
           {
             "prompt": "If a train travels 60 km/h for 2 hours, how many km does it travel? Answer with the number only.",
@@ -215,7 +215,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 3390.9
+            "latency_ms": 3074.8
           },
           {
             "prompt": "A store sells 3 apples for $2. How much do 9 apples cost? Answer with the number only.",
@@ -224,7 +224,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 2770.3
+            "latency_ms": 2640.5
           },
           {
             "prompt": "There are 24 students in a class. 1/3 are absent. How many are present? Answer with the number only.",
@@ -233,7 +233,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 3140.9
+            "latency_ms": 3056.1
           },
           {
             "prompt": "A rectangle has length 8 and width 5. What is its area? Answer with the number only.",
@@ -242,7 +242,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 2630.0
+            "latency_ms": 2530.0
           },
           {
             "prompt": "If 5 workers finish a job in 10 days, how many days for 10 workers? Answer with the number only.",
@@ -251,22 +251,22 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 3072.3
+            "latency_ms": 2925.2
           }
         ]
       }
     },
     "overall": {
-      "p50_ms": 2770.3,
-      "max_ms": 14498.2,
-      "avg_tokens_per_sec": 3.5,
+      "p50_ms": 2640.5,
+      "max_ms": 12704.2,
+      "avg_tokens_per_sec": 3.8,
       "tps_label": "tokens/s"
     }
   },
   "gptoss": {
     "model": "gptoss",
     "date": "2026-03-12",
-    "run_at": "2026-03-12T03:04:42.923207+00:00",
+    "run_at": "2026-03-12T12:12:30.896902+00:00",
     "functional": true,
     "suites": {
       "mmlu": {
@@ -274,8 +274,8 @@
         "answered": 10,
         "correct": 10,
         "accuracy": 1.0,
-        "p50_ms": 6857.9,
-        "max_ms": 17194.4,
+        "p50_ms": 6772.0,
+        "max_ms": 16841.5,
         "traces": [
           {
             "prompt": "What is the chemical symbol for gold?",
@@ -284,7 +284,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 6317.2
+            "latency_ms": 6289.0
           },
           {
             "prompt": "Which planet is closest to the Sun?",
@@ -293,7 +293,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 5895.0
+            "latency_ms": 5856.0
           },
           {
             "prompt": "What is the square root of 144?",
@@ -302,7 +302,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 8219.3
+            "latency_ms": 8244.1
           },
           {
             "prompt": "Who wrote Romeo and Juliet?",
@@ -311,7 +311,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 6234.6
+            "latency_ms": 6124.4
           },
           {
             "prompt": "What is the capital of France?",
@@ -320,7 +320,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 4369.2
+            "latency_ms": 4290.7
           },
           {
             "prompt": "How many sides does a hexagon have?",
@@ -329,7 +329,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 4977.4
+            "latency_ms": 4897.1
           },
           {
             "prompt": "What gas do plants absorb from the atmosphere?",
@@ -338,7 +338,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 17194.4
+            "latency_ms": 16841.5
           },
           {
             "prompt": "In what year did World War II end?",
@@ -347,7 +347,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 7398.6
+            "latency_ms": 7255.0
           },
           {
             "prompt": "What is the boiling point of water in Celsius?",
@@ -356,7 +356,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 9703.7
+            "latency_ms": 9604.6
           },
           {
             "prompt": "How many bones are in the adult human body?",
@@ -365,7 +365,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 11219.4
+            "latency_ms": 11133.1
           }
         ]
       },
@@ -374,8 +374,8 @@
         "answered": 8,
         "correct": 0,
         "accuracy": 0.0,
-        "p50_ms": 7431.1,
-        "max_ms": 9728.0,
+        "p50_ms": 7216.0,
+        "max_ms": 9538.4,
         "traces": [
           {
             "prompt": "Respond with exactly one word: the color of the sky.",
@@ -384,7 +384,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 8003.2
+            "latency_ms": 7758.3
           },
           {
             "prompt": "Respond with exactly one word: the opposite of hot.",
@@ -393,7 +393,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 9240.7
+            "latency_ms": 9115.4
           },
           {
             "prompt": "Respond with exactly one word: the first month of the year.",
@@ -402,7 +402,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 6223.9
+            "latency_ms": 6166.5
           },
           {
             "prompt": "Respond with exactly one word: the number of days in a week.",
@@ -411,7 +411,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 9464.0
+            "latency_ms": 9403.1
           },
           {
             "prompt": "Respond with exactly one word: what is 2 + 2?",
@@ -420,7 +420,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 6647.5
+            "latency_ms": 6493.5
           },
           {
             "prompt": "Respond with exactly one word: what metal is used in electrical wires?",
@@ -429,7 +429,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 6859.1
+            "latency_ms": 6673.7
           },
           {
             "prompt": "Respond with exactly one word: the largest ocean.",
@@ -438,7 +438,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 9728.0
+            "latency_ms": 9538.4
           },
           {
             "prompt": "Respond with exactly one word: what do bees produce?",
@@ -447,7 +447,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 5538.8
+            "latency_ms": 5436.2
           }
         ]
       },
@@ -456,8 +456,8 @@
         "answered": 5,
         "correct": 5,
         "accuracy": 1.0,
-        "p50_ms": 8019.8,
-        "max_ms": 17551.3,
+        "p50_ms": 7923.5,
+        "max_ms": 17472.6,
         "traces": [
           {
             "prompt": "If a train travels 60 km/h for 2 hours, how many km does it travel? Answer with the number only.",
@@ -466,7 +466,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 8493.2
+            "latency_ms": 8375.8
           },
           {
             "prompt": "A store sells 3 apples for $2. How much do 9 apples cost? Answer with the number only.",
@@ -475,7 +475,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 7893.8
+            "latency_ms": 7657.3
           },
           {
             "prompt": "There are 24 students in a class. 1/3 are absent. How many are present? Answer with the number only.",
@@ -484,7 +484,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 7375.3
+            "latency_ms": 7331.5
           },
           {
             "prompt": "A rectangle has length 8 and width 5. What is its area? Answer with the number only.",
@@ -493,7 +493,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 8019.8
+            "latency_ms": 7923.5
           },
           {
             "prompt": "If 5 workers finish a job in 10 days, how many days for 10 workers? Answer with the number only.",
@@ -502,22 +502,22 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 17551.3
+            "latency_ms": 17472.6
           }
         ]
       }
     },
     "overall": {
-      "p50_ms": 7893.8,
-      "max_ms": 17551.3,
-      "avg_tokens_per_sec": 8.6,
+      "p50_ms": 7657.3,
+      "max_ms": 17472.6,
+      "avg_tokens_per_sec": 8.8,
       "tps_label": "tokens/s"
     }
   },
   "jancode": {
     "model": "jancode",
     "date": "2026-03-12",
-    "run_at": "2026-03-12T03:02:04.059387+00:00",
+    "run_at": "2026-03-12T12:10:24.820253+00:00",
     "functional": true,
     "suites": {
       "mmlu": {
@@ -525,17 +525,17 @@
         "answered": 10,
         "correct": 9,
         "accuracy": 0.9,
-        "p50_ms": 1346.4,
-        "max_ms": 5040.8,
+        "p50_ms": 1818.0,
+        "max_ms": 5407.5,
         "traces": [
           {
             "prompt": "What is the chemical symbol for gold?",
             "expected": "Au",
-            "response": "The chemical symbol for gold is **Au**.",
+            "response": "The chemical symbol for gold is **Au**.  \n\nThis comes from the Latin word *aurum*, meaning \"shining\" or \"glittering,\" which is the origin of the element's name.",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 1265.1
+            "latency_ms": 3932.3
           },
           {
             "prompt": "Which planet is closest to the Sun?",
@@ -544,16 +544,16 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 1320.4
+            "latency_ms": 1459.3
           },
           {
             "prompt": "What is the square root of 144?",
             "expected": "12",
-            "response": "The square root of 144 is **12**.\n\nBecause:  \n$ 12 \\times 12 = 144 $\n\n\u2705 So, $ \\sqrt{144} = 12 $",
+            "response": "The square root of 144 is **12**.\n\nBecause $ 12 \\times 12 = 144 $.\n\n\u2705 So, $ \\sqrt{144} = 12 $",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 4062.2
+            "latency_ms": 4244.9
           },
           {
             "prompt": "Who wrote Romeo and Juliet?",
@@ -562,7 +562,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 1372.4
+            "latency_ms": 1439.3
           },
           {
             "prompt": "What is the capital of France?",
@@ -571,7 +571,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 987.5
+            "latency_ms": 997.6
           },
           {
             "prompt": "How many sides does a hexagon have?",
@@ -580,16 +580,16 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 1147.4
+            "latency_ms": 1239.5
           },
           {
             "prompt": "What gas do plants absorb from the atmosphere?",
             "expected": "CO2",
-            "response": "Plants absorb **carbon dioxide (CO\u2082)** from the atmosphere. They use this gas, along with water and sunlight, in the process of **photosynthesis** to produce glucose (a form of sugar) and oxygen as a byproduct.",
+            "response": "Plants absorb **carbon dioxide (CO\u2082)** from the atmosphere. They use this gas, along with water and sunlight, in the process of **photosynthesis** to produce glucose and oxygen.",
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 4195.9
+            "latency_ms": 3563.9
           },
           {
             "prompt": "In what year did World War II end?",
@@ -598,25 +598,25 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 1308.0
+            "latency_ms": 1390.7
           },
           {
             "prompt": "What is the boiling point of water in Celsius?",
             "expected": "100",
-            "response": "The boiling point of water in Celsius is **100\u00b0C** at standard atmospheric pressure (1 atmosphere or 101.3 kPa).",
+            "response": "The boiling point of water in Celsius is **100\u00b0C** at standard atmospheric pressure (1 atm).",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 2686.7
+            "latency_ms": 2176.6
           },
           {
             "prompt": "How many bones are in the adult human body?",
             "expected": "206",
-            "response": "The adult human body has **206 bones**.\n\nThis number can vary slightly depending on factors like individual development and the presence of fused bones (such as the fusion of certain vertebrae or skull bones), but 206 is the standard and most commonly accepted number used in anatomy.",
+            "response": "The adult human body has **206 bones**.\n\nThis number can vary slightly depending on factors like individual development, gender, and whether certain bones (like the sesamoid bones) are included. However, 206 is the widely accepted standard count for the bones in an adult human skeleton.",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 5040.8
+            "latency_ms": 5407.5
           }
         ]
       },
@@ -625,17 +625,17 @@
         "answered": 8,
         "correct": 8,
         "accuracy": 1.0,
-        "p50_ms": 513.4,
-        "max_ms": 555.3,
+        "p50_ms": 581.3,
+        "max_ms": 624.8,
         "traces": [
           {
             "prompt": "Respond with exactly one word: the color of the sky.",
             "expected": "blue",
-            "response": "Blue",
+            "response": "blue",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 519.0
+            "latency_ms": 599.9
           },
           {
             "prompt": "Respond with exactly one word: the opposite of hot.",
@@ -644,7 +644,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 440.6
+            "latency_ms": 510.5
           },
           {
             "prompt": "Respond with exactly one word: the first month of the year.",
@@ -653,7 +653,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 511.1
+            "latency_ms": 584.2
           },
           {
             "prompt": "Respond with exactly one word: the number of days in a week.",
@@ -662,7 +662,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 472.2
+            "latency_ms": 546.2
           },
           {
             "prompt": "Respond with exactly one word: what is 2 + 2?",
@@ -671,16 +671,16 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 515.6
+            "latency_ms": 570.9
           },
           {
             "prompt": "Respond with exactly one word: what metal is used in electrical wires?",
             "expected": "copper",
-            "response": "copper",
+            "response": "Copper",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 555.3
+            "latency_ms": 624.2
           },
           {
             "prompt": "Respond with exactly one word: the largest ocean.",
@@ -689,7 +689,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 364.4
+            "latency_ms": 578.4
           },
           {
             "prompt": "Respond with exactly one word: what do bees produce?",
@@ -698,7 +698,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 533.9
+            "latency_ms": 624.8
           }
         ]
       },
@@ -707,8 +707,8 @@
         "answered": 5,
         "correct": 4,
         "accuracy": 0.8,
-        "p50_ms": 1182.0,
-        "max_ms": 6865.5,
+        "p50_ms": 1255.5,
+        "max_ms": 5239.4,
         "traces": [
           {
             "prompt": "If a train travels 60 km/h for 2 hours, how many km does it travel? Answer with the number only.",
@@ -717,7 +717,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 1182.0
+            "latency_ms": 1255.5
           },
           {
             "prompt": "A store sells 3 apples for $2. How much do 9 apples cost? Answer with the number only.",
@@ -726,7 +726,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 906.7
+            "latency_ms": 974.7
           },
           {
             "prompt": "There are 24 students in a class. 1/3 are absent. How many are present? Answer with the number only.",
@@ -735,7 +735,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 2456.8
+            "latency_ms": 2585.9
           },
           {
             "prompt": "A rectangle has length 8 and width 5. What is its area? Answer with the number only.",
@@ -744,31 +744,31 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 894.1
+            "latency_ms": 973.8
           },
           {
             "prompt": "If 5 workers finish a job in 10 days, how many days for 10 workers? Answer with the number only.",
             "expected": "5",
-            "response": "Work done = workers \u00d7 days\n\nIf 5 workers finish a job in 10 days, the total work is:\n\n5 \u00d7 10 = 50 worker-days\n\nNow, if 10 workers do the same job, the number of days required is:\n\nTotal work / number of workers = 50 / 10 = 5 days\n\nAnswer: 5",
+            "response": "The total work done is 5 workers \u00d7 10 days = 50 worker-days.\n\nIf 10 workers do the same job, then:\n\nDays needed = 50 worker-days \u00f7 10 workers = 5 days.\n\nAnswer: 5",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 6865.5
+            "latency_ms": 5239.4
           }
         ]
       }
     },
     "overall": {
-      "p50_ms": 1147.4,
-      "max_ms": 6865.5,
-      "avg_tokens_per_sec": 6.2,
+      "p50_ms": 1239.5,
+      "max_ms": 5407.5,
+      "avg_tokens_per_sec": 5.8,
       "tps_label": "chunks/s"
     }
   },
   "lfm2": {
     "model": "lfm2",
     "date": "2026-03-12",
-    "run_at": "2026-03-12T03:01:46.190579+00:00",
+    "run_at": "2026-03-12T12:09:38.263820+00:00",
     "functional": true,
     "suites": {
       "mmlu": {
@@ -776,98 +776,98 @@
         "answered": 10,
         "correct": 9,
         "accuracy": 0.9,
-        "p50_ms": 1358.1,
-        "max_ms": 5907.1,
+        "p50_ms": 1655.1,
+        "max_ms": 3953.5,
         "traces": [
           {
             "prompt": "What is the chemical symbol for gold?",
             "expected": "Au",
-            "response": "The chemical symbol for gold is **Au**. \n\nThis is a simplified explanation of chemical notation: in science, elements are represented by their atomic number (numbers) in uppercase letters, and the chemical symbol is a combination of the uppercase letter and a lowercase letter (in this case, \"A\" for gold). \n\nLet me know if you need further clarification!",
+            "response": "The chemical symbol for gold is **Au**. \n\nGold is a chemical element with the symbol **Au**, which comes from the Latin word for gold, \"aurum.\" It is a precious metal and is known for its luster and resistance to corrosion.",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 2156.6
+            "latency_ms": 1538.5
           },
           {
             "prompt": "Which planet is closest to the Sun?",
             "expected": "Mercury",
-            "response": "The planet closest to the Sun is **Mercury**. It is the smallest planet in our solar system and orbits the Sun at the closest distance possible due to its proximity to the planet's orbit.",
+            "response": "The planet that is closest to the Sun is **Mercury**. It is the smallest planet in our solar system and has the shortest orbital path around the Sun.",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 1228.0
+            "latency_ms": 1104.8
           },
           {
             "prompt": "What is the square root of 144?",
             "expected": "12",
-            "response": "The square root of 144 is **12**, because 12 \u00d7 12 = 144.",
+            "response": "The square root of 144 is **12**.\n\nThis is because:\n\n$$\n12 \\times 12 = 144\n$$\n\nSo, the square root of 144 is **12**.",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 755.5
+            "latency_ms": 1190.2
           },
           {
             "prompt": "Who wrote Romeo and Juliet?",
             "expected": "Shakespeare",
-            "response": "William Shakespeare wrote *Romeo and Juliet*.",
+            "response": "Romeo and Juliet was written by William Shakespeare.",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 507.7
+            "latency_ms": 533.7
           },
           {
             "prompt": "What is the capital of France?",
             "expected": "Paris",
-            "response": "The capital of France is **Paris**.",
+            "response": "The capital of France is **Paris**. \n\nIt is a vibrant city known for its rich history, iconic landmarks like the Eiffel Tower, and as the cultural and political center of France.",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 437.6
+            "latency_ms": 1189.1
           },
           {
             "prompt": "How many sides does a hexagon have?",
             "expected": "6",
-            "response": "A hexagon has **6 sides**.",
+            "response": "A hexagon has **6 sides**. \n\nThis is a fundamental fact in geometry: a hexagon is a polygon with **six sides**. \n\nIf you're asking about a specific type of hexagon (like a regular hexagon, which is six-sided and has equal sides and angles), then it still has **6 sides**. \n\nLet me know if you meant something else! \ud83d\ude0a",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 455.7
+            "latency_ms": 2300.8
           },
           {
             "prompt": "What gas do plants absorb from the atmosphere?",
             "expected": "CO2",
-            "response": "Plants primarily absorb **carbon dioxide (CO\u2082)** from the atmosphere. This process is essential for photosynthesis, during which plants use CO\u2082 to produce glucose and release oxygen as a byproduct. \n\nAdditionally, plants absorb other gases, such as **oxygen (O\u2082)** and **water (H\u2082O)**, especially through stomata (tiny pores on leaves) and roots. However, carbon dioxide is the main gas involved in their gas exchange.\n\nSo, the key gas absorbed by plants is:\n\n**Carbon dioxide (CO\u2082)** \ud83c\udf31\ud83d\udca8",
+            "response": "Plants primarily absorb **carbon dioxide (CO\u2082)** from the atmosphere during the process of **photosynthesis**. CO\u2082 is essential for the synthesis of glucose and other organic compounds in plants.\n\nIn addition to CO\u2082, plants can also absorb:\n- **Water (H\u2082O)** through their roots.\n- **Oxygen (O\u2082)** as a byproduct of photosynthesis.\n- **Trace gases** like nitrogen (N\u2082), which plants absorb through their leaves, though these are not used directly in photosynthesis.\n\nBut among the main components, **carbon dioxide** is the key gas absorbed by plants for growth and metabolism. \n\nLet me know if you'd like to explore how this process works or its importance in ecosystems! \ud83c\udf31",
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 3207.5
+            "latency_ms": 3953.5
           },
           {
             "prompt": "In what year did World War II end?",
             "expected": "1945",
-            "response": "World War II officially ended in **September 1945**. The primary conflict concluded with the following key events:\n\n1. **Victory in Europe (VE) Day**: On **May 8, 1945**, the Soviet Union declared the defeat of Nazi Germany, marking the end of the Eastern Front. This was followed by the **invasion of Japan** (Operation Downfall) on **September 2, 1945**, which led to Japan's surrender on **August 15, 1945**.\n\n2. **Allied Victory in the Pacific**: The United States dropped atomic bombs on Hiroshima (August 6) and Nagasaki (August 9), prompting Japan's surrender on **August 15**.\n\nWhile the formal **Potsdam Conference** (February 1945) and **Yalta Conference** (February 1945) addressed post-war matters, the war's conclusion was widely recognized with the **German surrender in May-July 1945**. Thus, **August 1945** is the most commonly cited year for the war's end. \n\n**Answer:** 1945.",
+            "response": "World War II ended in 1945. The war concluded with the surrender of Japan on September 2, 1945, marking the official end of the conflict. The war also saw significant military operations in other regions, such as the defeat of Nazi Germany in Europe (1945), though Germany's formal surrender came later, on May 8, 1945.",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 5907.1
+            "latency_ms": 1972.6
           },
           {
             "prompt": "What is the boiling point of water in Celsius?",
             "expected": "100",
-            "response": "The boiling point of water is 100\u00b0C under standard atmospheric pressure (1 atmosphere or 101.325 kPa). However, it may vary slightly under different conditions such as altitude or pressure. Would you like me to explain why it changes at different altitudes?",
+            "response": "The boiling point of water is **100 degrees Celsius (C)** at standard atmospheric pressure (1 atmosphere). However, this value can change depending on the altitude and atmospheric pressure. At higher altitudes, water boils at a lower temperature. \n\nWould you like me to explain how pressure affects the boiling point of water?",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 1489.0
+            "latency_ms": 1771.7
           },
           {
             "prompt": "How many bones are in the adult human body?",
             "expected": "206",
-            "response": "The adult human body has **206 bones** in total.  \n\nThis number can vary slightly depending on the specific counting method (e.g., including the rib cage or counting the vertebrae differently), but it is commonly referenced as 206 bones.",
+            "response": "The adult human body has a total of **206 bones**. These bones are organized into different systems and can be categorized as follows:\n\n- **Skull (27 bones)**\n- **Vertebral column (33 vertebrae)**\n- **Skeletal framework (80 bones)**\n- **Limbs (30 bones)**\n- **Hand and foot (54 bones)**\n\nThis count includes both long bones (like the femur), short bones (like the radius and tibia), irregular bones (like the vertebrae), and flat bones (like the skull and hands).\n\nSo, the total number of bones in the human body is **206**.",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 1488.2
+            "latency_ms": 3321.9
           }
         ]
       },
@@ -876,17 +876,17 @@
         "answered": 8,
         "correct": 6,
         "accuracy": 0.75,
-        "p50_ms": 316.9,
-        "max_ms": 422.2,
+        "p50_ms": 325.4,
+        "max_ms": 368.5,
         "traces": [
           {
             "prompt": "Respond with exactly one word: the color of the sky.",
             "expected": "blue",
-            "response": "blue",
+            "response": "Blue",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 320.2
+            "latency_ms": 315.9
           },
           {
             "prompt": "Respond with exactly one word: the opposite of hot.",
@@ -895,7 +895,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 291.0
+            "latency_ms": 321.6
           },
           {
             "prompt": "Respond with exactly one word: the first month of the year.",
@@ -904,7 +904,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 350.4
+            "latency_ms": 340.9
           },
           {
             "prompt": "Respond with exactly one word: the number of days in a week.",
@@ -913,16 +913,16 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 304.4
+            "latency_ms": 340.3
           },
           {
             "prompt": "Respond with exactly one word: what is 2 + 2?",
             "expected": "4",
-            "response": "Four",
+            "response": "four",
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 422.2
+            "latency_ms": 306.9
           },
           {
             "prompt": "Respond with exactly one word: what metal is used in electrical wires?",
@@ -931,7 +931,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 296.4
+            "latency_ms": 368.5
           },
           {
             "prompt": "Respond with exactly one word: the largest ocean.",
@@ -940,7 +940,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 313.6
+            "latency_ms": 300.7
           },
           {
             "prompt": "Respond with exactly one word: what do bees produce?",
@@ -949,7 +949,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 329.8
+            "latency_ms": 329.2
           }
         ]
       },
@@ -958,8 +958,8 @@
         "answered": 5,
         "correct": 2,
         "accuracy": 0.4,
-        "p50_ms": 365.4,
-        "max_ms": 416.1,
+        "p50_ms": 378.8,
+        "max_ms": 433.9,
         "traces": [
           {
             "prompt": "If a train travels 60 km/h for 2 hours, how many km does it travel? Answer with the number only.",
@@ -968,7 +968,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 374.8
+            "latency_ms": 423.7
           },
           {
             "prompt": "A store sells 3 apples for $2. How much do 9 apples cost? Answer with the number only.",
@@ -977,7 +977,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 329.9
+            "latency_ms": 355.6
           },
           {
             "prompt": "There are 24 students in a class. 1/3 are absent. How many are present? Answer with the number only.",
@@ -986,7 +986,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 416.1
+            "latency_ms": 378.8
           },
           {
             "prompt": "A rectangle has length 8 and width 5. What is its area? Answer with the number only.",
@@ -995,7 +995,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 350.5
+            "latency_ms": 360.0
           },
           {
             "prompt": "If 5 workers finish a job in 10 days, how many days for 10 workers? Answer with the number only.",
@@ -1004,22 +1004,22 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 365.4
+            "latency_ms": 433.9
           }
         ]
       }
     },
     "overall": {
-      "p50_ms": 416.1,
-      "max_ms": 5907.1,
-      "avg_tokens_per_sec": 15.4,
+      "p50_ms": 423.7,
+      "max_ms": 3953.5,
+      "avg_tokens_per_sec": 17.2,
       "tps_label": "chunks/s"
     }
   },
   "lfm2mini": {
     "model": "lfm2mini",
     "date": "2026-03-12",
-    "run_at": "2026-03-12T03:04:23.638447+00:00",
+    "run_at": "2026-03-12T12:09:37.348631+00:00",
     "functional": true,
     "suites": {
       "mmlu": {
@@ -1027,117 +1027,117 @@
         "answered": 10,
         "correct": 9,
         "accuracy": 0.9,
-        "p50_ms": 773.7,
-        "max_ms": 2613.1,
+        "p50_ms": 1120.5,
+        "max_ms": 2774.8,
         "traces": [
           {
             "prompt": "What is the chemical symbol for gold?",
             "expected": "Au",
-            "response": "The chemical symbol for gold is Au.",
+            "response": "The chemical symbol for gold is . Gold is represented by the atomic number 79 on the periodic table. However, this symbol can also represent 64 if you remove the 80s proton and are left with the nucleus of a gold atom. In scientific notation, it would be written as 79.788 \u00d7 10^(-23) or 0.1887 \u00d7 10^(-22).",
             "responded": true,
             "timed_out": false,
-            "correct": true,
-            "latency_ms": 270.6
+            "correct": false,
+            "latency_ms": 1129.0
           },
           {
             "prompt": "Which planet is closest to the Sun?",
             "expected": "Mercury",
-            "response": "Mars is the closest planet to the Sun. However, as you moved away from Mars, the closer it gets to the Sun, Jupiter becomes the only planet that comes close to being at the same distance from the Sun. Its distance varies due to its elliptical orbit but generally stays within about 57.2 million miles (94 million kilometers).",
+            "response": "The planet closest to the Sun is Mercury. It has a very short orbital period (just 88 Earth days) and is nicknamed the \"Moon of the Sun\". The closest orbit is about 46 million kilometers (36 million miles) away.",
             "responded": true,
             "timed_out": false,
-            "correct": false,
-            "latency_ms": 831.8
+            "correct": true,
+            "latency_ms": 736.2
           },
           {
             "prompt": "What is the square root of 144?",
             "expected": "12",
-            "response": "The square root of 144 is 12, but more intuitively, it can also be expressed as the square root of the squares of the factors of 144: \\[\n\\sqrt{144} = \\sqrt{(12^2)} = \\sqrt{144} = \\boxed{12}.\n\\] This approach leverages the fact that 12 squared equals 144, making it a direct and elegant solution.\nThe answer is 12",
+            "response": "The square root of 144 is 12. This can also be expressed as \u221a(144) = 12. This result can be understood by recognizing that 144 is a perfect square, 12 squared equals 144. Alternatively, you could think of it as the magnitude of the number 12, which is the distance from zero to its nearest integer, and this distance is 12. This approach highlights the relationship between square roots and perfect squares.",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 1039.5
+            "latency_ms": 1111.9
           },
           {
             "prompt": "Who wrote Romeo and Juliet?",
             "expected": "Shakespeare",
-            "response": "The playwright who wrote 'Romeo and Juliet' was William Shakespeare. Although the exact years of composition are debated, it is believed that Shakespeare completed it around 1595, though the story itself was written before it was performed in 1595. He was born in 1582 and died in 1603, and his most famous works include 'Hamlet', 'Othello', and 'Macbeth'.\n\nShakespeare penned 'Romeo and Juliet' in quarto form, which was a short play (one act), written during his time as a London playwright, and later composed as a sonnet piece that expanded upon and dramatized his masterpiece. The play's themes of young love, feuds, and tragedy, set against the backdrop of a love between two young lovers, Romeo Montague and Juliet Capulet, have fascinated audiences worldwide for centuries.",
+            "response": "The iconic play \"Romeo and Juliet\" was written by William Shakespeare. It is one of the most famous works of English literature.\n\nShakespeare was born on January 23,  Chrysler Avenue in London, England, and his writing career began around the age of 41. He was influenced by the works of other playwrights such as Ben Volstead and William WychER, who helped shape his unique voice and storytelling style.\n\nShakespeare's \"Romeo and Juliet\" tells the tale of two young lovers from feuding families in the picturesque town of Capulet, set against a backdrop of passionate love and tragic demise. His masterful use of language, complex themes, and dramatic structure contributed to its enduring popularity and its place as a cornerstone of the English language.",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 1958.9
+            "latency_ms": 2002.5
           },
           {
             "prompt": "What is the capital of France?",
             "expected": "Paris",
-            "response": "The capital of France is Paris. It's the most populous city in France and a global center for art, fashion, gastronomy, fashion, and culture.",
+            "response": "The capital of France is Paris. It is a major cultural, political, and economic center in Western Europe, located in the north-central region of the country. Paris is well-known for landmarks such as the Eiffel Tower, Louvre Museum, Notre Dame Cathedral, and many other historic buildings, art galleries, and charming neighborhoods.",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 465.8
+            "latency_ms": 934.1
           },
           {
             "prompt": "How many sides does a hexagon have?",
             "expected": "6",
-            "response": "A hexagon has **6 sides**.",
+            "response": "A hexagon has six sides. However, this definition can vary slightly depending on whether it is a regular or irregular hexagon.\n\nFor a regular hexagon, where all sides are equal and all angles are 120 degrees:\n\\[ \\text{Number of sides} = 6 \\]\n\nFor an irregular hexagon, the number of sides is not guaranteed to be 6, and could be any number from 3 to 7 sides depending on how it is constructed. To give a definitive number, let's consider the most common examples of hexagons:\n- A regular hexagon with each side of length $s = 4$ would have $6 \\times 4 / 2 = 12$ sides.\n- If the hexagon is not regular, for example with vertices at coordinates (0, 0), (s, 0), (s^2/4, 2s/4), (2s^2/4, s^2/4), and (2s^3/4, 2s^2/4), we can see it might have 3 or 5 sides, depending on how the vertices are positioned.\n\nFor a precise count, we need to know the exact type of hexagon",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 268.3
+            "latency_ms": 2774.8
           },
           {
             "prompt": "What gas do plants absorb from the atmosphere?",
             "expected": "CO2",
-            "response": "Plants absorb the gas carbon dioxide (CO2) from the atmosphere through their leaves, specifically through tiny pores on their surface called stomata. This process, called photosynthesis, enables plants to convert atmospheric CO2 into glucose, a type of sugar, and oxygen.",
+            "response": "Plants absorb carbon dioxide (CO2) from the atmosphere. Carbon dioxide is essential for photosynthesis, which is the process plants use to grow and survive. Through a chemical reaction, CO2 is converted into glucose and oxygen, releasing energy for the plant's growth. This process is crucial for maintaining the balance of gases in the atmosphere.",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 690.4
+            "latency_ms": 981.4
           },
           {
             "prompt": "In what year did World War II end?",
             "expected": "1945",
-            "response": "The term \"end of World War II\" varies depending on the specific context\u2014whether it refers to the formal end of the Allied invasion of Normandy on June 6, 1944, or it covers the period immediately after, including the D-Day landings, which took place on June 6-7, 1944, in Normandy, France, which is sometimes considered to end the war in Europe at the beginning of September 1945. \n\nIf we consider the latter point, then World War II concluded on September 2, 1945, marking the end of the conflict that began on June 12, 1939, when Nazi Germany invaded Poland.\n\nTherefore, if referring to the total duration of the war that lasted from the initial German declaration of war on September 3, 1941, to the armistice on November 15, 1947, the end date in 1945 was November 15, 1947. This is known as the \"Holocaust War\" or more specifically, the D-Day landings, which included the invasion of Normandy, as the war officially ended with the surrender of the German army on November 11, 1945, along with the liberation of Western Europe.",
+            "response": "World War II officially ended with the signing of the Armistice on November 15, 1947, following the unconditional surrender of the Japanese Emperor Hirohito by his cousin, his wife Kitaoka Sh\u014dhito. However, the date of the Armistice's official end can vary slightly depending on how the Japanese government decides to count it as the end of the war:\n\n- **Historical Agreement Date:** Typically, the Armistice signed on November 28, 1948, marks the official end of hostilities in Europe, but some historians prefer the signing date in 1945 for more precise historical context.\n- **Additional Confirmation:** Some sources and certain academic perspectives might specify that the Armistice formally came to an end in December 1949, when Japan formally withdrew from the war and Japan officially surrendered on Christmas Eve, December 8, 1949. This date was officially announced by U.S. President Harry S. Truman at 9:00 AM on December 8, 1949.\n\nGiven these possibilities, the most commonly accepted year for officially declaring the end of World War II in 1945, with the formal armistice on November 15, 1947, is 1948",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 2613.1
+            "latency_ms": 2688.6
           },
           {
             "prompt": "What is the boiling point of water in Celsius?",
             "expected": "100",
-            "response": "The boiling point of water in Celsius is 100 degrees Celsius at standard atmospheric pressure. This means that when water is heated above this temperature in its liquid state, it turns into vapor and its molecules gain enough energy to overcome the cohesive forces holding them together and escape into the gaseous state.",
+            "response": "The boiling point of water is 100 degrees Celsius at standard atmospheric pressure. This means water will change from a liquid to a gas (steam) when heated above its critical point at 4.2 degrees Celsius. When water is boiled, it releases a significant amount of energy (heat) and undergoes a phase change from liquid to gas.",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 773.9
+            "latency_ms": 892.7
           },
           {
             "prompt": "How many bones are in the adult human body?",
             "expected": "206",
-            "response": "The adult human body contains approximately 206 bones. This number can vary slightly depending on the measurement method, but generally, the majority of the adult human body consists of 206 bones. The bones are classified into three main groups: long bones, short bones, and flat bones, which contribute to the structure and support of the body.",
+            "response": "The adult human body contains 206 bones. These bones are classified into five main groups, which are:\n\n- **Humerus** (upper arm bone)\n- **Clavicle (collarbone)** (collarbone)\n- **Scapula (shoulder blade)** (shoulder blade)\n- **Radius and Ulna** (forearm bones)\n- **Diaphragm** (chest cavity)\n\nHowever, this number can vary slightly depending on whether the bones are categorized as \"metatarsal\" or \"metacarpal bones,\" as these bones are composed of cartilage, and their exact number can be a little more precise.",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 773.4
+            "latency_ms": 1651.3
           }
         ]
       },
       "instruct": {
         "prompts": 8,
         "answered": 8,
-        "correct": 3,
-        "accuracy": 0.375,
-        "p50_ms": 202.9,
-        "max_ms": 317.6,
+        "correct": 4,
+        "accuracy": 0.5,
+        "p50_ms": 257.6,
+        "max_ms": 445.3,
         "traces": [
           {
             "prompt": "Respond with exactly one word: the color of the sky.",
             "expected": "blue",
-            "response": "Silver.",
+            "response": "The color of the sky is indigo.",
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 211.2
+            "latency_ms": 290.5
           },
           {
             "prompt": "Respond with exactly one word: the opposite of hot.",
@@ -1146,7 +1146,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 193.9
+            "latency_ms": 245.9
           },
           {
             "prompt": "Respond with exactly one word: the first month of the year.",
@@ -1155,34 +1155,34 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 193.3
+            "latency_ms": 216.0
           },
           {
             "prompt": "Respond with exactly one word: the number of days in a week.",
             "expected": "7",
-            "response": "7 days.",
+            "response": "7",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 198.7
+            "latency_ms": 223.5
           },
           {
             "prompt": "Respond with exactly one word: what is 2 + 2?",
             "expected": "4",
-            "response": "10.",
+            "response": "4.",
             "responded": true,
             "timed_out": false,
-            "correct": false,
-            "latency_ms": 317.6
+            "correct": true,
+            "latency_ms": 242.6
           },
           {
             "prompt": "Respond with exactly one word: what metal is used in electrical wires?",
             "expected": "copper",
-            "response": "Copper",
+            "response": "Copper.",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 177.4
+            "latency_ms": 445.3
           },
           {
             "prompt": "Respond with exactly one word: the largest ocean.",
@@ -1191,26 +1191,26 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 252.5
+            "latency_ms": 269.2
           },
           {
             "prompt": "Respond with exactly one word: what do bees produce?",
             "expected": "honey",
-            "response": "Bees produce pollen.",
+            "response": "waxes",
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 207.1
+            "latency_ms": 281.9
           }
         ]
       },
       "gsm8k": {
         "prompts": 5,
         "answered": 5,
-        "correct": 2,
-        "accuracy": 0.4,
-        "p50_ms": 208.3,
-        "max_ms": 545.8,
+        "correct": 3,
+        "accuracy": 0.6,
+        "p50_ms": 278.3,
+        "max_ms": 1816.4,
         "traces": [
           {
             "prompt": "If a train travels 60 km/h for 2 hours, how many km does it travel? Answer with the number only.",
@@ -1219,16 +1219,16 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 208.3
+            "latency_ms": 278.3
           },
           {
             "prompt": "A store sells 3 apples for $2. How much do 9 apples cost? Answer with the number only.",
             "expected": "6",
-            "response": "$18",
+            "response": "18",
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 206.4
+            "latency_ms": 301.5
           },
           {
             "prompt": "There are 24 students in a class. 1/3 are absent. How many are present? Answer with the number only.",
@@ -1237,139 +1237,139 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 183.0
+            "latency_ms": 234.7
           },
           {
             "prompt": "A rectangle has length 8 and width 5. What is its area? Answer with the number only.",
             "expected": "40",
-            "response": "40\n\nThe area of a rectangle is calculated by multiplying its length by its width: \nArea = length * width\n= 8 * 5\n= 40 square units.",
+            "response": "40",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 545.8
+            "latency_ms": 227.4
           },
           {
             "prompt": "If 5 workers finish a job in 10 days, how many days for 10 workers? Answer with the number only.",
             "expected": "5",
-            "response": "40",
+            "response": "15\n\nTo solve this question, we first consider the work done by 5 workers in 10 days. The total work done is typically represented by the product of the number of workers and the number of days. Here, it would be 5 workers * 10 days = 50 worker-days.\n\nNow, if we have 10 workers, to find out how many days it will take to complete the same amount of work, we use the inverse of the number of workers:\n\nDays required = Total work / Workers' factor\n= 50 worker-days / 10 workers\n= 5 days.\n\nThus, 10 workers will take 5 days to finish the same job.",
             "responded": true,
             "timed_out": false,
-            "correct": false,
-            "latency_ms": 254.2
+            "correct": true,
+            "latency_ms": 1816.4
           }
         ]
       }
     },
     "overall": {
-      "p50_ms": 268.3,
-      "max_ms": 2613.1,
-      "avg_tokens_per_sec": 41.3,
+      "p50_ms": 445.3,
+      "max_ms": 2774.8,
+      "avg_tokens_per_sec": 43.3,
       "tps_label": "chunks/s"
     }
   },
   "lfm2thinking": {
     "model": "lfm2thinking",
     "date": "2026-03-12",
-    "run_at": "2026-03-12T03:04:12.601748+00:00",
+    "run_at": "2026-03-12T12:11:42.078061+00:00",
     "functional": true,
     "suites": {
       "mmlu": {
         "prompts": 10,
         "answered": 10,
-        "correct": 9,
-        "accuracy": 0.9,
-        "p50_ms": 6658.1,
-        "max_ms": 6835.2,
+        "correct": 10,
+        "accuracy": 1.0,
+        "p50_ms": 6086.9,
+        "max_ms": 6233.7,
         "traces": [
           {
             "prompt": "What is the chemical symbol for gold?",
             "expected": "Au",
-            "response": "<think> Okay, let me see. The user is asking for the chemical symbol for gold. Hmm, I remember that chemical symbols are usually abbreviations from the periodic table. Gold's symbol... I think it's Au. Wait, but let me make sure. The element gold's symbol is Au because in the periodic table, gold is Au, right? Yeah, I've seen that before in contexts like gold leaf or jewelry. Wait, but sometimes people might confuse it with Ag for silver or something else. No, silver is Ag. Gold is definitely Au. Let me confirm: the atomic number for gold... Well, gold's atomic number is 79, but the symbol is Au. Yeah, I think that's correct. So the answer should be Au. I don't think there's any trick here. The user just wants the symbol, so I should state it clearly.\n</think>\n\nThe chemical symbol for gold is **Au**. \n\nGold (Au) is the element in the periodic table with this symbol, commonly used in chemistry and various fields like jewelry and materials science. Let me know if you need further clarification! \ud83c\udf1f",
+            "response": "<think> Okay, let's see. The user is asking for the chemical symbol for gold. Hmm, I need to recall basic chemistry here. The element gold's symbol... I think it's Au. Wait, but let me make sure. Gold is a metal, right? Its atomic number is... well, gold is in the d-block, period 6, group 12. Oh yeah, gold's symbol is Au because it's the same as mercury's symbol, Hg? Wait no, wait. Wait, no, mercury's symbol is Hg, gold is Au. Yeah, I remember that mercury is Hg, gold is Au. Let me confirm: gold's symbol is Au, gold is Au. So the answer should be Au. But wait, just to be sure, maybe I should think of other elements. Like silver is Ag, copper Cu, so gold is next. Yeah, I think Au is correct. I don't think there's any confusion here. So the answer is Au. I should just state that clearly.\n</think>\n\nThe chemical symbol for gold is **Au**. \n\nGold (Au) is a precious metal located in Group 12 of the periodic table and is known for its distinctive golden color. The",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 6082.8
+            "latency_ms": 6046.7
           },
           {
             "prompt": "Which planet is closest to the Sun?",
             "expected": "Mercury",
-            "response": "<think> Okay, so the question is asking which planet is closest to the Sun. Hmm, let me think. I remember that planets orbit the Sun, right? The closest planets to the Sun are the ones closest in distance. But wait, the planets in our solar system are Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune. \n\nWait, Mercury is the smallest planet in our solar system, but does it actually orbit closest? Or maybe Pluto was considered a dwarf planet, but I think now it's not classified as one anymore. So Mercury is the closest planet to the Sun. But hold on, what about other planets? Wait, no, the inner planets are Mercury, Venus, Earth, Mars. Then moving outward are Jupiter, Saturn, etc. So the closest should be Mercury. But wait, is there any other planet closer? Like maybe some dwarf planets? But no, the question is about planets, not dwarf planets. So the answer should be Mercury. \n\nBut wait, sometimes people confuse the closest planet to the Sun as the one with the shortest year length, which would be Mercury. Since Mercury has the shortest orbital period. But just to confirm: Mercury's average distance from the Sun is about 57",
+            "response": "<think> Okay, let's see. The question is asking which planet is closest to the Sun. Hmm, I need to remember the planets in order from the Sun. Wait, the planets are Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune. Right? But wait, there are eight planets now, right? Since Pluto was considered a dwarf planet before, but now it's not. So the order from closest to farthest should be Mercury first, then Venus, Earth, Mars, etc. Since Mercury is the closest to the Sun compared to all the others. Wait, but wait\u2014wait, hold on. Wait, Mercury is the closest terrestrial planet, but what about the inner gas giants? No, actually, Jupiter is much farther out. So the order from closest should be Mercury, Venus, Earth, Mars, then the gas giants like Jupiter, Saturn, etc., which are much further away. So the closest planet to the Sun among the planets is Mercury. But wait, the question just says \"which planet is closest to the Sun?\" Maybe they're thinking about the planets, not including other celestial bodies? But the user might be expecting Mercury as the answer. But wait, maybe there's a trick here. Wait",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 6648.2
+            "latency_ms": 6011.7
           },
           {
             "prompt": "What is the square root of 144?",
             "expected": "12",
-            "response": "<think> Okay, let's see. The question is asking what the square root of 144 is. Hmm, square roots can sometimes be tricky, but I remember that a square root of a number is a value that, when multiplied by itself, gives that number. So basically, I need to find a number x such that x * x = 144. \n\nFirst, maybe I should start by recalling some basic square numbers. For example, 12 squared is 144 because 12*12=144. Wait, is that right? Let me check: 12 times 12 is 144. Yeah, because 10*12=120 and 2*12=24, so 120+24=144. So 12 squared is indeed 144. Therefore, the square root of 144 should be 12. \n\nBut wait, hold on. Squares also have both positive and negative roots. So technically, the square root of 144 could be 12 or -12. But since the question just asks for the square root, maybe they expect the positive one. In math problems like this, unless specified, they usually want the principal root, which is the non-negative one. So yes, 12 is the",
+            "response": "<think> Okay, let's see... The question is asking for the square root of 144. Hmm, square root means I need a number that when multiplied by itself gives 144. Right? So I need to find some number x where x * x = 144. \n\nWell, I know that 12 squared is 144 because 12*12 is 144. Wait, is that right? Let me check: 12 times 12 is indeed 144. So does that mean the square root of 144 is 12? \n\nBut wait, sometimes people might think about both positive and negative roots. Since squaring a negative number gives a positive result, so -12 squared is also 144. But the question just asks for the square root, which usually refers to the non-negative one unless specified otherwise. So yeah, the principal square root is 12. \n\nBut maybe I should confirm. Let me think again. If someone asks for the square root of 144, they're looking for a number that when squared equals 144. Since 12*12=144, that's straightforward. I don't see any other integer that squares to 144 except 12 and -12. Since the question didn't",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 6387.7
+            "latency_ms": 6133.7
           },
           {
             "prompt": "Who wrote Romeo and Juliet?",
             "expected": "Shakespeare",
-            "response": "<think> Okay, let me see. The user is asking who wrote Romeo and Juliet. Hmm, I remember that Romeo and Juliet is a classic play, right? I think it's by Shakespeare. Wait, but maybe I should double-check to make sure I'm not mixing up any details. \n\nFirst, Shakespeare was the main playwright during that time, and Romeo and Juliet is one of his most famous works. The play was written around the late 16th century, maybe 1595? I recall that it's set during the Italian War of Aid to Rome, and it's a tragic love story between two families from feuding families. \n\nWait, but sometimes people confuse it with other authors. For example, there's a play called \"Hamlet\" by Shakespeare too, but that's different. The key points here are authorship: definitely Shakespeare. The title \"Romeo and Juliet\" is definitely his work. \n\nBut let me make sure there's no other possibility. Sometimes people might think of other authors who wrote similar plays, but I can't think of any other major playwright who wrote a play with that exact title. Maybe someone like Moli\u00e8re? No, his plays are different. Or maybe a contemporary author? Probably",
+            "response": "<think> Okay, let me start thinking about this. The user is asking who wrote \"Romeo and Juliet.\" I know that Romeo and Juliet is a famous play, but I need to recall who the author is. From what I remember, Shakespeare wrote many plays, like Hamlet, Macbeth, etc., but \"Romeo and Juliet\" specifically... Wait, wasn't that also written by William Shakespeare? Yeah, I think so. But wait, sometimes people might confuse authors, like maybe someone else? Let me double-check. \n\nWait, maybe I should confirm. The play Romeo and Juliet is indeed by William Shakespeare. It's one of his most well-known works, part of his Shakespearean comedies. The story is about two young lovers from feuding families, which is a common theme in Shakespearean tragedies and comedies. \n\nBut just to make sure there's no confusion with other authors. For example, sometimes people might think of other authors like Jane Austen or others, but no, Romeo and Juliet is definitely Shakespeare. The user might be expecting that answer. \n\nAlternatively, could there be a trick here? Maybe the user is thinking of a different version? But no, the original is Shakespeare. The key points are",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 6382.1
+            "latency_ms": 6067.3
           },
           {
             "prompt": "What is the capital of France?",
             "expected": "Paris",
-            "response": "<think> Okay, let's see. The question is asking \"What is the capital of France?\" Hmm, I need to make sure I answer this correctly. Well, I remember that France is a country in Europe, and its capital city... Wait, isn't Paris the capital of France? Yes, I think that's right. But wait, let me double-check to be sure. Maybe I should think if there's any chance it's another city. For example, sometimes people might confuse capitals of neighboring countries, but no, France's capital is definitely Paris. Paris is known for things like the Eiffel Tower, the Louvre Museum, etc. So I'm pretty confident it's Paris. The user might be testing if I know that even though sometimes people might think of other cities, but no, Paris is correct. I don't think there's any trick here. So the answer should be Paris. Just need to present that clearly.\n</think>\n\nThe capital of France is **Paris**. \n\nParis is not only the cultural and historical heart of France but also a global city renowned for its art, fashion, cuisine, and architecture. \ud83c\uddeb\ud83c\uddf7\ud83c\uddeb\ud83c\uddf7 \n\nLet me know if you'd like",
+            "response": "<think> Okay, let's see... The question is asking what the capital of France is. Hmm, I know that France is a country in Europe, and I recall that Paris is its capital. Wait, but I should make sure I'm not confused with other cities like Rome or Berlin. Let me think... Yes, Paris is the capital of France. I've heard that before in history classes. Maybe I should double-check if there's any chance it could be something else, but no, definitely Paris. So the answer should be Paris. I don't think there's any trick here. The user just wants the capital, which is straightforward. So I'll go with Paris.\n</think>\n\nThe capital of France is **Paris**. \n\nParis is not only the cultural and historical heart of the country but also its largest city and a global hub for art, fashion, and cuisine. \ud83c\udfa8\ud83c\uddeb\ud83c\uddf7 \n\n**Answer: Paris**",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 6614.2
+            "latency_ms": 4808.5
           },
           {
             "prompt": "How many sides does a hexagon have?",
             "expected": "6",
-            "response": "<think> Okay, let me see. The question is asking how many sides a hexagon has. Hmm, I need to recall what a hexagon is. A polygon is a shape with multiple sides and angles. The simplest polygon is a triangle, which has 3 sides. Then a square has 4 sides, pentagon 5, and so on. So, a hexagon should be a six-sided polygon. Wait, but let me make sure. A hexagon is a six-sided figure. So if I have a hexagon, it has six sides. But maybe I should think again. Maybe I'm overcomplicating. The number of sides is the same as the number of angles, right? Each side is connected to two sides. Wait, no. Wait, actually, the number of sides equals the number of sides you can trace around the polygon. So if it's a hexagon, it has six sides. Yeah, I think that's right. So the answer should be 6. But just to be thorough, let me confirm. Let's think of common polygons: Triangle (3), square (4), pentagon (5), hexagon (6), heptagon (7), etc.",
+            "response": "<think> Okay, let me try to figure out how many sides a hexagon has. Hmm, the question is asking \"How many sides does a hexagon have?\" Well, I remember that polygons are classified based on their sides and angles. A triangle has 3 sides, a square has 4, a pentagon has 5, and so on. So a hexagon... wait, hexagon is six-sided? Wait, no, wait. Wait, hold on. Let me think again. A triangle is 3 sides, quadrilateral is 4, pentagon 5, hexagon 6? But the question says hexagon. Wait, maybe I'm confusing something here. Let me confirm: a hexagon has six sides. Because the name itself comes from \"honeybee\" which has six legs? Or maybe it's just the term for six sides. Wait, but maybe I should make sure. Let me count: a hexagon is a six-sided polygon. So regardless of what else is going on, the name hexagon refers to six sides. So the answer should be six. But wait, maybe the question is a trick question? Like, maybe it's not about the name but something else? Wait,",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 6674.3
+            "latency_ms": 6106.5
           },
           {
             "prompt": "What gas do plants absorb from the atmosphere?",
             "expected": "CO2",
-            "response": "<think> Okay, let me think about this. The question is: \"What gas do plants absorb from the atmosphere?\" Hmm, I need to recall what plants absorb. I remember from biology class that plants perform photosynthesis, right? Photosynthesis uses sunlight, carbon dioxide, and water to make glucose and oxygen. Wait, so the gas they take in would be carbon dioxide. But wait, the question is asking what gas they absorb from the atmosphere. The main gas they absorb is carbon dioxide (CO\u2082), yes? Because plants take in CO\u2082 from the air through their leaves. \n\nWait, but sometimes people might confuse it with other gases like oxygen? But oxygen is mostly released by plants during photosynthesis, but plants also respire, so maybe they do absorb some oxygen? No, wait, actually plants do perform cellular respiration too, just like animals. But the primary gas they absorb from the atmosphere is carbon dioxide. Since plants take in CO\u2082 through their stomata to make their own food, while releasing oxygen as a byproduct. So the answer should be carbon dioxide. Let me make sure there's no other gas. Maybe water vapor? But water is absorbed through roots, not directly from the atmosphere in the same way. The main one they",
+            "response": "<think> Okay, let me see. The question is asking what gas do plants absorb from the atmosphere. Hmm, I need to recall basic biology here. Plants take in carbon dioxide (CO2) right? Wait, but also, do they absorb other gases? Oh, right, plants do need water, but the main gas they absorb from the air is carbon dioxide. But wait, sometimes people might confuse oxygen too, but plants produce oxygen through photosynthesis, but they absorb CO2 for respiration and growth. Wait, maybe the question is straightforward\u2014plants primarily absorb CO2 from the atmosphere. Let me think again. Plants use CO2 for photosynthesis to make glucose, and they release oxygen. But the question is about what gas they absorb. So yes, carbon dioxide. But wait, do they absorb other gases? Like nitrogen? No, nitrogen is fixed by some bacteria in symbiosis, but plants themselves don't absorb nitrogen gas (N2) directly. They get nitrogen from the soil through nitrates or ammonium. The main gas from the atmosphere they take in is definitely CO2. So the answer should be carbon dioxide. But maybe I should check if there's another gas. Wait, some might think about water vapor, but water is absorbed through",
             "responded": true,
             "timed_out": false,
-            "correct": false,
-            "latency_ms": 6677.3
+            "correct": true,
+            "latency_ms": 6177.2
           },
           {
             "prompt": "In what year did World War II end?",
             "expected": "1945",
-            "response": "<think> Okay, let's see. The user is asking in what year World War II ended. I need to recall the key events related to WWII. World War II is generally considered to have ended after several major events. I remember that Japan surrendered in 1945, which was a big turning point. But there were also other countries involved. The European theater ended earlier with Germany's surrender in May 1945, specifically on May 8th, which is D-Day's anniversary. But the war in Asia continued until 1945 too, with Japan fighting until August 1945. However, the overall end of the war is often marked when the last major hostilities concluded, which is typically considered September 2, 1945, when Japan formally surrendered at the Potsdam Declaration, but more accurately, the surrender is usually cited as August 15, 1945, known as V-J Day. Wait, but some sources might say May 8th as VE Day in the UK and May 8 as VJ Day in Japan. The key point is that the war ended on September 2, 1945, with Japan's surrender, which was the formal end, while other Allied forces were already fighting Germany since their surrender was in May.",
+            "response": "<think> Okay, let me see. The user is asking in what year World War II ended. Hmm, I need to recall the key events related to World War II's conclusion. From what I remember, World War II is generally considered to have ended in 1945. But wait, when exactly? The major battles like Normandy's D-Day landings were in June 1944, but the war didn't officially stop until after the final battles. The surrender of Japan happened after the Potsdam Conference in August 1945. Then, Germany surrendered in May 1945 with the Potsdam Agreement, and Austria was occupied until August 1945 as well. But the most commonly cited end date is September 2, 1945, when Japan surrendered at Nagasaki and Hiroshima. However, some might consider the end when Germany surrendered first, which was May 8, 1945. But most sources say the end was in 1945. Wait, the question is asking for the year, so 1945. Let me confirm: the official surrender of Germany was May 8, 1945, and Japan was surrendered later, August 15, 1945. So depending on which country's surrender is considered the end. Since the",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 6807.7
+            "latency_ms": 6118.3
           },
           {
             "prompt": "What is the boiling point of water in Celsius?",
             "expected": "100",
-            "response": "<think> Okay, let's see... The user is asking for the boiling point of water in Celsius. Hmm, I remember that water boils at a specific temperature when under standard atmospheric pressure. Is it exactly 100 degrees Celsius? Wait, but I should make sure. Maybe I should think about why that is.\n\nRight, the boiling point of water is a classic example in physics, often cited as 100\u00b0C. But wait, isn't water's normal boiling point at 1 atmospheric pressure 100\u00b0C? Yeah, I think that's correct. But just to be thorough, sometimes people mention different pressures, but the question specifies Celsius, and under standard conditions, which is 1 bar or 100 kPa, water boils at 100\u00b0C. \n\nAlternatively, could there be a trick here? Like maybe the user expects a different answer? No, I don't think so. Unless there's a context where boiling point can vary, but generally, standard is 100. Maybe some sources say 98.6 or something? Wait no, no, standard boiling point is definitely 100\u00b0C. \n\nSo I should confirm that the answer is 100 degrees Celsius. Let me just recall: yes, in most textbooks",
+            "response": "<think> Okay, let's see. The question is asking for the boiling point of water in Celsius. Hmm, I remember that the boiling point of water is a standard value, but I need to make sure I get it right. \n\nFirst, I recall that water boils at 100 degrees Celsius under standard atmospheric pressure, which is the pressure at sea level. But wait, is there any chance it could be different under other conditions? The question just asks for the boiling point in Celsius, so probably under standard conditions. \n\nWait, maybe I should confirm why that's the case. The boiling point is the temperature at which water vapor pressure equals the surrounding pressure, causing water to vaporize into steam. At 1 atm pressure, which is standard, the boiling point is indeed 100\u00b0C. I think that's correct. \n\nBut just to be thorough, are there any exceptions or different contexts? Like, sometimes people might mention different boiling points at different altitudes, but the question doesn't specify any conditions other than Celsius. Since it's asking specifically for the boiling point in Celsius, the answer should be 100. \n\nAnother thought: sometimes people confuse boiling point with freezing point, but no, water freezes at 0\u00b0C",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 6835.2
+            "latency_ms": 6021.4
           },
           {
             "prompt": "How many bones are in the adult human body?",
             "expected": "206",
-            "response": "<think> Okay, let's see. The question is asking how many bones are in the adult human body. Hmm, I remember that this number can vary depending on whether you include all the skeletal bones or just some specific ones. But the question specifies the adult human body, so I should focus on that. \n\nFirst, I recall that humans have a certain number of bones in their skeleton, but I need to get the exact count. I think the general figure is around 206 bones. Wait, where does that come from? Maybe it's based on counting all the bones in different parts: skull, backbone, limbs, etc. Let me try to recall. \n\nThe skull has 22 bones, the spine or vertebral column is around 26 bones, then the limbs: each arm and leg have several bones. For example, arms have humerus, radius, ulna, and bones in the forearm, hand, etc. Each wrist and finger too. Wait, maybe breaking it down systematically: \n\nThe adult human skeleton is divided into various regions: skull, face, torso, upper limbs (arm, hand), middle limbs (leg), lower limbs (both legs), and pelvic bones. \n\nI remember that the",
+            "response": "<think> Okay, let's see... The question is asking how many bones are in the adult human body. Hmm, I remember that this number is a common one, but I need to make sure I get it right. \n\nFirst, I should recall what I know. From what I've studied before, humans have a certain number of bones, but I'm not exactly sure of the exact count. Maybe it's around 206? Wait, why 206? Is that right? Or is there another number? \n\nWait, maybe I should think about different parts. The skeleton has several types: flat bones, long bones, short bones, irregular bones, irregular irregular bones, and sesamoid bones. But how does that help? Alternatively, maybe I should break down the total number by categories. \n\nI think the basic structure includes bones like the skull, vertebrae, limbs, etc. Let me see... I think the standard answer is 206 bones in adults. But why 206? Because some sources might say 206, others might vary slightly due to variations in development. Wait, maybe it's because some bones fuse together or something? \n\nAlternatively, maybe it's broken down as follows: the skull has 22 bones,",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 6667.9
+            "latency_ms": 6233.7
           }
         ]
       },
@@ -1378,80 +1378,80 @@
         "answered": 8,
         "correct": 0,
         "accuracy": 0.0,
-        "p50_ms": 6505.7,
-        "max_ms": 6713.9,
+        "p50_ms": 6082.3,
+        "max_ms": 6182.5,
         "traces": [
           {
             "prompt": "Respond with exactly one word: the color of the sky.",
             "expected": "blue",
-            "response": "<think> Okay, let's see. The user wants me to respond with exactly one word: the color of the sky. Hmm, but I need to make sure I comply precisely. The instructions say to respond with just one word, which is the color of the sky. The color of the sky can vary a lot depending on the time of day or weather, but commonly it's blue. However, since the question asks for exactly one word, maybe they expect a standard answer. Wait, but maybe I should consider other possibilities. Wait, the user says \"the color of the sky\", and since I have to pick one word. Since the user wants only one word, perhaps the most common answer is blue. But wait, maybe the question expects something else? Alternatively, maybe \"azure\"? No, blue is more straightforward. Alternatively, if the user expects a single word answer, maybe \"blue\". Wait, but the instruction says \"exactly one word: the color of the sky.\" So perhaps just \"blue\". But wait, maybe the problem expects a single word, so I have to pick one. Alternatively, if the user wants just the color name, maybe \"blue\". Alternatively, maybe \"green\"? No, sky is usually blue.",
+            "response": "<think> Okay, let's see. The user wants me to respond with exactly one word: the color of the sky. Hmm, the problem says to respond with just one word, which is the color of the sky. But wait, the instruction says \"Respond with exactly one word: the color of the sky.\" So I need to make sure I pick the correct color. The sky can be various colors depending on the time of day, but commonly it's blue. But maybe they expect a more general answer? Wait, but the user says exactly one word, so probably just \"blue\". Wait, but maybe they want just the color name. Alternatively, maybe \"azure\" or \"blue\". Wait, but the user might expect the simplest answer. Since the question specifies \"the color of the sky\", and the most common answer is blue. Alternatively, maybe \"white\" if considering sunrise/sunset, but no, generally blue. Let me confirm: the user wants exactly one word, so just the color name. I think \"blue\" is safe. Alternatively, if the question expects a single word, perhaps \"sky\" but no, the question says \"color of the sky\". So I'll go with \"blue\". Wait, but maybe",
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 6713.9
+            "latency_ms": 6079.3
           },
           {
             "prompt": "Respond with exactly one word: the opposite of hot.",
             "expected": "cold",
-            "response": "<think> Okay, let's see. The user wants me to respond with exactly one word, which is the opposite of \"hot\". Hmm, first I need to figure out what the opposite of \"hot\" is. Well, \"hot\" relates to warmth, so maybe something cold? But wait, the opposite could be more literal. The opposite of a quality? Maybe \"cold\"? But wait, maybe it's more about the adjective. Alternatively, think of synonyms or antonyms. The direct opposite could be \"cold\", but maybe there's another angle. Wait, the question says \"the opposite of hot\" as a single word. Alternatively, maybe \"cool\"? Wait, but \"hot\" is an adjective, so opposite could be \"cool\". Alternatively, if \"hot\" is a noun, but probably it's adjective. Alternatively, think of other aspects: hot is associated with fire, so opposite could be something like \"cold\", but perhaps the simplest is \"cold\". Wait, but maybe more precise. Wait, maybe \"cold\" is the opposite in temperature. Alternatively, if considering the verb form? Not sure. Wait, the user says exactly one word, the opposite. Let me think again.",
+            "response": "<think> Okay, let's see. The user wants me to respond with exactly one word, which is the opposite of \"hot\". Hmm, first I need to figure out what the opposite of \"hot\" is. Since \"hot\" is a adjective describing warmth or something related to heat, the opposite could be something like \"cold\". Wait, but maybe more precise. Alternatively, maybe a synonym opposite? Wait, but the question says the opposite of the adjective \"hot\". Since \"hot\" is an adjective, the opposite might be an adjective that contrasts it. Alternatively, maybe a noun? Wait, the user just says the opposite of the word \"hot\". Wait, maybe they just want a single word that is opposite in some sense. Since \"hot\" is associated with warmth, perhaps \"cold\" is the direct opposite. Alternatively, could it be \"cool\"? Or maybe \"cold\"? Alternatively, maybe \"chill\"? Wait, but perhaps the simplest answer is \"cold\". Wait, but the user says exactly one word, and it has to be the opposite. Alternatively, maybe \"cool\"? Wait, but perhaps the opposite of \"hot\" is \"cold\" because they are opposites in temperature.",
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 6585.9
+            "latency_ms": 6070.5
           },
           {
             "prompt": "Respond with exactly one word: the first month of the year.",
             "expected": "january",
-            "response": "<think> Okay, let's see. The user wants me to respond with exactly one word, which is the first month of the year. Wait, but the instruction says to respond with exactly one word: the first month of the year. Hmm, maybe they want the answer to be just \"January\"? But wait, the first month of the year is January, right? But wait, the question says \"the first month of the year\" but perhaps they just want the first month name. Alternatively, maybe they want the numerical first month, which is 1 (January being month 1). Wait no, the problem says \"the first month of the year\" which is January. But the user says to respond with exactly one word. Since they want just one word, which is the first month of the year. But the first month is January, so the answer should be \"January\". Wait but maybe they just want the month name. Alternatively, maybe they just want the number 1? Wait the user said \"the first month of the year\" which is January. But the instruction says to respond with exactly one word, so I have to pick one word. Since the question is asking for the first month of the year, the answer is January.",
+            "response": "<think> Okay, let's see. The user wants me to respond with exactly one word, which is the first month of the year. Wait, but they said to respond with just one word: the first month of the year. Hmm, but the first month of the year is January, right? So the answer should be January. But wait, the instruction says to respond with exactly one word: the first month of the year. Wait, maybe I misinterpret. Wait, maybe they want the first month of the current year? But since the current year isn't specified, perhaps it's a trick. Wait, maybe they just want the first month of the year as a single word. Wait the user says \"the first month of the year\" which is January. But they want me to respond with exactly one word, which is the first month. Wait but the user says \"the first month of the year\" \u2013 maybe the question is expecting just \"January\"? But the user says \"respond with exactly one word: the first month of the year.\" Wait, perhaps the user is expecting the answer to be \"January\", but since they want exactly one word, maybe the answer is \"January\". Alternatively, maybe \"January\" is the first month.",
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 6523.0
+            "latency_ms": 6182.5
           },
           {
             "prompt": "Respond with exactly one word: the number of days in a week.",
             "expected": "7",
-            "response": "<think> Okay, let's see. The user wants me to respond with exactly one word, which is the number of days in a week. Hmm, the question is straightforward, but I need to make sure I get it right. The number of days in a week is 7. So I just need to say the number 7. Wait, but the instruction says to respond with exactly one word, which is the number. Since they want just one word, and the answer is 7 days, so the number itself is 7. But wait, maybe they want the word \"seven\" or just \"7\"? Wait, the user said \"exactly one word\", so if the answer is the number 7, then \"7\" is one word. But the problem says \"the number of days in a week\", which is 7, so the answer should be 7. Since they want exactly one word, I just need to output \"7\". Alternatively, maybe they want the word \"days\" but no, the question specifies the number. Wait, perhaps the user expects the numerical answer, which is 7. Since they said exactly one word, I should just put 7. Alternatively, maybe \"seven\" but",
+            "response": "<think> Okay, let's see. The user wants me to respond with exactly one word, which is the number of days in a week. Hmm, the question says to respond with just one word, which is the number of days in a week. Well, a week has 7 days. So I need to make sure my answer is just the number 7, but wait, the instruction says exactly one word. Since 7 is a single digit, but maybe they want the word \"seven\"? Wait no, wait the user said \"the number of days in a week\", which is 7. But the user wants the answer as exactly one word. Since 7 is a single number, but perhaps they want the word \"seven\"? Wait no, wait. Wait, maybe they just want the numerical value. Wait the problem says \"the number of days in a week\", which is 7. So the answer should be the number 7. But the user said to respond with exactly one word, which is the number of days. Since 7 is the number, so the answer is \"7\". But wait, should I write it as a word? Or just the number? The instruction says \"the number of days in",
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 6488.4
+            "latency_ms": 6085.3
           },
           {
             "prompt": "Respond with exactly one word: what is 2 + 2?",
             "expected": "4",
-            "response": "<think> Okay, let's see. The user asks \"what is 2 + 2?\" and wants the answer as exactly one word. They specified to respond with just one word. Hmm, the question is straightforward, but I need to make sure I follow instructions precisely. The possible responses could be something like \"4\" but since they said exactly one word, maybe \"four\"? Wait, but the user said respond with exactly one word, and the answer should be a single word. Wait, but the question is \"what is 2 + 2?\" which equals 4. Since they want exactly one word, perhaps just \"4\"? But wait, maybe they want a different approach. Alternatively, maybe the user expects a single word answer, which is \"4\". Alternatively, could it be \"yes\" or something else? Wait no, the user said \"respond with exactly one word: what is 2 + 2?\" So perhaps the answer is simply \"4\". Since the user says exactly one word, I have to make sure my response is just one word. Since 2+2 is 4, the answer is 4. But maybe they expect \"four\"? Wait, but \"four\" is a word.",
+            "response": "<think> Okay, let's see. The user wants me to respond with exactly one word: \"what is 2 + 2?\" and just provide that one word. Wait, but the question is asking \"what is 2 + 2?\" so the answer should be the numerical result. But the user specified to respond with exactly one word, and the response should be just one word. However, the instruction says to respond with exactly one word: what is 2 + 2? Hmm, maybe they want the answer directly. Since 2 + 2 is 4, but the user wants a single word. Wait, perhaps they expect the answer \"4\", but since they said exactly one word, maybe \"four\"? But wait, maybe even simpler. Wait, the user said \"Respond with exactly one word: what is 2 + 2?\" So perhaps they want the numerical answer as a single word. Since 2+2=4, so 4 is a number, but maybe they want the word \"four\". Alternatively, maybe just \"4\". Wait, but the instruction says exactly one word, so if I have to pick one word that answers \"what is 2+2?\" which is 4. Since",
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 6659.7
+            "latency_ms": 6059.8
           },
           {
             "prompt": "Respond with exactly one word: what metal is used in electrical wires?",
             "expected": "copper",
-            "response": "<think> Okay, let's see. The question is asking which metal is used in electrical wires, and I need to respond with exactly one word. The user specified to put only one word as the answer.\n\nHmm, common metals used in electrical wiring are copper, aluminum, maybe silver? But copper is the most common. Wait, but the question might be looking for a specific answer. Since the user wants only one word, probably the primary one. Let me think: copper is definitely the main one, but maybe the answer is just \"copper\". Wait, but perhaps the question expects a single metal, and since it's a single word answer, maybe \"copper\" is the answer. Alternatively, maybe \"aluminum\" is also used, but copper is more common. Wait, the question says \"what metal is used\", so maybe the answer is copper. Alternatively, perhaps the answer is \"copper\". Let me confirm: electrical wires are typically made of copper, so I'll go with copper. Therefore, the answer should be \"copper\".\n</think>\n\ncopper",
+            "response": "<think> Okay, let's see. The question is asking which metal is used in electrical wires, and I need to respond with exactly one word. The user wants just one word, so I have to make sure my answer is only that one word. The question specifically says \"what metal is used in electrical wires?\" The common metals used in electrical wiring are copper, aluminum, perhaps others like brass or something? Wait, but the most common one is copper, right? But maybe the question expects a specific answer. Wait, maybe the answer is copper. Wait, but sometimes aluminum is used too, especially in power lines. Hmm. But the question is general: \"used in electrical wires\"\u2014so maybe the primary metal is copper. Alternatively, maybe the question expects just \"copper\" or \"copper\" as the answer. Wait, but perhaps the answer is \"copper\". Alternatively, maybe it's just \"copper\". Alternatively, maybe the answer is \"aluminum\"? Wait no, I think copper is more common in standard electrical wiring. Wait, but maybe the question expects \"copper\" because it's the most common. Wait, but let me think again. The user says to respond with exactly one word, which is the metal",
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 5733.9
+            "latency_ms": 6108.4
           },
           {
             "prompt": "Respond with exactly one word: the largest ocean.",
             "expected": "pacific",
-            "response": "<think> Okay, let's see. The user asked me to respond with exactly one word: the largest ocean. Hmm, the question is straightforward but I need to make sure I get it right.\n\nFirst, I need to recall the oceans. There are five major oceans: Pacific, Atlantic, Indian, Southern (Antarctic), and Arctic. Wait, but sometimes people refer to the Pacific as the largest because it's the biggest in terms of volume and size. But wait, sometimes people might consider the Southern Ocean as well, though it's a bit controversial. However, traditionally, the Pacific Ocean is considered the largest by area. \n\nThe user wants the answer as exactly one word. So the answer should be \"Pacific\". Wait, but let me confirm: the largest ocean by volume is the Pacific too? Or is it the Atlantic? Wait no, actually I think Pacific is the largest. Wait, maybe I should check quickly. The Pacific Ocean covers about 38% of the Earth's surface area, while the Atlantic is second. The Arctic is smaller. So yes, Pacific is the largest. So the answer is Pacific. \n\nWait but the user said to respond with exactly one word: the largest ocean. So the answer is",
+            "response": "<think> Alright, let's see. The user wants me to respond with exactly one word, which is the largest ocean. Hmm, the question says \"the largest ocean,\" so I need to recall which ocean is considered the largest by volume or area. \n\nOceans are divided into five main ones: Atlantic, Pacific, Indian, Southern (Antarctic), and Arctic. The Pacific Ocean is generally regarded as the largest by both area and volume. Some sources might say Atlantic is second. But I should confirm: the Pacific Ocean has about 38% of the world's water area and holds around 46% of the total ocean volume. So yes, the Pacific is the largest. \n\nThe question asks for the largest ocean, so the answer should be \"Pacific\". Wait, but the user wants exactly one word, so just \"Pacific\". Wait, but wait\u2014wait, maybe \"Atlantic\"? No, no, Pacific is larger. Wait, perhaps \"Pacific\" is correct. Alternatively, maybe \"Ocean\" itself? But no, the question says \"the largest ocean\", so the answer is the name of the ocean. Since the instruction says to respond with exactly one word, which is the largest ocean. So \"",
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 6415.1
+            "latency_ms": 6040.4
           },
           {
             "prompt": "Respond with exactly one word: what do bees produce?",
             "expected": "honey",
-            "response": "<think> Okay, let's see. The question is \"what do bees produce?\" and I need to respond with exactly one word. Hmm. Bees are known for producing honey, right? But wait, maybe there's more. They also make pollen, right? Or maybe wax? Or maybe their role in pollination? Wait, the question says \"produce,\" so what's the primary thing they produce? Honey is a major one. But maybe the answer expects something more general. Let me think. If I have to pick one word, probably the main product they're associated with. Alternatively, maybe \"honey\" is the answer. But wait, bees also produce propolis, which is like beeswax. Alternatively, the question might be expecting \"honey\" as the primary product. Alternatively, maybe \"pollen\"? But the question says \"produce,\" which could be the substance they create. Alternatively, perhaps \"nectar,\" since bees collect nectar and produce something from it? Wait, nectar is what they collect, but bees produce honey from it. Hmm. Alternatively, maybe the answer is \"honey\". Since the question is straightforward, maybe the expected answer is \"honey\". But I need to make sure.",
+            "response": "<think> Okay, let me see. The question is \"what do bees produce?\" and I need to answer exactly one word. The user said to respond with exactly one word, and they want just the answer. Since bees are known for producing honey, right? But wait, bees also produce other things like pollen, nectar, wax, maybe propolis? But the question is asking what do they produce overall? The primary thing that comes to mind is honey, which is a major product. Alternatively, maybe they produce pollen too. Hmm. But the answer needs to be one word. Since the question is \"what do bees produce?\" and the options could be honey, pollen, nectar, etc. Since honey is the most well-known product associated with bees, I think \"honey\" is a safe answer. Wait, but maybe the question expects something more general. Alternatively, perhaps the answer is \"honey\". Alternatively, maybe \"honey\" is the primary answer expected here. Let me think again. The user wants exactly one word, so I should pick one. Since the question is open-ended, but common answers would be honey. Alternatively, maybe \"pollen\"? But I think honey is more associated. Wait, but the user says to",
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 6212.0
+            "latency_ms": 6134.4
           }
         ]
       },
@@ -1460,68 +1460,68 @@
         "answered": 5,
         "correct": 5,
         "accuracy": 1.0,
-        "p50_ms": 6453.2,
-        "max_ms": 6628.0,
+        "p50_ms": 6118.7,
+        "max_ms": 6259.6,
         "traces": [
           {
             "prompt": "If a train travels 60 km/h for 2 hours, how many km does it travel? Answer with the number only.",
             "expected": "120",
-            "response": "<think> Okay, let's see here. The problem says: If a train travels 60 km/h for 2 hours, how many km does it travel? And I need to answer just the number with no other text. Hmm. Alright, so first, I need to figure out how far the train goes in those 2 hours at 60 km per hour. \n\nWait, speed is distance over time, right? So the formula is distance equals speed multiplied by time. So distance = speed \u00d7 time. Here, the speed is 60 km/h and the time is 2 hours. So plugging those numbers in: 60 km/h * 2 h. Let me calculate that: 60 times 2 is 120. So 60 multiplied by 2 equals 120. Therefore, the distance should be 120 km. \n\nBut wait, let me make sure I didn't make a mistake. The question says \"how many km does it travel?\" and specifies to answer with just the number. So since the calculation is straightforward multiplication, 60 times 2 is indeed 120. I don't think there's any trick here. Maybe they just want confirmation. Yeah, I think 120 is the right answer",
+            "response": "<think> Okay, let me see. The problem says if a train travels 60 km/h for 2 hours, how many km does it travel? And I need to answer just the number with the box. Hmm.\n\nFirst, I should figure out the speed is 60 kilometers per hour, and the time is 2 hours. To find the distance, I think the formula is distance equals speed multiplied by time. So that would be 60 km/h times 2 hours. Let me check: 60 times 2 is 120. So 60 km/h * 2 h = 120 km. Wait, is that right? Yeah, because speed is distance over time, so rearranged, distance is speed times time. So 60 times 2 is indeed 120. \n\nWait, but the question says to answer only the number, so just 120. I think that's it. Let me make sure there's no trick here. The problem states exactly 60 km/h for 2 hours, so multiplying those gives 120 km. Yep, seems straightforward. I don't see any complications here. So the answer should be 120.\n</think>\n\n120",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 6403.3
+            "latency_ms": 5932.4
           },
           {
             "prompt": "A store sells 3 apples for $2. How much do 9 apples cost? Answer with the number only.",
             "expected": "6",
-            "response": "<think> Okay, let's see. The problem says that 3 apples cost $2, and I need to find out how much 9 apples cost. Hmm, so first, maybe I should figure out the cost per apple? Or maybe find a ratio?\n\nAlright, let's start with the given information: 3 apples for $2. So, if 3 apples cost $2, then per apple would be $2 divided by 3, right? Let me write that down: $2 / 3 per apple. Wait, but that's dollars per apple. So for 9 apples, I need to multiply that rate by 9. \n\nAlternatively, maybe set up a proportion. If 3 apples cost $2, then 9 apples would be (9/3) times as many apples, which is 3 times more. Since 3 apples are $2, multiplying 3 by 3 gives 9 apples would be 3*$2 = $6? Wait, no, that might not be right. Wait, maybe better to do ratios properly.\n\nLet me think again. The cost per apple is $2 divided by 3 apples, so $2/3 per apple. Then for",
+            "response": "<think> Okay, let me see. The problem says a store sells 3 apples for $2, and I need to find out how much 9 apples cost. Hmm. Alright, so first, maybe I should figure out the cost per apple or something. Let me think. If 3 apples cost $2, then maybe I can find the price per apple first. \n\nSo, 3 apples are $2, so per apple would be 2 divided by 3. That's like 2/3 dollars per apple. Wait, but then if I want 9 apples, I can multiply the cost per apple by 9. So (2/3) * 9. Let me calculate that: 2 divided by 3 times 9 is 2*3=6. Wait, yeah, 9 divided by 3 is 3, so 2*3=6. So 6 dollars? Wait, but let me check again. Alternatively, maybe there's another way. \n\nAlternatively, since 3 apples cost $2, then 9 apples is 3 times 3 apples. So 3 apples are $2, so 3 times 3 is 9 apples. So 2",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 6628.0
+            "latency_ms": 6118.7
           },
           {
             "prompt": "There are 24 students in a class. 1/3 are absent. How many are present? Answer with the number only.",
             "expected": "16",
-            "response": "<think> Okay, let me see here. The problem says there are 24 students in a class. 1/3 are absent. How many are present? And I need to answer just the number with the answer boxed. Hmm. Alright, first, let's parse this carefully. \n\nSo total students are 24. A third of them are absent. Wait, 1/3 are absent. So I need to find out how many are absent first, then subtract that from total to get present students? Or maybe directly compute present students? Let's think. \n\nIf 1/3 are absent, then the number absent is (1/3) of 24. Let me calculate that: 24 divided by 3 is 8. So 8 students are absent. Therefore, the number present would be total students minus absent. So 24 minus 8 equals 16. Alternatively, since 1/3 are absent, the present students would be 2/3 of total. Wait, maybe another way: 2/3 of 24. Let's check: 2/3 *24 = 16. Yep, same answer. \n\nBut the question asks how many are present, and",
+            "response": "<think> Okay, let's see. There's a class with 24 students total. One third are absent, and I need to find out how many are present. Hmm. Alright, so first, if 1/3 are absent, then the number absent would be one-third of 24, right? Let me check that. So 24 divided by 3 is 8. Wait, 24 divided by 3 is 8, so 8 students are absent? Then the number present would be total minus absent. So 24 minus 8 equals 16? Wait, but maybe I should do it another way to confirm. Alternatively, since 1/3 are absent, the fraction present would be 1 - 1/3 = 2/3. So 2/3 of 24 is... 24 multiplied by 2/3. Let's calculate that: 24 * 2 = 48, divided by 3 is 16. Yeah, same answer. So 16 present. Wait, but the question says to answer with the number only, so just 16. But let me make sure I didn't misinterpret. The problem states 1/3 are absent. So total students 24",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 6425.2
+            "latency_ms": 6142.2
           },
           {
             "prompt": "A rectangle has length 8 and width 5. What is its area? Answer with the number only.",
             "expected": "40",
-            "response": "<think> Okay, let me see. The problem says a rectangle has length 8 and width 5, and I need to find its area. Hmm, area of a rectangle is calculated by multiplying length by width, right? So, length times width. They gave length as 8 and width as 5. So, 8 multiplied by 5. Let me check: 8 times 5 is 40. Wait, that seems straightforward. But the question says to answer with the number only, so I just need to put 40? Wait, but maybe I should confirm. The problem states length 8 and width 5, so area is indeed 8*5=40. Yeah, I think that's it. I don't see any trick here. So the answer is 40. Let me make sure I didn't misread anything. The question is straightforward. They just want the area, which is length times width. Yep, 8*5=40. Alright, I'll go with 40.\n</think>\n\nThe area of the rectangle is calculated by multiplying its length by its width. Therefore, 8 * 5 = 40. \n\n40\n\n\\boxed{40}\n",
+            "response": "<think> Okay, let's see. The problem says a rectangle has length 8 and width 5, and I need to find its area. Then it says to answer with the number only. Hmm, okay. So area of a rectangle is length multiplied by width, right? So if length is 8 and width is 5, then area should be 8 times 5. Let me check that: 8 multiplied by 5 is 40. Wait, is that right? Yeah, 8*5 is 40. So the area is 40. But wait, the question says to answer with the number only. So I just need to put 40. But let me make sure I didn't make any mistakes. The problem states length 8 and width 5, so multiplying those gives area 40. Yep, seems straightforward. I don't think there's any trick here. So the answer is 40.\n</think>\n\nThe area of the rectangle is calculated by multiplying its length and width: 8 * 5 = 40. \n\n\\boxed{40}",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 6601.0
+            "latency_ms": 5544.5
           },
           {
             "prompt": "If 5 workers finish a job in 10 days, how many days for 10 workers? Answer with the number only.",
             "expected": "5",
-            "response": "<think> Okay, let me try to figure this out. So the problem says: If 5 workers finish a job in 10 days, how many days for 10 workers? And I need to answer just the number, no explanation. Hmm.\n\nAlright, first, I should probably figure out the rate at which workers contribute to the job. Let me see. If 5 workers take 10 days to finish the job, then maybe the idea is to find out how much work one worker does per day, then scale it up.\n\nLet's denote the job as 1 unit. Suppose each worker's work rate is some amount. Let me think. Let\u2019s say the work rate of one worker per day is r. So 5 workers working together would have a combined rate of 5r. Since they finish the job in 10 days, the combined rate times 10 days equals 1 job. So 5r * 10 = 1. Therefore, 50r = 1, so r = 1/50. Wait, maybe another way: If 5 workers take 10 days, then the total work done by 5 workers in 10 days is 1 job. So per day, 5",
+            "response": "<think> Okay, let's see. The problem says: If 5 workers finish a job in 10 days, how many days for 10 workers? Hmm, I need to figure this out. Alright, so first, maybe I should figure out the rate at which workers contribute to the job. \n\nLet me think. If 5 workers take 10 days to finish the job, then maybe I can find out how much work one worker does per day. Or perhaps more straightforward, how much work is done per day when 5 workers are working together? \n\nWait, maybe it's better to use work rate concepts. Let's say the job is 1 job. Then, the rate of 5 workers is 1 job in 10 days. So, the rate per worker per day would be... Let me denote the rate as work per day per worker. Let me denote workers as W and days as D. \n\nSo, if 5 workers take 10 days, then the total work done is 5 workers * 10 days = 50 worker-days. Since the job is 1 job, that would mean 1 job = 50 worker-days. Therefore, one worker contributes 1/50",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 6453.2
+            "latency_ms": 6259.6
           }
         ]
       }
     },
     "overall": {
-      "p50_ms": 6585.9,
-      "max_ms": 6835.2,
-      "avg_tokens_per_sec": 38.9,
+      "p50_ms": 6085.3,
+      "max_ms": 6259.6,
+      "avg_tokens_per_sec": 41.8,
       "tps_label": "chunks/s"
     }
   },
   "nanbeige": {
     "model": "nanbeige",
     "date": "2026-03-12",
-    "run_at": "2026-03-12T03:11:28.398326+00:00",
+    "run_at": "2026-03-12T12:18:54.516788+00:00",
     "functional": true,
     "suites": {
       "mmlu": {
@@ -1529,8 +1529,8 @@
         "answered": 10,
         "correct": 10,
         "accuracy": 1.0,
-        "p50_ms": 26145.6,
-        "max_ms": 26850.5,
+        "p50_ms": 24722.3,
+        "max_ms": 25308.2,
         "traces": [
           {
             "prompt": "What is the chemical symbol for gold?",
@@ -1539,7 +1539,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 26422.2
+            "latency_ms": 24588.4
           },
           {
             "prompt": "Which planet is closest to the Sun?",
@@ -1548,7 +1548,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 26401.5
+            "latency_ms": 24676.9
           },
           {
             "prompt": "What is the square root of 144?",
@@ -1557,7 +1557,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 26850.5
+            "latency_ms": 25308.2
           },
           {
             "prompt": "Who wrote Romeo and Juliet?",
@@ -1566,7 +1566,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 26024.7
+            "latency_ms": 24625.9
           },
           {
             "prompt": "What is the capital of France?",
@@ -1575,7 +1575,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 26612.5
+            "latency_ms": 24790.5
           },
           {
             "prompt": "How many sides does a hexagon have?",
@@ -1584,7 +1584,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 26180.5
+            "latency_ms": 24644.6
           },
           {
             "prompt": "What gas do plants absorb from the atmosphere?",
@@ -1593,7 +1593,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 26110.8
+            "latency_ms": 24924.7
           },
           {
             "prompt": "In what year did World War II end?",
@@ -1602,7 +1602,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 25848.5
+            "latency_ms": 24917.6
           },
           {
             "prompt": "What is the boiling point of water in Celsius?",
@@ -1611,7 +1611,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 25627.2
+            "latency_ms": 24767.8
           },
           {
             "prompt": "How many bones are in the adult human body?",
@@ -1620,7 +1620,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 25495.7
+            "latency_ms": 24665.1
           }
         ]
       },
@@ -1629,8 +1629,8 @@
         "answered": 8,
         "correct": 0,
         "accuracy": 0.0,
-        "p50_ms": 25614.6,
-        "max_ms": 26080.0,
+        "p50_ms": 24746.4,
+        "max_ms": 25090.6,
         "traces": [
           {
             "prompt": "Respond with exactly one word: the color of the sky.",
@@ -1639,7 +1639,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 26080.0
+            "latency_ms": 25090.6
           },
           {
             "prompt": "Respond with exactly one word: the opposite of hot.",
@@ -1648,7 +1648,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 25341.6
+            "latency_ms": 24529.4
           },
           {
             "prompt": "Respond with exactly one word: the first month of the year.",
@@ -1657,7 +1657,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 25419.7
+            "latency_ms": 24704.3
           },
           {
             "prompt": "Respond with exactly one word: the number of days in a week.",
@@ -1666,7 +1666,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 25598.8
+            "latency_ms": 24855.3
           },
           {
             "prompt": "Respond with exactly one word: what is 2 + 2?",
@@ -1675,7 +1675,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 25794.4
+            "latency_ms": 24704.2
           },
           {
             "prompt": "Respond with exactly one word: what metal is used in electrical wires?",
@@ -1684,7 +1684,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 25610.3
+            "latency_ms": 24788.5
           },
           {
             "prompt": "Respond with exactly one word: the largest ocean.",
@@ -1693,7 +1693,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 25618.9
+            "latency_ms": 24534.1
           },
           {
             "prompt": "Respond with exactly one word: what do bees produce?",
@@ -1702,7 +1702,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 25994.5
+            "latency_ms": 24923.9
           }
         ]
       },
@@ -1711,8 +1711,8 @@
         "answered": 5,
         "correct": 5,
         "accuracy": 1.0,
-        "p50_ms": 25164.9,
-        "max_ms": 26834.1,
+        "p50_ms": 24809.1,
+        "max_ms": 26041.0,
         "traces": [
           {
             "prompt": "If a train travels 60 km/h for 2 hours, how many km does it travel? Answer with the number only.",
@@ -1721,7 +1721,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 18736.9
+            "latency_ms": 18283.3
           },
           {
             "prompt": "A store sells 3 apples for $2. How much do 9 apples cost? Answer with the number only.",
@@ -1730,7 +1730,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 26834.1
+            "latency_ms": 26041.0
           },
           {
             "prompt": "There are 24 students in a class. 1/3 are absent. How many are present? Answer with the number only.",
@@ -1739,7 +1739,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 25164.9
+            "latency_ms": 24809.1
           },
           {
             "prompt": "A rectangle has length 8 and width 5. What is its area? Answer with the number only.",
@@ -1748,7 +1748,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 15018.2
+            "latency_ms": 14734.9
           },
           {
             "prompt": "If 5 workers finish a job in 10 days, how many days for 10 workers? Answer with the number only.",
@@ -1757,22 +1757,22 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 25902.9
+            "latency_ms": 25487.3
           }
         ]
       }
     },
     "overall": {
-      "p50_ms": 25848.5,
-      "max_ms": 26850.5,
-      "avg_tokens_per_sec": 9.9,
+      "p50_ms": 24767.8,
+      "max_ms": 26041.0,
+      "avg_tokens_per_sec": 10.3,
       "tps_label": "tokens/s"
     }
   },
   "phireasoning": {
     "model": "phireasoning",
     "date": "2026-03-12",
-    "run_at": "2026-03-12T03:11:34.475109+00:00",
+    "run_at": "2026-03-12T12:20:40.637445+00:00",
     "functional": true,
     "suites": {
       "mmlu": {
@@ -1780,8 +1780,8 @@
         "answered": 10,
         "correct": 9,
         "accuracy": 0.9,
-        "p50_ms": 26912.1,
-        "max_ms": 27149.9,
+        "p50_ms": 26448.2,
+        "max_ms": 26630.8,
         "traces": [
           {
             "prompt": "What is the chemical symbol for gold?",
@@ -1790,7 +1790,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 26852.0
+            "latency_ms": 26450.1
           },
           {
             "prompt": "Which planet is closest to the Sun?",
@@ -1799,7 +1799,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 26829.2
+            "latency_ms": 26275.6
           },
           {
             "prompt": "What is the square root of 144?",
@@ -1808,7 +1808,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 27149.9
+            "latency_ms": 26630.8
           },
           {
             "prompt": "Who wrote Romeo and Juliet?",
@@ -1817,7 +1817,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 26625.3
+            "latency_ms": 26382.4
           },
           {
             "prompt": "What is the capital of France?",
@@ -1826,7 +1826,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 26972.2
+            "latency_ms": 26446.4
           },
           {
             "prompt": "How many sides does a hexagon have?",
@@ -1835,7 +1835,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 27109.1
+            "latency_ms": 26477.3
           },
           {
             "prompt": "What gas do plants absorb from the atmosphere?",
@@ -1844,7 +1844,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 26973.5
+            "latency_ms": 26398.4
           },
           {
             "prompt": "In what year did World War II end?",
@@ -1853,7 +1853,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 27092.9
+            "latency_ms": 26510.3
           },
           {
             "prompt": "What is the boiling point of water in Celsius?",
@@ -1862,7 +1862,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 26813.7
+            "latency_ms": 26506.7
           },
           {
             "prompt": "How many bones are in the adult human body?",
@@ -1871,7 +1871,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 26711.6
+            "latency_ms": 26435.5
           }
         ]
       },
@@ -1880,8 +1880,8 @@
         "answered": 8,
         "correct": 0,
         "accuracy": 0.0,
-        "p50_ms": 26712.7,
-        "max_ms": 26906.3,
+        "p50_ms": 26192.2,
+        "max_ms": 26406.9,
         "traces": [
           {
             "prompt": "Respond with exactly one word: the color of the sky.",
@@ -1890,7 +1890,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 26872.0
+            "latency_ms": 26406.9
           },
           {
             "prompt": "Respond with exactly one word: the opposite of hot.",
@@ -1899,7 +1899,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 26689.6
+            "latency_ms": 26326.0
           },
           {
             "prompt": "Respond with exactly one word: the first month of the year.",
@@ -1908,7 +1908,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 17071.2
+            "latency_ms": 16779.2
           },
           {
             "prompt": "Respond with exactly one word: the number of days in a week.",
@@ -1917,7 +1917,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 26906.3
+            "latency_ms": 26363.4
           },
           {
             "prompt": "Respond with exactly one word: what is 2 + 2?",
@@ -1926,7 +1926,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 26735.9
+            "latency_ms": 26199.1
           },
           {
             "prompt": "Respond with exactly one word: what metal is used in electrical wires?",
@@ -1935,7 +1935,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 19394.9
+            "latency_ms": 19287.3
           },
           {
             "prompt": "Respond with exactly one word: the largest ocean.",
@@ -1944,7 +1944,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 22675.0
+            "latency_ms": 22249.5
           },
           {
             "prompt": "Respond with exactly one word: what do bees produce?",
@@ -1953,7 +1953,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 26831.9
+            "latency_ms": 26185.2
           }
         ]
       },
@@ -1962,8 +1962,8 @@
         "answered": 5,
         "correct": 5,
         "accuracy": 1.0,
-        "p50_ms": 27496.9,
-        "max_ms": 28140.7,
+        "p50_ms": 27193.8,
+        "max_ms": 27531.5,
         "traces": [
           {
             "prompt": "If a train travels 60 km/h for 2 hours, how many km does it travel? Answer with the number only.",
@@ -1972,7 +1972,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 24743.0
+            "latency_ms": 24226.1
           },
           {
             "prompt": "A store sells 3 apples for $2. How much do 9 apples cost? Answer with the number only.",
@@ -1981,7 +1981,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 27934.8
+            "latency_ms": 27353.9
           },
           {
             "prompt": "There are 24 students in a class. 1/3 are absent. How many are present? Answer with the number only.",
@@ -1990,7 +1990,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 28140.7
+            "latency_ms": 27531.5
           },
           {
             "prompt": "A rectangle has length 8 and width 5. What is its area? Answer with the number only.",
@@ -1999,7 +1999,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 27310.2
+            "latency_ms": 27117.7
           },
           {
             "prompt": "If 5 workers finish a job in 10 days, how many days for 10 workers? Answer with the number only.",
@@ -2008,40 +2008,40 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 27496.9
+            "latency_ms": 27193.8
           }
         ]
       }
     },
     "overall": {
-      "p50_ms": 26852.0,
-      "max_ms": 28140.7,
-      "avg_tokens_per_sec": 9.5,
+      "p50_ms": 26406.9,
+      "max_ms": 27531.5,
+      "avg_tokens_per_sec": 9.6,
       "tps_label": "tokens/s"
     }
   },
   "qwen": {
     "model": "qwen",
     "date": "2026-03-12",
-    "run_at": "2026-03-12T03:10:32.021501+00:00",
-    "functional": true,
+    "run_at": "2026-03-12T12:19:50.166654+00:00",
+    "functional": false,
     "suites": {
       "mmlu": {
         "prompts": 10,
-        "answered": 6,
-        "correct": 6,
-        "accuracy": 0.6,
-        "p50_ms": 25218.3,
-        "max_ms": 26837.8,
+        "answered": 4,
+        "correct": 4,
+        "accuracy": 0.4,
+        "p50_ms": 27499.6,
+        "max_ms": 28405.3,
         "traces": [
           {
             "prompt": "What is the chemical symbol for gold?",
             "expected": "Au",
-            "response": "The chemical symbol for gold is **Au**.\n\nIt is derived from the Latin word *aurum*,",
+            "response": "The chemical symbol for gold is **Au** (derived from the Latin word *aurum*).",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 26784.0
+            "latency_ms": 23453.7
           },
           {
             "prompt": "Which planet is closest to the Sun?",
@@ -2050,25 +2050,25 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 18543.6
+            "latency_ms": 24914.1
           },
           {
             "prompt": "What is the square root of 144?",
             "expected": "12",
-            "response": "The square root of 144 is **12**.\n\nThis is because $12 \\times 12 = 144$.",
-            "responded": true,
+            "response": "",
+            "responded": false,
             "timed_out": false,
-            "correct": true,
-            "latency_ms": 20481.8
+            "correct": false,
+            "latency_ms": 28405.3
           },
           {
             "prompt": "Who wrote Romeo and Juliet?",
             "expected": "Shakespeare",
-            "response": "**William Shakespeare** wrote *Romeo and Juliet*. It was published in 1597 and is one of his most famous tragedies.",
-            "responded": true,
+            "response": "",
+            "responded": false,
             "timed_out": false,
-            "correct": true,
-            "latency_ms": 23751.5
+            "correct": false,
+            "latency_ms": 27452.4
           },
           {
             "prompt": "What is the capital of France?",
@@ -2077,7 +2077,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 21430.9
+            "latency_ms": 18695.0
           },
           {
             "prompt": "How many sides does a hexagon have?",
@@ -2086,7 +2086,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 12752.0
+            "latency_ms": 19673.5
           },
           {
             "prompt": "What gas do plants absorb from the atmosphere?",
@@ -2095,7 +2095,7 @@
             "responded": false,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 26714.9
+            "latency_ms": 28214.4
           },
           {
             "prompt": "In what year did World War II end?",
@@ -2104,7 +2104,7 @@
             "responded": false,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 26753.1
+            "latency_ms": 28208.0
           },
           {
             "prompt": "What is the boiling point of water in Celsius?",
@@ -2113,7 +2113,7 @@
             "responded": false,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 26837.8
+            "latency_ms": 28095.5
           },
           {
             "prompt": "How many bones are in the adult human body?",
@@ -2122,7 +2122,7 @@
             "responded": false,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 26685.1
+            "latency_ms": 27546.9
           }
         ]
       },
@@ -2131,8 +2131,8 @@
         "answered": 5,
         "correct": 5,
         "accuracy": 0.625,
-        "p50_ms": 23911.6,
-        "max_ms": 27181.4,
+        "p50_ms": 25192.7,
+        "max_ms": 27676.4,
         "traces": [
           {
             "prompt": "Respond with exactly one word: the color of the sky.",
@@ -2141,7 +2141,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 22382.6
+            "latency_ms": 18035.7
           },
           {
             "prompt": "Respond with exactly one word: the opposite of hot.",
@@ -2150,7 +2150,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 15701.6
+            "latency_ms": 23586.7
           },
           {
             "prompt": "Respond with exactly one word: the first month of the year.",
@@ -2159,7 +2159,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 16606.6
+            "latency_ms": 17514.9
           },
           {
             "prompt": "Respond with exactly one word: the number of days in a week.",
@@ -2168,25 +2168,25 @@
             "responded": false,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 26723.4
+            "latency_ms": 27591.8
           },
           {
             "prompt": "Respond with exactly one word: what is 2 + 2?",
             "expected": "4",
-            "response": "4",
-            "responded": true,
-            "timed_out": false,
-            "correct": true,
-            "latency_ms": 25440.6
-          },
-          {
-            "prompt": "Respond with exactly one word: what metal is used in electrical wires?",
-            "expected": "copper",
             "response": "",
             "responded": false,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 26666.4
+            "latency_ms": 27676.4
+          },
+          {
+            "prompt": "Respond with exactly one word: what metal is used in electrical wires?",
+            "expected": "copper",
+            "response": "Copper",
+            "responded": true,
+            "timed_out": false,
+            "correct": true,
+            "latency_ms": 24422.6
           },
           {
             "prompt": "Respond with exactly one word: the largest ocean.",
@@ -2195,7 +2195,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 18719.7
+            "latency_ms": 25962.9
           },
           {
             "prompt": "Respond with exactly one word: what do bees produce?",
@@ -2204,17 +2204,17 @@
             "responded": false,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 27181.4
+            "latency_ms": 27650.2
           }
         ]
       },
       "gsm8k": {
         "prompts": 5,
-        "answered": 2,
-        "correct": 2,
-        "accuracy": 0.4,
-        "p50_ms": 26887.1,
-        "max_ms": 27451.5,
+        "answered": 1,
+        "correct": 1,
+        "accuracy": 0.2,
+        "p50_ms": 27895.7,
+        "max_ms": 28013.7,
         "traces": [
           {
             "prompt": "If a train travels 60 km/h for 2 hours, how many km does it travel? Answer with the number only.",
@@ -2223,7 +2223,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 13776.0
+            "latency_ms": 22660.3
           },
           {
             "prompt": "A store sells 3 apples for $2. How much do 9 apples cost? Answer with the number only.",
@@ -2232,7 +2232,7 @@
             "responded": false,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 27451.5
+            "latency_ms": 28009.4
           },
           {
             "prompt": "There are 24 students in a class. 1/3 are absent. How many are present? Answer with the number only.",
@@ -2241,16 +2241,16 @@
             "responded": false,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 27133.9
+            "latency_ms": 27895.7
           },
           {
             "prompt": "A rectangle has length 8 and width 5. What is its area? Answer with the number only.",
             "expected": "40",
-            "response": "40",
-            "responded": true,
+            "response": "",
+            "responded": false,
             "timed_out": false,
-            "correct": true,
-            "latency_ms": 22940.3
+            "correct": false,
+            "latency_ms": 27794.4
           },
           {
             "prompt": "If 5 workers finish a job in 10 days, how many days for 10 workers? Answer with the number only.",
@@ -2259,15 +2259,15 @@
             "responded": false,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 26887.1
+            "latency_ms": 28013.7
           }
         ]
       }
     },
     "overall": {
-      "p50_ms": 25440.6,
-      "max_ms": 27451.5,
-      "avg_tokens_per_sec": 0.4,
+      "p50_ms": 27546.9,
+      "max_ms": 28405.3,
+      "avg_tokens_per_sec": 0.3,
       "tps_label": "chunks/s"
     }
   },
@@ -2287,34 +2287,34 @@
   "qwenclaude27b": {
     "model": "qwenclaude27b",
     "date": "2026-03-12",
-    "run_at": "2026-03-12T03:26:28.820655+00:00",
-    "functional": false,
+    "run_at": "2026-03-12T12:37:08.575782+00:00",
+    "functional": true,
     "suites": {
       "mmlu": {
         "prompts": 10,
-        "answered": 8,
-        "correct": 6,
-        "accuracy": 0.6,
-        "p50_ms": 137285.6,
-        "max_ms": 146296.6,
+        "answered": 9,
+        "correct": 7,
+        "accuracy": 0.7,
+        "p50_ms": 128952.4,
+        "max_ms": 141117.5,
         "traces": [
           {
             "prompt": "What is the chemical symbol for gold?",
             "expected": "Au",
-            "response": "The chemical symbol for gold is **Au**. This symbol comes from the Latin word for gold, \"aurum.\"",
+            "response": "The chemical symbol for gold is **Au**.\n\nThis symbol comes from the Latin word \"aurum,\" which means gold. Gold has the atomic number 79 on the periodic table.",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 47085.9
+            "latency_ms": 66042.4
           },
           {
             "prompt": "Which planet is closest to the Sun?",
             "expected": "Mercury",
-            "response": "**Answer: Mercury**\n\nMercury is the planet closest to the Sun.\n\n**Verification:**\n- The eight planets in our solar system, ordered by distance from the Sun, are:\n  1. **Mercury** (average distance: ~57.9 million km / 35.9 million miles)\n  2. Venus (~108.2 million km)\n  3. Earth (~149.6 million km)\n  4. Mars (~227.9 million km)\n",
+            "response": "**Mercury** is the planet closest to the Sun.\n\nIt is the smallest planet in our solar system and orbits at an average distance of approximately 57.9 million kilometers (35.9 million miles) from the Sun.\n\nThe order of the planets from the Sun is:\n1. **Mercury**\n2. Venus\n3. Earth\n4. Mars\n5. Jupiter\n6. Saturn\n7. Uranus\n8. Neptune",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 137746.1
+            "latency_ms": 127065.8
           },
           {
             "prompt": "What is the square root of 144?",
@@ -2323,61 +2323,61 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 82325.3
+            "latency_ms": 62862.8
           },
           {
             "prompt": "Who wrote Romeo and Juliet?",
             "expected": "Shakespeare",
-            "response": "# Who Wrote Romeo and Juliet?\n\n**Answer: William Shakespeare**\n\n## Verification\n\n**Romeo and Juliet** was written by **William Shakespeare** (1564-1616), the renowned English playwright and poet.\n\n### Key Facts:\n\n| Detail | Information |\n|--------|-------------|\n| **Author** | William Shakespeare |\n| **Written** | c. 1591-1595 |\n| **Genre** | Tragic play |\n| **Setting** | Verona, Italy |\n| **First Publication** | 1597 (",
+            "response": "**William Shakespeare** wrote *Romeo and Juliet*.\n\nThe play was written around **1591-1595** (likely between 1591 and 1595, during Shakespeare's early period) and was first published in **1597** in a quarto edition.\n\nIt remains one of Shakespeare's most famous, widely read, and frequently performed works\u2014a tragic romance about two young lovers whose families are bitter enemies.",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 137224.2
+            "latency_ms": 130839.1
           },
           {
             "prompt": "What is the capital of France?",
             "expected": "Paris",
-            "response": "**The capital of France is Paris.**\n\nParis is not only the capital but also the largest city in France. It is located in the north-central part of the country on the Seine River and has served as the capital for centuries. The city is renowned worldwide for its art, culture, fashion, cuisine, and iconic landmarks such as the Eiffel Tower, the Louvre Museum, Notre-Dame Cathedral, and the Champs-\u00c9lys\u00e9es.",
+            "response": "The capital of France is **Paris**.\n\nParis is the capital and most populous city of France, located in the north-central part of the country along the Seine River. It has been the capital of France since 1190 and is renowned worldwide for its art, fashion, culture, gastronomy, and landmarks such as the Eiffel Tower, the Louvre Museum, and Notre-Dame Cathedral.",
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 103087.9
+            "latency_ms": 116493.3
           },
           {
             "prompt": "How many sides does a hexagon have?",
             "expected": "6",
-            "response": "<analysis>\nLet me break down the word \"hexagon\" to understand its meaning:\n\n1. **Etymology:**\n   - The word \"hexagon\" comes from",
+            "response": "A **hexagon** has **6 sides**.\n\nThe name comes from the Greek words \"hex\" (meaning six) and \"gonia\" (meaning angle or corner), literally translating to \"six-angled.\"",
             "responded": true,
             "timed_out": false,
-            "correct": false,
-            "latency_ms": 137346.9
+            "correct": true,
+            "latency_ms": 65476.0
           },
           {
             "prompt": "What gas do plants absorb from the atmosphere?",
             "expected": "CO2",
-            "response": "The primary gas that plants absorb from the atmosphere is **carbon dioxide** ($CO_2$).\n\nHere is the step-by-step explanation:\n\n1.  **Photosynthesis:** Plants require energy to grow and function. They obtain this energy through a process called photosynthesis, which converts light energy into chemical energy (sugar).\n2.  **Raw Materials:** To perform photosynthesis, plants need three main ingredients:\n    *   **Sunlight:** For energy.\n    *   **Water:** Absorbed from the soil through the roots.\n    *   **Carbon Dioxide:** Absorbed from the air.\n3.  **The Process:** Plants take in carbon dioxide through tiny pores on their leaves called stomata. Inside the leaves, chlorophyll (the green pigment) uses sunlight to convert the carbon dioxide and water into glucose (sugar) and oxygen.\n4.  **Byproduct:** While plants *absorb*",
+            "response": "# What Gas Do Plants Absorb from the Atmosphere?\n\n## Step-by-Step Reasoning\n\n### 1. Understanding Plant Respiration and Photosynthesis\n\nPlants have two main gas exchange processes:\n\n- **Photosynthesis**: Plants use sunlight to convert CO\u2082 and water into glucose and oxygen\n- **Cellular respiration**: Plants break down glucose to release energy, consuming oxygen and releasing CO\u2082\n\n### 2. Analyzing Photosynthesis (The Primary Process)\n\nThe photosynthesis equation is:\n\n$$6CO_2 + 6H_2O + \\text{light energy} \\rightarrow C_6H_{12}O_6 + 6O_2$$\n\nThis shows plants **absorb carbon dioxide (CO\u2082)** from the atmosphere.\n\n### 3. Understanding the Mechanism\n\n- **Stomata**: Tiny pores on leaf surfaces that open to allow gas exchange\n- **Diffusion**: CO\u2082 diff",
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 137794.9
+            "latency_ms": 137760.5
           },
           {
             "prompt": "In what year did World War II end?",
             "expected": "1945",
-            "response": "",
-            "responded": false,
+            "response": "**World War II ended in 1945.**\n\nThere are two significant dates marking the end of the war:\n\n1. **May 8, 1945 (V-E Day)** - Victory in Europe Day: Nazi Germany surrendered unconditionally, ending the war in Europe.\n\n2. **September 2, 1945 (V-J Day)** - Victory over Japan Day: Japan formally surrendered aboard the USS Missouri in Tokyo Bay, marking the official end of World War II worldwide.\n\nSo while fighting in Europe concluded in May 1945, the war officially ended on **September 2, 19",
+            "responded": true,
             "timed_out": false,
-            "correct": false,
-            "latency_ms": 146296.6
+            "correct": true,
+            "latency_ms": 137683.7
           },
           {
             "prompt": "What is the boiling point of water in Celsius?",
             "expected": "100",
-            "response": "## Boiling Point of Water\n\n**At standard atmospheric pressure (1 atmosphere, sea level): The boiling point of water is 100\u00b0C (degrees Celsius).**\n\n### Additional Context:\n- This value is based on pure water at sea level\n- The boiling point **varies with atmospheric pressure**:\n  - At higher altitudes (lower pressure), water boils at lower temperatures\n  - At lower altitudes or",
+            "response": "# Boiling Point of Water in Celsius\n\n## Thinking Process\n\n1. **Identify what's being asked**: The question asks for the boiling point of water measured in degrees Celsius.\n\n2. **Recall",
             "responded": true,
             "timed_out": false,
-            "correct": true,
-            "latency_ms": 137798.0
+            "correct": false,
+            "latency_ms": 138174.2
           },
           {
             "prompt": "How many bones are in the adult human body?",
@@ -2386,35 +2386,35 @@
             "responded": false,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 137097.6
+            "latency_ms": 141117.5
           }
         ]
       },
       "instruct": {
         "prompts": 8,
-        "answered": 3,
+        "answered": 4,
         "correct": 2,
         "accuracy": 0.25,
-        "p50_ms": 1367.2,
-        "max_ms": 109063.8,
+        "p50_ms": 31593.2,
+        "max_ms": 141153.3,
         "traces": [
           {
             "prompt": "Respond with exactly one word: the color of the sky.",
             "expected": "blue",
-            "response": "Blue",
+            "response": "The Sky Color\n\nStep-by-Step Analysis:\n\n1. **Analyze the question**: The question asks for \"the color of the sky\" - a common, everyday observation.\n\n2. **Identify the standard answer**: When people refer to \"the sky\" in general terms, they are referring to the sky during a clear, sunny day.\n\n3. **Scientific basis**: The sky appears blue due to Rayleigh scattering - sunlight is scattered by molecules in the Earth's atmosphere, with shorter wavelengths (blue light) being scattered more effectively than longer wavelengths (red light).\n\n4. **Consider alternatives**: While the sky can appear different colors at sunrise/sunset (orange, pink, purple) or during storms (gray),",
             "responded": true,
             "timed_out": false,
-            "correct": true,
-            "latency_ms": 54352.1
+            "correct": false,
+            "latency_ms": 141153.3
           },
           {
             "prompt": "Respond with exactly one word: the opposite of hot.",
             "expected": "cold",
-            "response": "The opposite of hot is cold.",
+            "response": "cold",
             "responded": true,
             "timed_out": false,
-            "correct": false,
-            "latency_ms": 31221.5
+            "correct": true,
+            "latency_ms": 60406.2
           },
           {
             "prompt": "Respond with exactly one word: the first month of the year.",
@@ -2423,16 +2423,16 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 109063.8
+            "latency_ms": 66929.7
           },
           {
             "prompt": "Respond with exactly one word: the number of days in a week.",
             "expected": "7",
-            "response": null,
-            "responded": false,
+            "response": "seven",
+            "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 2503.3
+            "latency_ms": 98672.5
           },
           {
             "prompt": "Respond with exactly one word: what is 2 + 2?",
@@ -2441,7 +2441,7 @@
             "responded": false,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 231.0
+            "latency_ms": 2780.1
           },
           {
             "prompt": "Respond with exactly one word: what metal is used in electrical wires?",
@@ -2450,7 +2450,7 @@
             "responded": false,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 130.4
+            "latency_ms": 231.8
           },
           {
             "prompt": "Respond with exactly one word: the largest ocean.",
@@ -2459,7 +2459,7 @@
             "responded": false,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 136.6
+            "latency_ms": 204.1
           },
           {
             "prompt": "Respond with exactly one word: what do bees produce?",
@@ -2468,7 +2468,7 @@
             "responded": false,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 136.6
+            "latency_ms": 246.5
           }
         ]
       },
@@ -2477,8 +2477,8 @@
         "answered": 0,
         "correct": 0,
         "accuracy": 0.0,
-        "p50_ms": 176.6,
-        "max_ms": 204.5,
+        "p50_ms": 201.4,
+        "max_ms": 250.3,
         "traces": [
           {
             "prompt": "If a train travels 60 km/h for 2 hours, how many km does it travel? Answer with the number only.",
@@ -2487,7 +2487,7 @@
             "responded": false,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 183.9
+            "latency_ms": 198.5
           },
           {
             "prompt": "A store sells 3 apples for $2. How much do 9 apples cost? Answer with the number only.",
@@ -2496,7 +2496,7 @@
             "responded": false,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 176.6
+            "latency_ms": 211.7
           },
           {
             "prompt": "There are 24 students in a class. 1/3 are absent. How many are present? Answer with the number only.",
@@ -2505,7 +2505,7 @@
             "responded": false,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 134.5
+            "latency_ms": 250.3
           },
           {
             "prompt": "A rectangle has length 8 and width 5. What is its area? Answer with the number only.",
@@ -2514,7 +2514,7 @@
             "responded": false,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 204.5
+            "latency_ms": 167.5
           },
           {
             "prompt": "If 5 workers finish a job in 10 days, how many days for 10 workers? Answer with the number only.",
@@ -2523,14 +2523,14 @@
             "responded": false,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 111.3
+            "latency_ms": 201.4
           }
         ]
       }
     },
     "overall": {
-      "p50_ms": 47085.9,
-      "max_ms": 146296.6,
+      "p50_ms": 65476.0,
+      "max_ms": 141153.3,
       "avg_tokens_per_sec": 0.6,
       "tps_label": "chunks/s"
     }
@@ -2538,7 +2538,7 @@
   "smollm3": {
     "model": "smollm3",
     "date": "2026-03-12",
-    "run_at": "2026-03-12T03:10:30.575875+00:00",
+    "run_at": "2026-03-12T12:18:00.964122+00:00",
     "functional": true,
     "suites": {
       "mmlu": {
@@ -2546,8 +2546,8 @@
         "answered": 10,
         "correct": 9,
         "accuracy": 0.9,
-        "p50_ms": 24078.7,
-        "max_ms": 24466.7,
+        "p50_ms": 24061.4,
+        "max_ms": 24373.4,
         "traces": [
           {
             "prompt": "What is the chemical symbol for gold?",
@@ -2556,7 +2556,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 23818.6
+            "latency_ms": 24066.3
           },
           {
             "prompt": "Which planet is closest to the Sun?",
@@ -2565,7 +2565,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 23510.0
+            "latency_ms": 24373.4
           },
           {
             "prompt": "What is the square root of 144?",
@@ -2574,7 +2574,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 23360.2
+            "latency_ms": 24056.5
           },
           {
             "prompt": "Who wrote Romeo and Juliet?",
@@ -2583,7 +2583,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 23924.2
+            "latency_ms": 24198.6
           },
           {
             "prompt": "What is the capital of France?",
@@ -2592,7 +2592,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 23718.2
+            "latency_ms": 23810.5
           },
           {
             "prompt": "How many sides does a hexagon have?",
@@ -2601,7 +2601,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 24334.5
+            "latency_ms": 23870.0
           },
           {
             "prompt": "What gas do plants absorb from the atmosphere?",
@@ -2610,7 +2610,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 24397.6
+            "latency_ms": 23656.3
           },
           {
             "prompt": "In what year did World War II end?",
@@ -2619,7 +2619,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 24386.2
+            "latency_ms": 23832.4
           },
           {
             "prompt": "What is the boiling point of water in Celsius?",
@@ -2628,7 +2628,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 24466.7
+            "latency_ms": 24362.7
           },
           {
             "prompt": "How many bones are in the adult human body?",
@@ -2637,7 +2637,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 24233.3
+            "latency_ms": 24286.4
           }
         ]
       },
@@ -2646,8 +2646,8 @@
         "answered": 8,
         "correct": 0,
         "accuracy": 0.0,
-        "p50_ms": 12237.3,
-        "max_ms": 20067.0,
+        "p50_ms": 12150.4,
+        "max_ms": 22105.8,
         "traces": [
           {
             "prompt": "Respond with exactly one word: the color of the sky.",
@@ -2656,7 +2656,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 12091.7
+            "latency_ms": 12301.5
           },
           {
             "prompt": "Respond with exactly one word: the opposite of hot.",
@@ -2665,7 +2665,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 15722.7
+            "latency_ms": 15769.8
           },
           {
             "prompt": "Respond with exactly one word: the first month of the year.",
@@ -2674,7 +2674,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 11968.0
+            "latency_ms": 11999.3
           },
           {
             "prompt": "Respond with exactly one word: the number of days in a week.",
@@ -2683,7 +2683,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 9434.4
+            "latency_ms": 9633.9
           },
           {
             "prompt": "Respond with exactly one word: what is 2 + 2?",
@@ -2692,7 +2692,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 17175.1
+            "latency_ms": 22105.8
           },
           {
             "prompt": "Respond with exactly one word: what metal is used in electrical wires?",
@@ -2701,7 +2701,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 20067.0
+            "latency_ms": 19509.0
           },
           {
             "prompt": "Respond with exactly one word: the largest ocean.",
@@ -2710,7 +2710,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 12235.7
+            "latency_ms": 11909.7
           },
           {
             "prompt": "Respond with exactly one word: what do bees produce?",
@@ -2719,7 +2719,7 @@
             "responded": true,
             "timed_out": false,
             "correct": false,
-            "latency_ms": 12238.9
+            "latency_ms": 11912.0
           }
         ]
       },
@@ -2728,8 +2728,8 @@
         "answered": 5,
         "correct": 5,
         "accuracy": 1.0,
-        "p50_ms": 25224.0,
-        "max_ms": 26147.5,
+        "p50_ms": 25047.2,
+        "max_ms": 25285.7,
         "traces": [
           {
             "prompt": "If a train travels 60 km/h for 2 hours, how many km does it travel? Answer with the number only.",
@@ -2738,7 +2738,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 25801.8
+            "latency_ms": 25177.2
           },
           {
             "prompt": "A store sells 3 apples for $2. How much do 9 apples cost? Answer with the number only.",
@@ -2747,7 +2747,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 25224.0
+            "latency_ms": 25285.7
           },
           {
             "prompt": "There are 24 students in a class. 1/3 are absent. How many are present? Answer with the number only.",
@@ -2756,7 +2756,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 24386.3
+            "latency_ms": 24720.3
           },
           {
             "prompt": "A rectangle has length 8 and width 5. What is its area? Answer with the number only.",
@@ -2765,7 +2765,7 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 24799.0
+            "latency_ms": 24985.7
           },
           {
             "prompt": "If 5 workers finish a job in 10 days, how many days for 10 workers? Answer with the number only.",
@@ -2774,15 +2774,15 @@
             "responded": true,
             "timed_out": false,
             "correct": true,
-            "latency_ms": 26147.5
+            "latency_ms": 25047.2
           }
         ]
       }
     },
     "overall": {
-      "p50_ms": 23818.6,
-      "max_ms": 26147.5,
-      "avg_tokens_per_sec": 10.4,
+      "p50_ms": 23870.0,
+      "max_ms": 25285.7,
+      "avg_tokens_per_sec": 10.3,
       "tps_label": "tokens/s"
     }
   }
