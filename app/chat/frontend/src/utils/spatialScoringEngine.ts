@@ -9,26 +9,42 @@ export interface ScoringResult {
   reasoning: string;
 }
 
+function extractChoiceMap(prompt?: string): Record<string, string> {
+  if (!prompt) return {};
+
+  const choicesSection = prompt.split('\n').filter((line) => /^[A-D]\.\s+/i.test(line.trim()));
+  return Object.fromEntries(
+    choicesSection.map((line) => {
+      const match = line.trim().match(/^([A-D])\.\s+(.+)$/i);
+      if (!match) return ['', ''];
+      return [match[1].toLowerCase(), match[2].trim().toLowerCase()];
+    }).filter(([key, value]) => key && value)
+  );
+}
+
 export function scoreSpatialAnswer(
   predicted: string,
   expected: string,
-  taskFormat: 'free_text' | 'direction' | 'entity' | 'description'
+  taskFormat: 'free_text' | 'direction' | 'entity' | 'description',
+  taskPrompt?: string
 ): ScoringResult {
   const pred = predicted.toLowerCase().trim();
   const exp = expected.toLowerCase().trim();
+  const choiceMap = extractChoiceMap(taskPrompt);
+  const resolvedPred = choiceMap[pred] || pred;
 
-  if (pred === exp) {
+  if (resolvedPred === exp) {
     return { accuracy: 1.0, reasoning: 'Exact match' };
   }
 
   if (taskFormat === 'entity') {
     // Check for entity name or color presence
-    if (pred.includes(exp) || exp.includes(pred)) {
+    if (resolvedPred.includes(exp) || exp.includes(resolvedPred)) {
       return { accuracy: 1.0, reasoning: 'Direct match' };
     }
 
     // Check for partial word overlap (e.g., 'green chair' vs 'green')
-    const predWords = new Set(pred.split(/\s+/));
+    const predWords = new Set(resolvedPred.split(/\s+/));
     const expWords = new Set(exp.split(/\s+/));
     const overlap = [...predWords].filter(w => expWords.has(w)).length;
 

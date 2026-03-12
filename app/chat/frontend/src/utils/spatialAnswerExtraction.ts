@@ -19,6 +19,8 @@ export function extractSpatialAnswer(
     const lower = cleaned.toLowerCase();
     if (/\byes\b/.test(lower)) return 'yes';
     if (/\bno\b/.test(lower)) return 'no';
+    const optionMatch = lower.match(/\b(?:option\s+)?([a-d])\b/);
+    if (optionMatch) return optionMatch[1];
 
     // For entity answers, extract noun phrases or color names
     const colors = ['red', 'blue', 'green', 'yellow', 'white', 'black', 'pink', 'orange', 'purple'];

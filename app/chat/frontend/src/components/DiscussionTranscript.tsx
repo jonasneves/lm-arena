@@ -75,7 +75,7 @@ export default function DiscussionTranscript({
                 return (
                     <div key={index} className="flex justify-center mb-6 w-full">
                         <div className="max-w-[95%] w-full">
-                            <BenchmarkResults results={results} />
+                            <BenchmarkResults results={results} models={models} />
                         </div>
                     </div>
                 );
@@ -273,4 +273,3 @@ export default function DiscussionTranscript({
         </div>
     );
 }
-

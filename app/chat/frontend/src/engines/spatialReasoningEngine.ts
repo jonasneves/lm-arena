@@ -139,7 +139,7 @@ export async function* runSpatialReasoning(
   // Score all responses
   const results: SpatialResult[] = collectedResponses.map((resp) => {
     const predictedAnswer = extractSpatialAnswer(resp.response, task.answer_format);
-    const scoreResult = scoreSpatialAnswer(predictedAnswer, task.expected_answer, task.answer_format);
+    const scoreResult = scoreSpatialAnswer(predictedAnswer, task.expected_answer, task.answer_format, task.prompt);
     const reasoningDepth = assessReasoningDepth(resp.response);
 
     return {

@@ -1,12 +1,13 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import * as echarts from 'echarts';
 import { SPATIAL_BENCHMARK_SUITE_MAP } from '../data/spatialBenchmarkSuites';
-import { BenchmarkResult, CognitiveLevel, COGNITIVE_LEVEL_NAMES, SpatialBenchmarkSuiteId } from '../types';
+import { BenchmarkResult, CognitiveLevel, COGNITIVE_LEVEL_NAMES, Model, SpatialBenchmarkSuiteId } from '../types';
 
 const FALLBACK_COLORS = ['#5eead4', '#f59e0b', '#60a5fa', '#f472b6', '#34d399', '#f97316', '#a78bfa'];
 
 interface BenchmarkResultsProps {
   results: BenchmarkResult[];
+  models?: Model[];
 }
 
 interface ModelAggregate {
@@ -56,10 +57,14 @@ function getSuiteIds(results: BenchmarkResult[]): SpatialBenchmarkSuiteId[] {
   return Array.from(ids);
 }
 
-function getModelColorMap(modelIds: string[]): Record<string, string> {
+function getModelColorMap(modelIds: string[], modelMeta: Record<string, Model | undefined>): Record<string, string> {
   return Object.fromEntries(
-    modelIds.map((modelId, index) => [modelId, FALLBACK_COLORS[index % FALLBACK_COLORS.length]])
+    modelIds.map((modelId, index) => [modelId, modelMeta[modelId]?.color || FALLBACK_COLORS[index % FALLBACK_COLORS.length]])
   );
+}
+
+function getModelLabel(modelId: string, modelMeta: Record<string, Model | undefined>): string {
+  return modelMeta[modelId]?.name || modelId;
 }
 
 function getModelAggregate(results: BenchmarkResult[], modelId: string, suiteIds: SpatialBenchmarkSuiteId[]): ModelAggregate {
@@ -105,7 +110,8 @@ function formatLatency(value: number): string {
 function buildHeatmapOption(
   results: BenchmarkResult[],
   modelIds: string[],
-  modelColors: Record<string, string>
+  modelColors: Record<string, string>,
+  modelMeta: Record<string, Model | undefined>
 ): echarts.EChartsOption {
   const rowOrder = results.reduce<string[]>((rows, result) => {
     const rowLabel = `${result.suite_name} · L${result.cognitive_level}`;
@@ -139,7 +145,7 @@ function buildHeatmapOption(
       formatter: (params: any) => {
         const value = params.data as { suite: string; level: string; model: string; accuracy: number };
         return [
-          `<strong>${value.model}</strong>`,
+          `<strong>${getModelLabel(value.model, modelMeta)}</strong>`,
           `${value.suite} · ${value.level}`,
           `Accuracy: ${value.accuracy.toFixed(1)}%`,
         ].join('<br/>');
@@ -211,7 +217,11 @@ function buildHeatmapOption(
   };
 }
 
-function buildParallelOption(modelAggregates: ModelAggregate[], modelColors: Record<string, string>): echarts.EChartsOption {
+function buildParallelOption(
+  modelAggregates: ModelAggregate[],
+  modelColors: Record<string, string>,
+  modelMeta: Record<string, Model | undefined>
+): echarts.EChartsOption {
   const suiteIds = Array.from(new Set(modelAggregates.flatMap((aggregate) => Object.keys(aggregate.suiteAccuracies)))) as SpatialBenchmarkSuiteId[];
 
   return {
@@ -265,7 +275,7 @@ function buildParallelOption(modelAggregates: ModelAggregate[], modelColors: Rec
         const data = params.data as number[];
         const modelId = params.seriesName;
         return [
-          `<strong>${modelId}</strong>`,
+          `<strong>${getModelLabel(modelId, modelMeta)}</strong>`,
           `Overall: ${data[0].toFixed(1)}%`,
           ...suiteIds.map((suiteId, index) => `${SPATIAL_BENCHMARK_SUITE_MAP[suiteId].short_name}: ${data[index + 1].toFixed(1)}%`),
           `Deep reasoning: ${data[suiteIds.length + 1].toFixed(1)}%`,
@@ -291,7 +301,11 @@ function buildParallelOption(modelAggregates: ModelAggregate[], modelColors: Rec
   };
 }
 
-function buildScatterOption(modelAggregates: ModelAggregate[], modelColors: Record<string, string>): echarts.EChartsOption {
+function buildScatterOption(
+  modelAggregates: ModelAggregate[],
+  modelColors: Record<string, string>,
+  modelMeta: Record<string, Model | undefined>
+): echarts.EChartsOption {
   const source = modelAggregates.map((aggregate) => ({
     model: aggregate.modelId,
     latency: aggregate.avgLatencyMs,
@@ -312,7 +326,7 @@ function buildScatterOption(modelAggregates: ModelAggregate[], modelColors: Reco
       formatter: (params: any) => {
         const value = params.data as { model: string; latency: number; accuracy: number; deepRate: number; stability: number };
         return [
-          `<strong>${value.model}</strong>`,
+          `<strong>${getModelLabel(value.model, modelMeta)}</strong>`,
           `Accuracy: ${value.accuracy.toFixed(1)}%`,
           `Latency: ${value.latency ? `${Math.round(value.latency)} ms` : 'n/a'}`,
           `Deep reasoning: ${value.deepRate.toFixed(1)}%`,
@@ -376,7 +390,7 @@ function buildScatterOption(modelAggregates: ModelAggregate[], modelColors: Reco
         position: 'top',
         color: '#e2e8f0',
         fontSize: 11,
-        formatter: (params: any) => params.data.model,
+        formatter: (params: any) => getModelLabel(params.data.model, modelMeta),
       },
       emphasis: {
         itemStyle: {
@@ -469,7 +483,7 @@ function buildSunburstOption(results: BenchmarkResult[]): echarts.EChartsOption 
   };
 }
 
-export default function BenchmarkResults({ results }: BenchmarkResultsProps) {
+export default function BenchmarkResults({ results, models = [] }: BenchmarkResultsProps) {
   const heatmapRef = useRef<HTMLDivElement>(null);
   const parallelRef = useRef<HTMLDivElement>(null);
   const scatterRef = useRef<HTMLDivElement>(null);
@@ -477,7 +491,11 @@ export default function BenchmarkResults({ results }: BenchmarkResultsProps) {
 
   const modelIds = useMemo(() => getUniqueModels(results), [results]);
   const suiteIds = useMemo(() => getSuiteIds(results), [results]);
-  const modelColors = useMemo(() => getModelColorMap(modelIds), [modelIds]);
+  const modelMeta = useMemo(
+    () => Object.fromEntries(modelIds.map((modelId) => [modelId, models.find((model) => model.id === modelId)])),
+    [modelIds, models]
+  );
+  const modelColors = useMemo(() => getModelColorMap(modelIds, modelMeta), [modelIds, modelMeta]);
 
   const modelAggregates = useMemo(
     () => modelIds.map((modelId) => getModelAggregate(results, modelId, suiteIds)),
@@ -505,9 +523,9 @@ export default function BenchmarkResults({ results }: BenchmarkResultsProps) {
     };
   });
 
-  const heatmapOption = useMemo(() => buildHeatmapOption(results, modelIds, modelColors), [results, modelIds, modelColors]);
-  const parallelOption = useMemo(() => buildParallelOption(modelAggregates, modelColors), [modelAggregates, modelColors]);
-  const scatterOption = useMemo(() => buildScatterOption(modelAggregates, modelColors), [modelAggregates, modelColors]);
+  const heatmapOption = useMemo(() => buildHeatmapOption(results, modelIds, modelColors, modelMeta), [results, modelIds, modelColors, modelMeta]);
+  const parallelOption = useMemo(() => buildParallelOption(modelAggregates, modelColors, modelMeta), [modelAggregates, modelColors, modelMeta]);
+  const scatterOption = useMemo(() => buildScatterOption(modelAggregates, modelColors, modelMeta), [modelAggregates, modelColors, modelMeta]);
   const sunburstOption = useMemo(() => buildSunburstOption(results), [results]);
 
   useChart(heatmapRef, heatmapOption);
@@ -545,7 +563,7 @@ export default function BenchmarkResults({ results }: BenchmarkResultsProps) {
             </div>
             <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
               <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Leader</div>
-              <div className="mt-1 text-base font-semibold text-slate-50">{topModel?.modelId ?? 'n/a'}</div>
+              <div className="mt-1 text-base font-semibold text-slate-50">{topModel ? getModelLabel(topModel.modelId, modelMeta) : 'n/a'}</div>
             </div>
           </div>
         </div>
@@ -637,7 +655,7 @@ export default function BenchmarkResults({ results }: BenchmarkResultsProps) {
               <th className="px-3 py-3 font-medium">Category</th>
               <th className="px-3 py-3 font-medium">Level</th>
               {modelIds.map((modelId) => (
-                <th key={modelId} className="px-3 py-3 font-medium">{modelId}</th>
+                <th key={modelId} className="px-3 py-3 font-medium">{getModelLabel(modelId, modelMeta)}</th>
               ))}
             </tr>
           </thead>
