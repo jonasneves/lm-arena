@@ -3,7 +3,7 @@
 # =============================================================================
 # Builds llama.cpp from source and runs models via the native llama-server
 # binary. Used by models whose architecture requires a newer llama.cpp than
-# llama-cpp-python packages (lfm2, lfm2mini, lfm2thinking, rnj, qwen, jancode,
+# llama-cpp-python packages (lfm2, lfm2mini, lfm2thinking, qwen, jancode,
 # falcon).
 #
 # Build args:

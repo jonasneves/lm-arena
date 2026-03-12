@@ -133,17 +133,6 @@
       "routing_category": "general"
     },
     {
-      "id": "rnj-1-instruct",
-      "key": "rnj",
-      "name": "RNJ-1 Instruct",
-      "type": "self-hosted",
-      "priority": 9,
-      "context_length": 2048,
-      "owned_by": "essentialai",
-      "description": "Tool-calling, agentic (20.8% SWE-Bench Verified)",
-      "routing_category": "function_calling"
-    },
-    {
       "id": "gpt-oss-20b",
       "key": "gptoss",
       "name": "GPT-OSS 20B",

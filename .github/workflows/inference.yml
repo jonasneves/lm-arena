@@ -20,7 +20,6 @@ run-name: "${{ inputs.model }}"
           - falcon
           - jancode
           - qwen7b
-          - rnj
           - gptoss
       benchmark_after:
         description: 'Trigger benchmark run once server is healthy'

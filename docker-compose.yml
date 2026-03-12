@@ -85,17 +85,6 @@ services:
       - "${R1QWEN_PORT:-8300}:8000"
     profiles: ["all", "r1qwen"]
 
-  rnj:
-    <<: *inference-common
-    build:
-      context: .
-      dockerfile: ./app/shared/Dockerfile.llama-server
-      args:
-        MODEL_DIR: rnj-inference
-    ports:
-      - "${RNJ_PORT:-8203}:8000"
-    profiles: ["all", "rnj"]
-
   smollm3:
     <<: *inference-common
     build:
