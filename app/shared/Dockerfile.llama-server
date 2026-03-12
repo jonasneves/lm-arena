@@ -43,7 +43,9 @@ RUN git clone https://github.com/ggml-org/llama.cpp.git . \
         -DLLAMA_BUILD_EXAMPLES=OFF \
         -DLLAMA_BUILD_TESTS=OFF \
         -DLLAMA_BUILD_SERVER=ON \
-    && cmake --build build --target llama-server -j$(nproc)
+    && cmake --build build --target llama-server -j$(nproc) \
+    && mkdir -p /build/runtime-libs \
+    && find /build/build -name "*.so*" -exec cp {} /build/runtime-libs/ \;
 
 # Stage 2: Runtime — minimal image with only the binary and runtime libraries
 FROM python:3.11-slim AS runtime
@@ -60,8 +62,10 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy compiled binary from builder
+# Copy compiled binary and shared libraries from builder
 COPY --from=builder /build/build/bin/llama-server /usr/local/bin/llama-server
+# llama.cpp produces shared libs (libllama, libggml, libmtmd) that llama-server links against
+COPY --from=builder /build/runtime-libs/ /usr/local/lib/
 RUN chmod +x /usr/local/bin/llama-server
 
 # Run ldconfig to index runtime libraries
