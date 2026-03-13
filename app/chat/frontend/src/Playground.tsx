@@ -29,6 +29,8 @@ const HandBackground = lazy(() => import('./components/HandBackground'));
 const ChatView = lazy(() => import('./components/ChatView'));
 import ErrorBoundary from './components/ErrorBoundary';
 import BenchmarkControls from './components/BenchmarkControls';
+import BenchmarkResults from './components/BenchmarkResults';
+import { BenchmarkResult } from './types';
 
 import type { ChatViewHandle, ChatMessage } from './components/ChatView';
 
@@ -251,7 +253,7 @@ function PlaygroundInner() {
 
   const selectedModelsBase = selected
     .map(id => modelsData.find(m => m.id === id))
-    .filter((m): m is Model => !!m && (mode === 'compare' || mode === 'benchmark' || m.id !== moderator));
+    .filter((m): m is Model => !!m && (mode === 'compare' || m.id !== moderator));
 
   const selectedModels = useMemo(() => {
     if (mode !== 'compare') return selectedModelsBase;
@@ -775,6 +777,7 @@ function PlaygroundInner() {
     compare: { responses: {}, moderatorSynthesis: '', phaseLabel: null, executionTimes: {}, isGenerating: false, speaking: new Set() },
     analyze: { responses: {}, moderatorSynthesis: '', phaseLabel: null, executionTimes: {}, isGenerating: false, speaking: new Set() },
     debate: { responses: {}, moderatorSynthesis: '', phaseLabel: null, executionTimes: {}, isGenerating: false, speaking: new Set() },
+    benchmark: { responses: {}, moderatorSynthesis: '', phaseLabel: null, executionTimes: {}, isGenerating: false, speaking: new Set() },
   });
 
   const arenaStateSnapshotRef = useRef({ modelsData, moderatorSynthesis, phaseLabel, executionTimes, isGenerating, speaking });
@@ -1260,6 +1263,20 @@ function PlaygroundInner() {
             <div
               className={`relative flex-1 transition-all duration-300 flex flex-col pt-24`}
             >
+              {/* Benchmark Results — full-width scrollable panel shown when results are available */}
+              {mode === 'benchmark' && (() => {
+                const benchmarkEntry = [...history].reverse().find(e => e.kind === 'benchmark_results');
+                if (!benchmarkEntry) return null;
+                let results: BenchmarkResult[] = [];
+                try { results = JSON.parse(benchmarkEntry.content); } catch { return null; }
+                if (results.length === 0) return null;
+                return (
+                  <div className="absolute inset-0 overflow-y-auto z-20 px-6 pt-4 pb-32" style={{ scrollbarGutter: 'stable' }}>
+                    <BenchmarkResults results={results} models={modelsData} />
+                  </div>
+                );
+              })()}
+
               <div
                 ref={visualizationAreaRef}
                 onDragOver={handleDragOver}
@@ -1272,7 +1289,7 @@ function PlaygroundInner() {
                   alignItems: mode === 'compare' ? 'flex-start' : 'center',
                   justifyContent: 'center',
                   ['--arena-offset-y' as any]: `${arenaOffsetYRef.current}px`,
-                  transform: mode === 'analyze' || mode === 'debate'
+                  transform: mode === 'analyze' || mode === 'debate' || mode === 'benchmark'
                     ? `translateY(calc(var(--arena-offset-y) - 50px)) scale(${isDraggingOver ? 1.02 : 1})`
                     : `translateY(var(--arena-offset-y)) scale(${isDraggingOver ? 1.02 : 1})`,
                   willChange: 'transform',
@@ -1284,14 +1301,10 @@ function PlaygroundInner() {
                   ...(mode === 'compare' ? {
                     minHeight: '300px', // Minimum height to ensure clickable background
                     paddingBottom: '120px', // Extra space at bottom for right-click menu access
-                  } : mode === 'analyze' || mode === 'debate' ? {
-                    height: '100%',
-                    minHeight: '100%',
-                    overflow: 'hidden', // Prevent scroll in arena for multi-model modes
                   } : {
                     height: '100%',
                     minHeight: '100%',
-                    overflow: 'hidden'
+                    overflow: 'hidden',
                   }),
 
                   ...(isDraggingOver ? {
@@ -1344,7 +1357,7 @@ function PlaygroundInner() {
               </div>
             </div>
 
-            {/* Right Panel: Transcript (Analyze, Debate modes only) */}
+            {/* Right Panel: Transcript (Analyze, Debate) / Controls + Task Log (Benchmark) */}
             {mode !== 'compare' && (
               <div className="transcript-panel w-[400px] xl:w-[480px] flex flex-col border-l border-white/5 bg-slate-900/20 backdrop-blur-sm z-40 relative h-full">
                 {mode === 'benchmark' && (
@@ -1355,7 +1368,7 @@ function PlaygroundInner() {
                 )}
                 <Suspense fallback={null}>
                   <DiscussionTranscript
-                    history={history}
+                    history={mode === 'benchmark' ? history.filter(e => e.kind !== 'benchmark_results') : history}
                     models={modelsData}
                     mode={mode}
                     onSelectPrompt={(prompt) => {

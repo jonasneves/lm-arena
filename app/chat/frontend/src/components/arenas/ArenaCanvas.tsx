@@ -401,7 +401,7 @@ export function ArenaCanvas(props: ArenaCanvasProps) {
         );
       })}
 
-      {mode !== 'compare' && moderatorModel && (
+      {mode !== 'compare' && mode !== 'benchmark' && moderatorModel && (
         <OrchestratorCard
           mode={mode}
           layoutRadius={layoutRadius}

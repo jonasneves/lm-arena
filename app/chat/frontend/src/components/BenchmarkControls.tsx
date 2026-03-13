@@ -10,7 +10,7 @@ const PROFILE_ORDER: BenchmarkProfile[] = ['quick', 'balanced', 'full'];
 
 export default function BenchmarkControls({ profile, onChange }: BenchmarkControlsProps) {
   return (
-    <div className="border-b border-white/5 bg-slate-950/45 px-4 pb-4 pt-24">
+    <div className="border-b border-white/5 bg-slate-950/45 px-4 pb-4 pt-20">
       <div className="rounded-[22px] border border-slate-800/80 bg-[linear-gradient(160deg,rgba(15,23,42,0.96),rgba(2,6,23,0.88))] p-4 shadow-[0_16px_48px_rgba(2,6,23,0.35)]">
         <div className="flex items-start justify-between gap-4">
           <div>
