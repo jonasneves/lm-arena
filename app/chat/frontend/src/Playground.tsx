@@ -912,6 +912,16 @@ function PlaygroundInner() {
 
   const moderatorModel = modelsData.find(m => m.id === moderator);
 
+  const benchmarkResults = useMemo<BenchmarkResult[] | null>(() => {
+    if (mode !== 'benchmark') return null;
+    const entry = [...history].reverse().find(e => e.kind === 'benchmark_results');
+    if (!entry) return null;
+    try {
+      const r: BenchmarkResult[] = JSON.parse(entry.content);
+      return r.length > 0 ? r : null;
+    } catch { return null; }
+  }, [mode, history]);
+
   const orchestratorStatus = (() => {
     if (isSynthesizing) return 'responding';
     if (isGenerating) return 'waiting';
@@ -1257,141 +1267,152 @@ function PlaygroundInner() {
         )}
 
         {/* Main Content Area (Arena/Transcript) - Hidden in Chat Mode */}
-        {mode !== 'chat' && (
-          <div className="flex h-screen w-full relative">
-            {/* Left/Main Visualization Area */}
-            <div
-              className={`relative flex-1 transition-all duration-300 flex flex-col pt-24`}
-            >
-              {/* Benchmark Results — full-width scrollable panel shown when results are available */}
-              {mode === 'benchmark' && (() => {
-                const benchmarkEntry = [...history].reverse().find(e => e.kind === 'benchmark_results');
-                if (!benchmarkEntry) return null;
-                let results: BenchmarkResult[] = [];
-                try { results = JSON.parse(benchmarkEntry.content); } catch { return null; }
-                if (results.length === 0) return null;
-                return (
-                  <div className="absolute inset-0 overflow-y-auto z-20 px-6 pt-4 pb-32" style={{ scrollbarGutter: 'stable' }}>
-                    <BenchmarkResults results={results} models={modelsData} />
+        {mode !== 'chat' && (() => {
+          return (
+            <div className="flex h-screen w-full relative">
+
+              {/* ── BENCHMARK RESULTS VIEW (full-width, replaces arena) ── */}
+              {benchmarkResults ? (
+                <>
+                  {/* Full-width scrollable results */}
+                  <div className="flex-1 overflow-y-auto pt-20 pb-32 px-6 xl:px-10" style={{ scrollbarGutter: 'stable' }}>
+                    <BenchmarkResults results={benchmarkResults} models={modelsData} />
                   </div>
-                );
-              })()}
 
-              <div
-                ref={visualizationAreaRef}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
-                className={`relative w-full h-full z-10 transition-all duration-300`}
-                style={{
-                  position: 'relative',
-                  display: 'flex',
-                  alignItems: mode === 'compare' ? 'flex-start' : 'center',
-                  justifyContent: 'center',
-                  ['--arena-offset-y' as any]: `${arenaOffsetYRef.current}px`,
-                  transform: mode === 'analyze' || mode === 'debate' || mode === 'benchmark'
-                    ? `translateY(calc(var(--arena-offset-y) - 50px)) scale(${isDraggingOver ? 1.02 : 1})`
-                    : `translateY(var(--arena-offset-y)) scale(${isDraggingOver ? 1.02 : 1})`,
-                  willChange: 'transform',
-                  border: isDraggingOver ? '2px dashed rgba(59, 130, 246, 0.4)' : '2px dashed transparent',
-                  borderRadius: isDraggingOver ? '24px' : '0px',
-                  transition: 'transform 0s linear',
+                  {/* Narrow right sidebar: just profile selector + new-round */}
+                  <div className="w-[300px] xl:w-[340px] flex flex-col border-l border-white/5 bg-slate-900/20 backdrop-blur-sm z-40 relative h-full shrink-0">
+                    <BenchmarkControls
+                      profile={benchmarkProfile}
+                      onChange={setBenchmarkProfile}
+                    />
+                    <div className="flex-1 flex flex-col items-center justify-end pb-32">
+                      <button
+                        onClick={handleNewSession}
+                        className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-slate-300 hover:text-white bg-slate-800/60 hover:bg-slate-700/80 border border-slate-700/50 hover:border-slate-600 rounded-full transition-all active:scale-[0.97] shadow-lg shadow-black/20"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                        New Round
+                      </button>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {/* ── NORMAL ARENA VIEW ── */}
+                  <div className={`relative flex-1 transition-all duration-300 flex flex-col pt-24`}>
+                    <div
+                      ref={visualizationAreaRef}
+                      onDragOver={handleDragOver}
+                      onDragLeave={handleDragLeave}
+                      onDrop={handleDrop}
+                      className={`relative w-full h-full z-10 transition-all duration-300`}
+                      style={{
+                        position: 'relative',
+                        display: 'flex',
+                        alignItems: mode === 'compare' ? 'flex-start' : 'center',
+                        justifyContent: 'center',
+                        ['--arena-offset-y' as any]: `${arenaOffsetYRef.current}px`,
+                        transform: mode === 'analyze' || mode === 'debate' || mode === 'benchmark'
+                          ? `translateY(calc(var(--arena-offset-y) - 50px)) scale(${isDraggingOver ? 1.02 : 1})`
+                          : `translateY(var(--arena-offset-y)) scale(${isDraggingOver ? 1.02 : 1})`,
+                        willChange: 'transform',
+                        border: isDraggingOver ? '2px dashed rgba(59, 130, 246, 0.4)' : '2px dashed transparent',
+                        borderRadius: isDraggingOver ? '24px' : '0px',
+                        transition: 'transform 0s linear',
+                        ...(mode === 'compare' ? {
+                          minHeight: '300px',
+                          paddingBottom: '120px',
+                        } : {
+                          height: '100%',
+                          minHeight: '100%',
+                          overflow: 'hidden',
+                        }),
+                        ...(isDraggingOver ? { background: 'rgba(59, 130, 246, 0.05)' } : {})
+                      }}
+                    >
+                      <ArenaCanvas
+                        mode={mode}
+                        selectedModels={selectedModels}
+                        gridCols={gridCols}
+                        speaking={speaking}
+                        selectedCardIds={selectedCardIds}
+                        setSelectedCardIds={setSelectedCardIds}
+                        executionTimes={executionTimes}
+                        failedModels={failedModels}
+                        cardRefs={cardRefs}
+                        handlePointerDown={handlePointerDown}
+                        dragState={dragState}
+                        setContextMenu={setContextMenu}
+                        suppressClickRef={suppressClickRef}
+                        getTailSnippet={getTailSnippet}
+                        hoveredCard={hoveredCard}
+                        setHoveredCard={setHoveredCard}
+                        setExpandedModelId={setExpandedModelId}
+                        layoutRadius={layoutRadius}
+                        getCirclePosition={getCirclePosition}
+                        moderatorModel={moderatorModel}
+                        moderatorId={moderator}
+                        orchestratorTransform={orchestratorTransformWithScale}
+                        orchestratorStatus={orchestratorStatus}
+                        moderatorSynthesis={moderatorSynthesis}
+                        isSynthesizing={isSynthesizing}
+                        isGenerating={isGenerating}
+                        phaseLabel={phaseLabel}
+                        linesTransitioning={linesTransitioning}
+                        lastSelectedCardRef={lastSelectedCardRef}
+                        orchestratorAutoMode={orchestratorAutoMode}
+                        orchestratorAutoScope={orchestratorAutoScope}
+                        showOrchestratorMenu={showOrchestratorMenu}
+                        setShowOrchestratorMenu={setShowOrchestratorMenu}
+                        setOrchestratorAutoMode={setOrchestratorAutoMode}
+                        setOrchestratorAutoScope={setOrchestratorAutoScope}
+                        orchestratorMenuRef={orchestratorMenuRef}
+                        availableModels={availableModels}
+                        setModerator={setModerator}
+                        fastestTTFT={fastestTTFT}
+                        fastestTotal={fastestTotal}
+                      />
+                    </div>
+                  </div>
 
-                  // Mode-specific styles override base
-                  ...(mode === 'compare' ? {
-                    minHeight: '300px', // Minimum height to ensure clickable background
-                    paddingBottom: '120px', // Extra space at bottom for right-click menu access
-                  } : {
-                    height: '100%',
-                    minHeight: '100%',
-                    overflow: 'hidden',
-                  }),
-
-                  ...(isDraggingOver ? {
-                    background: 'rgba(59, 130, 246, 0.05)',
-                  } : {})
-                }}
-              >
-                <ArenaCanvas
-                  mode={mode}
-                  selectedModels={selectedModels}
-                  gridCols={gridCols}
-                  speaking={speaking}
-                  selectedCardIds={selectedCardIds}
-                  setSelectedCardIds={setSelectedCardIds}
-                  executionTimes={executionTimes}
-                  failedModels={failedModels}
-                  cardRefs={cardRefs}
-                  handlePointerDown={handlePointerDown}
-                  dragState={dragState}
-                  setContextMenu={setContextMenu}
-                  suppressClickRef={suppressClickRef}
-                  getTailSnippet={getTailSnippet}
-                  hoveredCard={hoveredCard}
-                  setHoveredCard={setHoveredCard}
-                  setExpandedModelId={setExpandedModelId}
-                  layoutRadius={layoutRadius}
-                  getCirclePosition={getCirclePosition}
-                  moderatorModel={moderatorModel}
-                  moderatorId={moderator}
-                  orchestratorTransform={orchestratorTransformWithScale}
-                  orchestratorStatus={orchestratorStatus}
-                  moderatorSynthesis={moderatorSynthesis}
-                  isSynthesizing={isSynthesizing}
-                  isGenerating={isGenerating}
-                  phaseLabel={phaseLabel}
-                  linesTransitioning={linesTransitioning}
-                  lastSelectedCardRef={lastSelectedCardRef}
-                  orchestratorAutoMode={orchestratorAutoMode}
-                  orchestratorAutoScope={orchestratorAutoScope}
-                  showOrchestratorMenu={showOrchestratorMenu}
-                  setShowOrchestratorMenu={setShowOrchestratorMenu}
-                  setOrchestratorAutoMode={setOrchestratorAutoMode}
-                  setOrchestratorAutoScope={setOrchestratorAutoScope}
-                  orchestratorMenuRef={orchestratorMenuRef}
-                  availableModels={availableModels}
-                  setModerator={setModerator}
-                  fastestTTFT={fastestTTFT}
-                  fastestTotal={fastestTotal}
-                />
-              </div>
+                  {/* Right Panel: Transcript (Analyze, Debate) / Controls + Task Log (Benchmark) */}
+                  {mode !== 'compare' && (
+                    <div className="transcript-panel w-[400px] xl:w-[480px] flex flex-col border-l border-white/5 bg-slate-900/20 backdrop-blur-sm z-40 relative h-full">
+                      {mode === 'benchmark' && (
+                        <BenchmarkControls
+                          profile={benchmarkProfile}
+                          onChange={setBenchmarkProfile}
+                        />
+                      )}
+                      <Suspense fallback={null}>
+                        <DiscussionTranscript
+                          history={history.filter(e => e.kind !== 'benchmark_results')}
+                          models={modelsData}
+                          mode={mode}
+                          onSelectPrompt={(prompt) => {
+                            if (mode === 'benchmark') {
+                              sendMessage(prompt || 'benchmark');
+                            } else if (inputRef.current) {
+                              inputRef.current.value = prompt;
+                              inputRef.current.focus();
+                            }
+                          }}
+                          onNewSession={handleNewSession}
+                          className={mode === 'benchmark' ? 'pb-6 mask-fade-top' : 'pt-24 pb-6 mask-fade-top'}
+                          phaseLabel={phaseLabel}
+                          isGenerating={isGenerating}
+                          isSynthesizing={isSynthesizing}
+                          speakingCount={speaking.size}
+                          totalParticipants={selectedModels.length}
+                        />
+                      </Suspense>
+                    </div>
+                  )}
+                </>
+              )}
             </div>
-
-            {/* Right Panel: Transcript (Analyze, Debate) / Controls + Task Log (Benchmark) */}
-            {mode !== 'compare' && (
-              <div className="transcript-panel w-[400px] xl:w-[480px] flex flex-col border-l border-white/5 bg-slate-900/20 backdrop-blur-sm z-40 relative h-full">
-                {mode === 'benchmark' && (
-                  <BenchmarkControls
-                    profile={benchmarkProfile}
-                    onChange={setBenchmarkProfile}
-                  />
-                )}
-                <Suspense fallback={null}>
-                  <DiscussionTranscript
-                    history={mode === 'benchmark' ? history.filter(e => e.kind !== 'benchmark_results') : history}
-                    models={modelsData}
-                    mode={mode}
-                    onSelectPrompt={(prompt) => {
-                      if (mode === 'benchmark') {
-                        sendMessage(prompt || 'benchmark');
-                      } else if (inputRef.current) {
-                        inputRef.current.value = prompt;
-                        inputRef.current.focus();
-                      }
-                    }}
-                    onNewSession={handleNewSession}
-                    className={mode === 'benchmark' ? 'pb-6 mask-fade-top' : 'pt-24 pb-6 mask-fade-top'}
-                    phaseLabel={phaseLabel}
-                    isGenerating={isGenerating}
-                    isSynthesizing={isSynthesizing}
-                    speakingCount={speaking.size}
-                    totalParticipants={selectedModels.length}
-                  />
-                </Suspense>
-              </div>
-            )}
-          </div>
-        )}
+          );
+        })()}
 
       </div>
 
@@ -1470,7 +1491,7 @@ function PlaygroundInner() {
             isGenerating={isGenerating || isSynthesizing}
             onStop={handleStop}
             placeholder={mode === 'compare' ? undefined : mode === 'benchmark' ? "Type anything to run the selected benchmark profile..." : "Steer the discussion..."}
-            className={`fixed bottom-0 left-0 z-[100] pb-6 px-3 sm:px-4 flex justify-center items-end pointer-events-none transition-all duration-300 ${mode === 'compare' ? 'right-0' : 'right-[400px] xl:right-[480px]'}`}
+            className={`fixed bottom-0 left-0 z-[100] pb-6 px-3 sm:px-4 flex justify-center items-end pointer-events-none transition-all duration-300 ${mode === 'compare' ? 'right-0' : benchmarkResults ? 'right-[300px] xl:right-[340px]' : 'right-[400px] xl:right-[480px]'}`}
             style={{ paddingBottom: 'calc(1.5rem + env(safe-area-inset-bottom))' }}
           />
         )
