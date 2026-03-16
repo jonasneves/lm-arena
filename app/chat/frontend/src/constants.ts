@@ -1,5 +1,4 @@
 import { BackgroundStyle, Mode, Model, TopicPack, TopicPrompt, TrendingTopic } from './types';
-export { SPATIAL_BENCHMARK_SUITES, SPATIAL_BENCHMARK_SUITE_MAP, SPATIAL_REASONING_TASKS } from './data/spatialBenchmarkSuites';
 
 export const SELF_HOSTED_DEFAULT_PRIORITY = 50;
 export const GITHUB_DEFAULT_PRIORITY = 100;
