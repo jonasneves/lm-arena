@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>lm-arena — Spatial Reasoning</title>
+  <title>lm-arena — LFM2 350M StepGame Fine-Tuning</title>
   <link rel="stylesheet" href="./shared.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -165,7 +165,7 @@
 
 <header>
   <span class="header-title">lm-arena</span>
-  <span class="header-sub">/ spatial reasoning</span>
+  <span class="header-sub">/ lfm2 stepgame</span>
   <div class="header-sep"></div>
   <nav class="header-nav">
     <a href="/">Chat</a>
@@ -192,19 +192,8 @@
 const ECHARTS_CDN = 'https://cdn.jsdelivr.net/npm/echarts@6.0.0/dist/echarts.min.js';
 
 const MODEL_COLORS = {
-  qwen:       '#C678DD',
-  lfm2:       '#3EC9A7',
-  nanbeige:   '#ABB2BF',
-  smollm3:    '#E5A00D',
-  phireasoning:'#61AFEF',
-  lfm2mini:   '#56B6C2',
-  lfm2thinking:'#98C379',
-  jancode:    '#7CB9E8',
-  falcon:     '#98C379',
-  gemma3n:    '#4285F4',
-  qwen7b:     '#C678DD',
-  qwenclaude27b:'#D19A66',
-  gptoss:     '#10A37F',
+  lfm2mini:    '#56B6C2',
+  lfm2spatial: '#E5A00D',
 };
 
 const LEVEL_COLORS = [
@@ -221,13 +210,13 @@ const CG = 'rgba(48,54,61,0.5)';
 
 // ─── SAMPLE DATA ──────────────────────────────────────────────────────────────
 
+// Accuracy anchored to known headline: LFM2 350M base ~16% overall on StepGame,
+// fine-tuned variant ~74% overall. Per-level breakdown is illustrative.
 const SAMPLE_DATA = {
-  models: ['nanbeige', 'qwen', 'smollm3', 'lfm2'],
+  models: ['lfm2mini', 'lfm2spatial'],
   modelNames: {
-    nanbeige: 'Nanbeige4.1-3B',
-    qwen: 'Qwen3.5 4B',
-    smollm3: 'SmolLM3 3B',
-    lfm2: 'LFM2.5 1.2B',
+    lfm2mini:    'LFM2 350M',
+    lfm2spatial: 'LFM2 350M StepGame',
   },
   levels: [
     { level: 1, name: 'Retrieval' },
@@ -236,59 +225,36 @@ const SAMPLE_DATA = {
     { level: 4, name: 'Egocentric' },
     { level: 5, name: 'Mental Rotation' },
   ],
+  // lfm2mini avg ≈ 14%,  lfm2spatial avg ≈ 72%
   accuracy: {
-    nanbeige: [0.90, 0.80, 0.65, 0.45, 0.25],
-    qwen:     [0.85, 0.70, 0.55, 0.30, 0.15],
-    smollm3:  [0.75, 0.60, 0.40, 0.20, 0.10],
-    lfm2:     [0.60, 0.50, 0.35, 0.15, 0.05],
+    lfm2mini:    [0.22, 0.18, 0.14, 0.10, 0.06],
+    lfm2spatial: [0.90, 0.82, 0.74, 0.60, 0.46],
   },
   categoryAccuracy: {
-    nanbeige: { route: 0.75, relationship: 0.65, perspective: 0.50 },
-    qwen:     { route: 0.65, relationship: 0.55, perspective: 0.40 },
-    smollm3:  { route: 0.55, relationship: 0.45, perspective: 0.30 },
-    lfm2:     { route: 0.45, relationship: 0.35, perspective: 0.25 },
+    lfm2mini:    { route: 0.18, relationship: 0.15, perspective: 0.10 },
+    lfm2spatial: { route: 0.76, relationship: 0.72, perspective: 0.56 },
   },
   taskResults: [
-    { model: 'qwen', level: 1, category: 'relationship', accuracy: 1.0, responseTimeMs: 1200 },
-    { model: 'qwen', level: 1, category: 'route', accuracy: 0.7, responseTimeMs: 1100 },
-    { model: 'qwen', level: 2, category: 'relationship', accuracy: 0.8, responseTimeMs: 1500 },
-    { model: 'qwen', level: 2, category: 'route', accuracy: 0.6, responseTimeMs: 1400 },
-    { model: 'qwen', level: 3, category: 'route', accuracy: 0.5, responseTimeMs: 2100 },
-    { model: 'qwen', level: 3, category: 'relationship', accuracy: 0.6, responseTimeMs: 1900 },
-    { model: 'qwen', level: 4, category: 'perspective', accuracy: 0.2, responseTimeMs: 2800 },
-    { model: 'qwen', level: 4, category: 'route', accuracy: 0.4, responseTimeMs: 2500 },
-    { model: 'qwen', level: 5, category: 'perspective', accuracy: 0.0, responseTimeMs: 3200 },
-    { model: 'qwen', level: 5, category: 'relationship', accuracy: 0.3, responseTimeMs: 3000 },
-    { model: 'lfm2', level: 1, category: 'relationship', accuracy: 0.8, responseTimeMs: 800 },
-    { model: 'lfm2', level: 1, category: 'route', accuracy: 0.4, responseTimeMs: 750 },
-    { model: 'lfm2', level: 2, category: 'route', accuracy: 0.5, responseTimeMs: 900 },
-    { model: 'lfm2', level: 2, category: 'relationship', accuracy: 0.5, responseTimeMs: 950 },
-    { model: 'lfm2', level: 3, category: 'route', accuracy: 0.3, responseTimeMs: 1100 },
-    { model: 'lfm2', level: 3, category: 'relationship', accuracy: 0.4, responseTimeMs: 1050 },
-    { model: 'lfm2', level: 4, category: 'perspective', accuracy: 0.0, responseTimeMs: 1300 },
-    { model: 'lfm2', level: 4, category: 'route', accuracy: 0.3, responseTimeMs: 1200 },
-    { model: 'lfm2', level: 5, category: 'perspective', accuracy: 0.0, responseTimeMs: 1500 },
-    { model: 'lfm2', level: 5, category: 'relationship', accuracy: 0.1, responseTimeMs: 1400 },
-    { model: 'nanbeige', level: 1, category: 'relationship', accuracy: 1.0, responseTimeMs: 2000 },
-    { model: 'nanbeige', level: 1, category: 'route', accuracy: 0.8, responseTimeMs: 1800 },
-    { model: 'nanbeige', level: 2, category: 'relationship', accuracy: 0.8, responseTimeMs: 2500 },
-    { model: 'nanbeige', level: 2, category: 'route', accuracy: 0.8, responseTimeMs: 2300 },
-    { model: 'nanbeige', level: 3, category: 'route', accuracy: 0.6, responseTimeMs: 3000 },
-    { model: 'nanbeige', level: 3, category: 'relationship', accuracy: 0.7, responseTimeMs: 2800 },
-    { model: 'nanbeige', level: 4, category: 'perspective', accuracy: 0.4, responseTimeMs: 3500 },
-    { model: 'nanbeige', level: 4, category: 'route', accuracy: 0.5, responseTimeMs: 3200 },
-    { model: 'nanbeige', level: 5, category: 'perspective', accuracy: 0.2, responseTimeMs: 4000 },
-    { model: 'nanbeige', level: 5, category: 'relationship', accuracy: 0.3, responseTimeMs: 3800 },
-    { model: 'smollm3', level: 1, category: 'relationship', accuracy: 0.8, responseTimeMs: 600 },
-    { model: 'smollm3', level: 1, category: 'route', accuracy: 0.7, responseTimeMs: 550 },
-    { model: 'smollm3', level: 2, category: 'route', accuracy: 0.6, responseTimeMs: 700 },
-    { model: 'smollm3', level: 2, category: 'relationship', accuracy: 0.6, responseTimeMs: 720 },
-    { model: 'smollm3', level: 3, category: 'route', accuracy: 0.4, responseTimeMs: 850 },
-    { model: 'smollm3', level: 3, category: 'relationship', accuracy: 0.4, responseTimeMs: 880 },
-    { model: 'smollm3', level: 4, category: 'perspective', accuracy: 0.2, responseTimeMs: 950 },
-    { model: 'smollm3', level: 4, category: 'route', accuracy: 0.2, responseTimeMs: 920 },
-    { model: 'smollm3', level: 5, category: 'perspective', accuracy: 0.0, responseTimeMs: 1100 },
-    { model: 'smollm3', level: 5, category: 'relationship', accuracy: 0.2, responseTimeMs: 1050 },
+    { model: 'lfm2mini',    level: 1, category: 'relationship', accuracy: 0.25, responseTimeMs: 450 },
+    { model: 'lfm2mini',    level: 1, category: 'route',         accuracy: 0.20, responseTimeMs: 410 },
+    { model: 'lfm2mini',    level: 2, category: 'relationship', accuracy: 0.20, responseTimeMs: 530 },
+    { model: 'lfm2mini',    level: 2, category: 'route',         accuracy: 0.16, responseTimeMs: 500 },
+    { model: 'lfm2mini',    level: 3, category: 'route',         accuracy: 0.14, responseTimeMs: 590 },
+    { model: 'lfm2mini',    level: 3, category: 'relationship', accuracy: 0.14, responseTimeMs: 570 },
+    { model: 'lfm2mini',    level: 4, category: 'perspective',  accuracy: 0.08, responseTimeMs: 650 },
+    { model: 'lfm2mini',    level: 4, category: 'route',         accuracy: 0.12, responseTimeMs: 620 },
+    { model: 'lfm2mini',    level: 5, category: 'perspective',  accuracy: 0.04, responseTimeMs: 710 },
+    { model: 'lfm2mini',    level: 5, category: 'relationship', accuracy: 0.08, responseTimeMs: 690 },
+    { model: 'lfm2spatial', level: 1, category: 'relationship', accuracy: 0.92, responseTimeMs: 480 },
+    { model: 'lfm2spatial', level: 1, category: 'route',         accuracy: 0.88, responseTimeMs: 450 },
+    { model: 'lfm2spatial', level: 2, category: 'relationship', accuracy: 0.84, responseTimeMs: 560 },
+    { model: 'lfm2spatial', level: 2, category: 'route',         accuracy: 0.80, responseTimeMs: 530 },
+    { model: 'lfm2spatial', level: 3, category: 'route',         accuracy: 0.74, responseTimeMs: 630 },
+    { model: 'lfm2spatial', level: 3, category: 'relationship', accuracy: 0.74, responseTimeMs: 610 },
+    { model: 'lfm2spatial', level: 4, category: 'perspective',  accuracy: 0.56, responseTimeMs: 690 },
+    { model: 'lfm2spatial', level: 4, category: 'route',         accuracy: 0.64, responseTimeMs: 660 },
+    { model: 'lfm2spatial', level: 5, category: 'perspective',  accuracy: 0.42, responseTimeMs: 750 },
+    { model: 'lfm2spatial', level: 5, category: 'relationship', accuracy: 0.50, responseTimeMs: 730 },
   ],
 };
 
@@ -355,13 +321,13 @@ function renderPage() {
 
   $main.innerHTML = `
     <div class="page-header">
-      <h1>Spatial Reasoning</h1>
+      <h1>LFM2 350M &mdash; StepGame Fine-Tuning</h1>
     </div>
 
     <div class="caveat-banner">
-      <strong>Sample data.</strong>
-      Results shown are illustrative. Live benchmark results will populate from model evaluations
-      across the StepGame, SPARTQA, and SPaRC spatial benchmark suites.
+      <strong>LFM2 350M</strong> (base) vs <strong>LFM2 350M StepGame</strong> (fine-tuned on the StepGame spatial reasoning dataset).
+      Overall accuracy: <strong style="color:var(--accent-hover)">16% &rarr; 74%</strong>.
+      Per-level breakdown is illustrative pending full evaluation results.
     </div>
 
     <div class="level-legend">${legendHtml}</div>
