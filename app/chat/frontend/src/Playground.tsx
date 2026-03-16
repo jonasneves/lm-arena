@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useLayoutEffect, useCallback, useMemo, lazy, Suspense } from 'react';
-import { Model, Mode, Position, BackgroundStyle, BenchmarkProfile } from './types';
+import { Model, Mode, Position, BackgroundStyle } from './types';
 import { BG_STYLES, PLAYGROUND_BACKGROUND, LAYOUT, UI_BUILDER_PROMPT } from './constants';
 import ModelDock from './components/ModelDock';
 import PromptInput from './components/PromptInput';
@@ -846,7 +846,6 @@ function PlaygroundInner() {
     buildCarryoverHistory,
     setModelsData,
     modelIdToName,
-    benchmarkProfile: 'balanced' as BenchmarkProfile,
     setExecutionTimes,
     setIsGenerating,
     setIsSynthesizing,

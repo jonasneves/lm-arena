@@ -177,26 +177,6 @@ export const MODE_RECIPES: Partial<Record<Mode, RecipeCard[]>> = {
       prompt: ''
     }
   ],
-  benchmark: [
-    {
-      emoji: '🧭',
-      label: 'Quick Spatial Test',
-      description: '5 tasks across all levels',
-      prompt: ''
-    },
-    {
-      emoji: '🧠',
-      label: 'Perspective Challenge',
-      description: 'L4-L5 egocentric tasks',
-      prompt: ''
-    },
-    {
-      emoji: '📐',
-      label: 'Full Benchmark',
-      description: 'All 25 tasks, all levels',
-      prompt: ''
-    }
-  ]
 };
 
 // Legacy string prompts for backwards compatibility

@@ -1,14 +1,11 @@
 import { Dispatch, SetStateAction } from 'react';
 import { GENERATION_DEFAULTS, isThinkingModel } from '../constants';
-import { SPATIAL_BENCHMARK_SUITE_MAP } from '../data/spatialBenchmarkSuites';
 import { fetchChatStream } from '../utils/streaming';
-import { ChatHistoryEntry, Mode, Model, BenchmarkResult, BenchmarkProfile } from '../types';
+import { ChatHistoryEntry, Mode, Model } from '../types';
 import { ExecutionTimeData } from '../components/ExecutionTimeDisplay';
 import { parseThinkingChunk, ThinkingState } from '../utils/thinkingParser';
 import { runAnalyze } from '../engines/analyzeEngine';
 import { runDebate } from '../engines/debateEngine';
-import { runSpatialReasoning } from '../engines/spatialReasoningEngine';
-import { getTasksForBenchmarkProfile } from '../utils/spatialBenchmarkSelection';
 
 // Sentinel prefix that cannot appear in normal text or model output (null bytes).
 // renderSvgContent in ArenaCanvas checks for this exact prefix before calling
@@ -45,7 +42,6 @@ interface SessionControllerParams {
   // — model data & lookups —
   modelsData: Model[];
   modelIdToName: (id: string) => string;
-  benchmarkProfile: BenchmarkProfile;
   modelKeyMap: Record<string, string>;
   getModelEndpoints: (models: Model[]) => Record<string, string>;
   setModelsData: React.Dispatch<React.SetStateAction<Model[]>>;
@@ -120,7 +116,6 @@ export function useSessionController(params: SessionControllerParams) {
     buildCarryoverHistory,
     setModelsData,
     modelIdToName,
-    benchmarkProfile,
     setExecutionTimes,
     setIsGenerating,
     setIsSynthesizing,
@@ -572,95 +567,10 @@ export function useSessionController(params: SessionControllerParams) {
       }
     };
 
-    const handleBenchmark = async () => {
-      const participants = sessionModelIds;
-      if (participants.length < 1) {
-        const msg = 'Select at least 1 participant for Benchmark mode.';
-        setModeratorSynthesis(msg);
-        setPhaseLabel('Error');
-        return;
-      }
-
-      const modelEndpoints = getModelEndpoints(modelsData);
-
-      const tasksToRun = getTasksForBenchmarkProfile(benchmarkProfile);
-
-      const benchmarkResults: BenchmarkResult[] = [];
-
-      for (const task of tasksToRun) {
-        setPhaseLabel(`Task ${benchmarkResults.length + 1}/${tasksToRun.length}: ${task.id}`);
-
-        for await (const event of runSpatialReasoning({
-          participants,
-          taskCategory: task.category,
-          task,
-          signal: currentController.signal,
-          maxTokens: GENERATION_DEFAULTS.maxTokens,
-          systemPrompt: systemPrompt || null,
-          githubToken: githubToken || null,
-          modelEndpoints,
-          modelKeys: modelKeyMap,
-          modelIdToName,
-        })) {
-          if (event.type === 'task_start') {
-            setPhaseLabel(`Running: ${task.id}`);
-          }
-
-          if (event.type === 'model_start' && event.model_id) {
-            setSpeaking(prev => new Set([...prev, event.model_id!]));
-          }
-
-          if (event.type === 'spatial_complete' && event.results) {
-            // Create benchmark result entry
-            const result: BenchmarkResult = {
-              suite_id: task.suite_id,
-              suite_name: SPATIAL_BENCHMARK_SUITE_MAP[task.suite_id].name,
-              task_id: task.id,
-              task_text: task.prompt,
-              category: task.category,
-              cognitive_level: task.cognitive_level,
-              expected_answer: task.expected_answer,
-              model_results: event.results,
-            };
-            benchmarkResults.push(result);
-
-            // Update model responses with results summary
-            const resultsSummary = event.results
-              .map(r => `${modelIdToName(r.model_id)}: ${(r.accuracy * 100).toFixed(0)}%`)
-              .join(' | ');
-            appendEventHistory(`Task ${task.id} Results: ${resultsSummary}`, 'analyze_response');
-          }
-
-          if (event.type === 'model_error' && event.model_id) {
-            const errorMsg = event.error ?? 'Model error';
-            finalizeModel(event.model_id, errorMsg, true);
-          }
-
-          if (event.type === 'error') {
-            const message = event.error ?? 'Benchmark error.';
-            setPhaseLabel('Error');
-            setModeratorSynthesis(message);
-          }
-        }
-      }
-
-      // Store final benchmark results
-      setPhaseLabel('Complete');
-      setSpeaking(new Set());
-      if (benchmarkResults.length > 0) {
-        pushHistoryEntries([{
-          role: 'assistant',
-          content: JSON.stringify(benchmarkResults),
-          kind: 'benchmark_results',
-        }]);
-      }
-    };
-
     try {
       if (mode === 'compare') return await handleCompare();
       if (mode === 'analyze') return await handleAnalyze();
       if (mode === 'debate') return await handleDebate();
-      if (mode === 'benchmark') return await handleBenchmark();
     } catch (err) {
       if ((err as Error).name === 'AbortError') {
         return;
