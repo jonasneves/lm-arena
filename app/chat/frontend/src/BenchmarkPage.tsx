@@ -277,13 +277,15 @@ export default function BenchmarkPage() {
   const {
     modelsData,
     setModelsData,
-    availableModels,
     onlineModelIds,
     getModelEndpoints,
     modelKeyMap,
     modelIdToName,
     isLoading: isLoadingModels,
   } = useModelsManager();
+
+  // Benchmark shows all models (minus virtual "Auto"), independent of arena selection
+  const benchmarkModels = modelsData.filter(m => m.id !== 'auto');
 
   const [profile, setProfile] = usePersistedSetting<BenchmarkProfile>(
     'playground_benchmark_profile',
@@ -485,7 +487,7 @@ export default function BenchmarkPage() {
                 </div>
               ) : (
                 <ModelSelector
-                  models={availableModels}
+                  models={benchmarkModels}
                   selected={selectedModels}
                   onToggle={toggleModel}
                   onlineModelIds={onlineModelIds}
