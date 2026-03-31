@@ -193,7 +193,7 @@ export default function SettingsModal({
                     role="switch"
                     aria-label="Enable system prompt"
                   >
-                    <span className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white shadow transition-transform ${systemPromptEnabled ? 'translate-x-4.5' : 'translate-x-0.5'}`} />
+                    <span className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white shadow transition-transform ${systemPromptEnabled ? 'translate-x-5' : 'translate-x-0.5'}`} />
                   </button>
                 </div>
                 <p className="text-xs text-slate-400 leading-relaxed mb-3">
