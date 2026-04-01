@@ -89,9 +89,9 @@
       "routing_category": "general"
     },
     {
-      "id": "lfm2-350m",
+      "id": "lfm2.5-350m",
       "key": "lfm2mini",
-      "name": "LFM2 350M",
+      "name": "LFM2.5 350M",
       "type": "self-hosted",
       "priority": 6,
       "context_length": 8192,
